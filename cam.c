@@ -123,14 +123,14 @@ int cam ()
         return -1;
     }
 
-    gst_bin_add(GST_BIN(pipeline_v), sink_v);
-    gst_bin_add(GST_BIN(pipeline_v), qq_v);
-    gst_bin_add(GST_BIN(pipeline_v), conv_v);
+    gst_bin_add(GST_BIN(pipemaster), sink_v);
+    gst_bin_add(GST_BIN(pipemaster), qq_v);
+    gst_bin_add(GST_BIN(pipemaster), conv_v);
 
     gst_bin_add(GST_BIN(pipemaster), tee_v);
     gst_bin_add(GST_BIN(pipemaster), source_v);
 
-    gst_bin_add(pipemaster,pipeline_v);
+    //gst_bin_add(pipemaster,pipeline_v);
 
     if (gst_element_link(source_v,tee_v) != TRUE)
     {
@@ -172,7 +172,7 @@ int cam ()
     }
 
     /* Wait until error or EOS */
-    bus = gst_element_get_bus(pipeline_v);
+    bus = gst_element_get_bus(pipemaster);
     msg = gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
 
     g_main_loop_run(app_loop);
