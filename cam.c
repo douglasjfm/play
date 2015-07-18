@@ -55,10 +55,8 @@ void link_rec()
     GstElement *t = gst_bin_get_by_name(pipemaster,"t1");
     GstElement *qq = gst_bin_get_by_name(GST_BIN(pipemaster),"fila_r");
     gst_element_set_state(pipemaster,GST_STATE_PAUSED);
-    gst_bin_add_many(pipemaster,recpipe,NULL);
     ret = gst_element_link(t,qq);
     ret <<= 8;
-    ret += gst_element_set_state(recpipe,GST_STATE_PLAYING);
     ret <<= 8;
     ret += gst_element_set_state(pipemaster,GST_STATE_PLAYING);
     gst_bin_recalculate_latency(pipemaster);
@@ -71,7 +69,6 @@ void gravar()
         GstPad *pad;
         g_print("Gravando...\n");
         recfim = 0;
-        recpipe = gst_pipeline_new("recpipe");
         GstElement *conv2 = gst_element_factory_make("ffmpegcolorspace","conv2");
         GstElement *qq = gst_element_factory_make("queue","fila_r");
         GstElement *enc = gst_element_factory_make("theoraenc","encvideo");
@@ -79,7 +76,7 @@ void gravar()
         GstElement *fsink = gst_element_factory_make("filesink","filevideo");
         g_object_set(fsink,"location","video.ogg",NULL);
 
-        if (enc && mux && fsink && recpipe) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
+        if (enc && mux && fsink) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
         else exit(0x123);
         gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw-yuv",
                                 "width", G_TYPE_INT, 640,
