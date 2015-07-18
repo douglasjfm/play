@@ -118,7 +118,7 @@ void recvideo ()
 {
     if (!tidrec)
     {
-        gravar();//pthread_create(&tidrec,NULL,&callrecvideo,NULL);
+        pthread_create(&tidrec,NULL,&callrecvideo,NULL);
         tidrec = 1;
     }
     else

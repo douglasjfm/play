@@ -11,7 +11,7 @@
 extern GtkWidget *drawingarea;
 
 GstElement *pipeline_v = NULL, *recpipe = NULL;
-GstBin *pipemaster = NULL;
+GstElement *pipemaster = NULL;
 GMainLoop *app_loop, *rec_loop;
 GstCaps *caps;
 int recfim = 0;
@@ -53,7 +53,7 @@ void link_rec()
 {
     unsigned int ret;
     GstElement *t = gst_bin_get_by_name(pipemaster,"t1");
-    GstElement *qq = gst_bin_get_by_name(GST_BIN(recpipe),"fila_r");
+    GstElement *qq = gst_bin_get_by_name(GST_BIN(pipemaster),"fila_r");
     gst_element_set_state(pipemaster,GST_STATE_PAUSED);
     gst_bin_add_many(pipemaster,recpipe,NULL);
     ret = gst_element_link(t,qq);
@@ -79,7 +79,7 @@ void gravar()
         GstElement *fsink = gst_element_factory_make("filesink","filevideo");
         g_object_set(fsink,"location","video.ogg",NULL);
 
-        if (enc && mux && fsink && recpipe) gst_bin_add_many(GST_BIN(recpipe),qq,conv2,enc,mux,fsink,NULL);
+        if (enc && mux && fsink && recpipe) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
         else exit(0x123);
         gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw-yuv",
                                 "width", G_TYPE_INT, 640,
@@ -117,7 +117,7 @@ int cam ()
     qq_v = gst_element_factory_make("queue","fila_v");
     sink_v = gst_element_factory_make ("autovideosink", "videosink");
     /* Create the empty pipeline */
-    pipemaster = gst_bin_new("pipemaster");
+    pipemaster = gst_pipeline_new("pipemaster");
     pipeline_v = gst_pipeline_new("pipe_v");
 
     if (!pipemaster || !source_v || !tee_v || !conv_v || !sink_v || !qq_v)

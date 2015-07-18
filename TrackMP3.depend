@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1437173292 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+1437206908 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
@@ -2910,7 +2910,7 @@
 
 1387309679 /usr/include/gstreamer-0.10/gst/gstcompat.h
 
-1437200738 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
+1437207430 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
 	<gst/gst.h>
 	<gst/video/videooverlay.h>
 	<stdlib.h>
