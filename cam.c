@@ -10,7 +10,6 @@
 
 extern GtkWidget *drawingarea;
 
-GstElement *pipeline_v = NULL, *recpipe = NULL;
 GstElement *pipemaster = NULL;
 GMainLoop *app_loop, *rec_loop;
 GstCaps *caps;
@@ -115,7 +114,6 @@ int cam ()
     sink_v = gst_element_factory_make ("autovideosink", "videosink");
     /* Create the empty pipeline */
     pipemaster = gst_pipeline_new("pipemaster");
-    pipeline_v = gst_pipeline_new("pipe_v");
 
     if (!pipemaster || !source_v || !tee_v || !conv_v || !sink_v || !qq_v)
     {
@@ -135,26 +133,25 @@ int cam ()
     if (gst_element_link(source_v,tee_v) != TRUE)
     {
         g_printerr("Elements Source and Tee could not be linked with caps.\n");
-        gst_object_unref(pipeline_v);
+        gst_object_unref(pipemaster);
         return -1;
     }
     if (gst_element_link_filtered(tee_v,qq_v,caps) != TRUE)
     {
         g_printerr("Elements tee and conv could not be linked with caps1.\n");
-        gst_object_unref(pipeline_v);
+        gst_object_unref(pipemaster);
         return -1;
     }
     if (gst_element_link_filtered(qq_v,conv_v,caps) != TRUE)
     {
         g_printerr("Elements qq and conv could not be linked with caps1.\n");
         gst_object_unref(pipemaster);
-        gst_object_unref(pipeline_v);
         return -1;
     }
     if (gst_element_link(conv_v,sink_v)!= TRUE)
     {
         g_printerr("Elements conv and sink could not be linked with caps.\n");
-        gst_object_unref(pipeline_v);
+        gst_object_unref(pipemaster);
         return -1;
     }
 
@@ -184,7 +181,6 @@ int cam ()
     gst_object_unref(bus);
     gst_element_set_state(pipemaster, GST_STATE_NULL);
     gst_object_unref(pipemaster);
-    gst_object_unref(pipeline_v);
     pipemaster = NULL;
     g_main_loop_unref(app_loop);
     g_print("fim camera");
