@@ -11,7 +11,7 @@
 extern GtkWidget *drawingarea;
 
 GstElement *pipemaster = NULL;
-GMainLoop *app_loop, *rec_loop;
+GMainLoop *app_loop;
 GstCaps *caps;
 int recfim = 0;
 
@@ -40,7 +40,6 @@ int playcam()
 
 void stopgravar()
 {
-    g_main_loop_quit(rec_loop);
 }
 
 int fimtredrec()
@@ -51,21 +50,19 @@ int fimtredrec()
 void link_rec()
 {
     unsigned int ret;
-    GstElement *t = gst_bin_get_by_name(pipemaster,"t1");
+    GstElement *t = gst_bin_get_by_name(GST_BIN(pipemaster),"t1");
     GstElement *qq = gst_bin_get_by_name(GST_BIN(pipemaster),"fila_r");
     gst_element_set_state(pipemaster,GST_STATE_PAUSED);
     ret = gst_element_link(t,qq);
     ret <<= 8;
     ret <<= 8;
     ret += gst_element_set_state(pipemaster,GST_STATE_PLAYING);
-    gst_bin_recalculate_latency(pipemaster);
-    g_print("Gravando2...lnk: %d, state_r: %d, state_m: %d\n",ret>>16,(ret>>8)&0xff,ret&0xf);
+    g_print("Gravando2...lnk: %d, state_r: %d, state_m: %d\n",ret>>16,(ret>>8)&0xff,ret&0xff);
 }
 
 void gravar()
 {
     if (pipemaster) {
-        GstPad *pad;
         g_print("Gravando...\n");
         recfim = 0;
         GstElement *conv2 = gst_element_factory_make("ffmpegcolorspace","conv2");
