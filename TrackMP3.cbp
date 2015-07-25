@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="`pkg-config gtk+-2.0 --cflags`" />
-			<Add directory="/usr/include/gstreamer-1.0" />
+			<Add directory="/usr/include/gstreamer-0.10" />
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>

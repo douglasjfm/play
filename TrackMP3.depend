@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1437206908 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+1437834674 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
+	<gdk/gdkx.h>
 	<glib/gi18n.h>
 	<pthread.h>
 
@@ -2910,18 +2911,12 @@
 
 1387309679 /usr/include/gstreamer-0.10/gst/gstcompat.h
 
-1437207430 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
+1437834542 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
 	<gst/gst.h>
-	<gst/video/videooverlay.h>
+	<gst/interfaces/xoverlay.h>
 	<stdlib.h>
-	<string.h>
-	<gtk/gtk.h>
-	<gdk/gdkx.h>
-	<X11/Xlib.h>
-	<X11/extensions/Xrender.h>
-	<X11/extensions/Xfixes.h>
 
-1433998098 source:/home/douglas/Área de Trabalho/TrackMP3/tela.c
+1437441826 source:/home/douglas/Área de Trabalho/TrackMP3/tela.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>

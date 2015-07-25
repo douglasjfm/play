@@ -19,7 +19,7 @@ int tela (int argc, char *argv[])
     win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_container_set_border_width (GTK_CONTAINER (win), 8);
     gtk_window_set_title (GTK_WINDOW (win), "WebCam");
-    gtk_window_resize(GTK_WINDOW (win),250,130);
+    gtk_window_resize(GTK_WINDOW (win),720,480);
     gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_CENTER);
     gtk_widget_realize (win);
     g_signal_connect (win, "destroy", gtk_main_quit, NULL);

@@ -1,14 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkx.h>
 #include <glib/gi18n.h>
 #include <pthread.h>
 
 GtkWidget *drawingarea = NULL;
 
+gulong video_area_xid = 0;
 
 char *filename = NULL;
-char stt = 0x00;
+char stt = 0;
 
 char campause = 0;
 
@@ -72,12 +74,6 @@ void *callcam()
     return NULL;
 }
 
-void *callrecvideo()
-{
-    gravar();
-    return NULL;
-}
-
 void* play()
 {
     pthread_create(&tidmp3,NULL,novatred,NULL);
@@ -118,14 +114,13 @@ void recvideo ()
 {
     if (!tidrec)
     {
-        pthread_create(&tidrec,NULL,&callrecvideo,NULL);
+        gravar();
         tidrec = 1;
     }
     else
     {
         stopgravar();
         tidrec = 0;
-        while(!fimtredrec()){}
     }
 }
 
@@ -136,11 +131,27 @@ void camerastop()
     campause = 0;
 }
 
+static void video_area_realize_cb (GtkWidget * widget, gpointer data)
+{
+#if GTK_CHECK_VERSION(2,18,0)
+  // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
+  // it as well in newer Gtk versions
+  if (!gdk_window_ensure_native (widget->window))
+    g_error ("Couldn't create native window needed for GstXOverlay!");
+#endif
+
+#ifdef GDK_WINDOWING_X11
+    GtkWidget *win = (GtkWidget *) data;
+    video_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
+#endif
+}
+
 int main (int argc, char *argv[])
 {
     GtkWidget *button = NULL;
     GtkWidget *win = NULL;
     GtkWidget *vbox = NULL;
+    GtkWidget *video_area = NULL;
 
     /* Initialize GTK+ */
     g_log_set_handler ("Gtk", G_LOG_LEVEL_WARNING, (GLogFunc) gtk_false, NULL);
@@ -150,7 +161,7 @@ int main (int argc, char *argv[])
     /* Create the main window */
     win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_container_set_border_width (GTK_CONTAINER (win), 8);
-    gtk_window_set_title (GTK_WINDOW (win), "PlayMP3 - douglasjfm");
+    gtk_window_set_title (GTK_WINDOW (win), "Player - douglasjfm");
     gtk_window_resize(GTK_WINDOW (win),250,130);
     gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_CENTER);
     gtk_widget_realize (win);
@@ -187,7 +198,10 @@ int main (int argc, char *argv[])
     g_signal_connect (button, "clicked", gtk_main_quit, NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
 
-    drawingarea = gtk_drawing_area_new();
+    video_area = gtk_drawing_area_new();
+    g_signal_connect(video_area, "realize",G_CALLBACK (video_area_realize_cb),win);
+    gtk_widget_set_double_buffered(video_area,FALSE);
+    gtk_container_add(GTK_CONTAINER(vbox),video_area);
 
     /* Enter the main loop */
     gtk_widget_show_all (win);
