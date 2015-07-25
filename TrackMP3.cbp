@@ -36,6 +36,7 @@
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10`" />
+			<Add library="/usr/lib/libgstinterfaces-0.10.so" />
 		</Linker>
 		<Unit filename="cam.c">
 			<Option compilerVar="CC" />

@@ -19,8 +19,8 @@ GtkWidget *label1 = NULL;
 
 
 int mp3 (char *musica);
-int pausepipe ();
-int playpipe ();
+int pausepipe();
+int playpipe();
 int endpipe();
 
 void playtrack ();
@@ -199,7 +199,8 @@ int main (int argc, char *argv[])
     gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
 
     video_area = gtk_drawing_area_new();
-    g_signal_connect(video_area, "realize",G_CALLBACK (video_area_realize_cb),win);
+    gtk_drawing_area_size(video_area,320,240);
+    g_signal_connect(video_area,"realize",G_CALLBACK (video_area_realize_cb),win);
     gtk_widget_set_double_buffered(video_area,FALSE);
     gtk_container_add(GTK_CONTAINER(vbox),video_area);
 
