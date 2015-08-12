@@ -152,6 +152,7 @@ int main (int argc, char *argv[])
     GtkWidget *win = NULL;
     GtkWidget *vbox = NULL;
     GtkWidget *video_area = NULL;
+    GtkWidget *panned = NULL;
 
     /* Initialize GTK+ */
     g_log_set_handler ("Gtk", G_LOG_LEVEL_WARNING, (GLogFunc) gtk_false, NULL);
@@ -162,14 +163,19 @@ int main (int argc, char *argv[])
     win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
     gtk_container_set_border_width (GTK_CONTAINER (win), 8);
     gtk_window_set_title (GTK_WINDOW (win), "Player - douglasjfm");
-    gtk_window_resize(GTK_WINDOW (win),250,130);
+    gtk_window_resize(GTK_WINDOW (win),640,480);
     gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_CENTER);
     gtk_widget_realize (win);
     g_signal_connect (win, "destroy", gtk_main_quit, NULL);
 
     /* Create a vertical box with buttons */
     vbox = gtk_vbox_new (TRUE, 6);
-    gtk_container_add (GTK_CONTAINER (win), vbox);
+
+    /*cria uma panned vertical */
+    panned = gtk_hpaned_new();
+    gtk_paned_add1(GTK_PANED(panned), vbox);
+
+    gtk_container_add (GTK_CONTAINER (win), panned);
 
     button = gtk_button_new_from_stock ("Escolher");
     g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (helloWorld), (gpointer) win);
@@ -198,11 +204,12 @@ int main (int argc, char *argv[])
     g_signal_connect (button, "clicked", gtk_main_quit, NULL);
     gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
 
+    /* configura a janela video */
     video_area = gtk_drawing_area_new();
     gtk_drawing_area_size(video_area,320,240);
-    g_signal_connect(video_area,"realize",G_CALLBACK (video_area_realize_cb),win);
+    g_signal_connect(video_area,"realize",G_CALLBACK (video_area_realize_cb),video_area);
     gtk_widget_set_double_buffered(video_area,FALSE);
-    gtk_container_add(GTK_CONTAINER(vbox),video_area);
+    gtk_paned_add2(GTK_PANED(panned), video_area);
 
     /* Enter the main loop */
     gtk_widget_show_all (win);

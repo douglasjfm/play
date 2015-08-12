@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1437834674 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+1439364531 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
