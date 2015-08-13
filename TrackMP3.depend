@@ -2911,7 +2911,7 @@
 
 1387309679 /usr/include/gstreamer-0.10/gst/gstcompat.h
 
-1437834542 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
+1439429273 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
 	<gst/gst.h>
 	<gst/interfaces/xoverlay.h>
 	<stdlib.h>

@@ -80,7 +80,7 @@ void gravar()
         GstElement *enc = gst_element_factory_make("theoraenc","encvideo");
         GstElement *mux = gst_element_factory_make("oggmux","muxvideo");
         GstElement *fsink = gst_element_factory_make("filesink","filevideo");
-        g_object_set(fsink,"location","video.ogg",NULL);
+        g_object_set(fsink,"location","playMP3_clip.ogg",NULL);
 
         if (enc && mux && fsink) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
         else exit(0x123);
@@ -89,7 +89,7 @@ void gravar()
                                 "height", G_TYPE_INT, 480,
                                 NULL));
         gst_element_link_many(conv2,enc,mux,fsink,NULL);
-        //link_rec();
+        link_rec();
     }
 }
 
