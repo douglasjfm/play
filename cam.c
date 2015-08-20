@@ -10,29 +10,33 @@ extern gulong video_area_xid;
 
 static GstBusSyncReply bus_sync_handler (GstBus * bus, GstMessage * message, gpointer user_data)
 {
- // ignore anything but 'prepare-xwindow-id' element messages
- if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
-   return GST_BUS_PASS;
- if (!gst_structure_has_name (message->structure, "prepare-xwindow-id"))
-   return GST_BUS_PASS;
+// ignore anything but 'prepare-xwindow-id' element messages
+    if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
+        return GST_BUS_PASS;
+    if (!gst_structure_has_name (message->structure, "prepare-xwindow-id"))
+        return GST_BUS_PASS;
 
- if (video_area_xid != 0) {
-   GstXOverlay *xoverlay;
+    if (video_area_xid != 0)
+    {
+        GstXOverlay *xoverlay;
 
-   // GST_MESSAGE_SRC (message) will be the video sink element
-   xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
-   gst_x_overlay_set_window_handle (xoverlay, video_area_xid);
- } else {
-   g_warning ("Should have obtained video_window_xid by now!");
- }
+        // GST_MESSAGE_SRC (message) will be the video sink element
+        xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
+        gst_x_overlay_set_window_handle (xoverlay, video_area_xid);
+    }
+    else
+    {
+        g_warning ("Should have obtained video_window_xid by now!");
+    }
 
- gst_message_unref (message);
- return GST_BUS_DROP;
+    gst_message_unref (message);
+    return GST_BUS_DROP;
 }
 
 int endcam()//gera um erro para finalizar o pipeline
 {
-    if (pipemaster){
+    if (pipemaster)
+    {
         g_main_loop_quit(app_loop);
     }
     return 0;
@@ -72,7 +76,8 @@ void link_rec()
 
 void gravar()
 {
-    if (pipemaster) {
+    if (pipemaster)
+    {
         g_print("Gravando...\n");
         recfim = 0;
         GstElement *conv2 = gst_element_factory_make("ffmpegcolorspace","conv2");
@@ -85,9 +90,9 @@ void gravar()
         if (enc && mux && fsink) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
         else exit(0x123);
         gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw-yuv",
-                                "width", G_TYPE_INT, 640,
-                                "height", G_TYPE_INT, 480,
-                                NULL));
+                                  "width", G_TYPE_INT, 640,
+                                  "height", G_TYPE_INT, 480,
+                                  NULL));
         gst_element_link_many(conv2,enc,mux,fsink,NULL);
         link_rec();
     }
