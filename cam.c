@@ -123,7 +123,7 @@ int cam ()
     conv_v = gst_element_factory_make("ffmpegcolorspace","mp3dec");
     tee_v = gst_element_factory_make("tee","t1");
     qq_v = gst_element_factory_make("queue","fila_v");
-    sink_v = gst_element_factory_make ("autovideosink", "videosink");
+    sink_v = gst_element_factory_make ("xvimagesink", "videosink");
     /* Create the empty pipeline */
     pipemaster = gst_pipeline_new("pipemaster");
 

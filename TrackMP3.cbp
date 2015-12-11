@@ -35,7 +35,7 @@
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10`" />
+			<Add option="`pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10 gmodule-2.0`" />
 			<Add library="/usr/lib/libgstinterfaces-0.10.so" />
 		</Linker>
 		<Unit filename="cam.c">
