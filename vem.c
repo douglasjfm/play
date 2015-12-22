@@ -596,7 +596,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             likIncr = ((actLower-antLower)/antLower);
             likIncr *= likIncr;
             likIncr = sqrt(likIncr);
-            printf("\ndiff: %.4E\n",likIncr);
+            //printf("\ndiff: %.4E\n",likIncr);
         }
 
         gsl_matrix_free(diff1);
@@ -652,29 +652,41 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
 void treinoEM(gmm* gmix, data *feas, workers *pool, int imax);
 void saveVGMM(char *fname,VBGMM *m);
+void vbg_delete(VBGMM *m);
 
-int main(int argc, char *arvg[])
+int main(int argc, char *argv[])
 {
     VBGMM *vbg;
     int i,numK;
-    workers *pool=workers_create(1);
-    //data *dado=feas_load("faithful.txt",pool);
-    //data *dado=feas_load("treino.txt",pool);
-    //data *dado=feas_load("data.txt",pool);
+    workers *pool=NULL;
+    data *dado = NULL;
 
-    if (c < 4)
+    if (argc != 4)
     {
-        printf("Uso:\nSRE <Num K de gaussianas> <arquivos de dados> <>");
+        printf("Uso:\nSRE <nome arquivo de dados> <nome para salvar o modelo> <numero de gaussianas>\n");
+        exit(14);
     }
 
-    printf("%d %d\n",dado->samples,dado->dimension);
+    numK = atoi(argv[3]);
+    if (numK<=0)
+    {
+        printf("Numero Invalido %d\nUso:\nSRE <nome arquivo de dados> <nome para salvar o modelo> <numero de gaussianas>\n",numK);
+        exit(14);
+    }
+    //numK = 4;
+    pool = workers_create(1);//dado = feas_load("data.txt",pool);
+    dado = feas_load(argv[1],pool);
 
-    vbg = VBGMM_alloc(128,dado->dimension);
+    printf("K = %d N = %d dim = %d\n",numK,dado->samples,dado->dimension);
+
+    vbg = VBGMM_alloc(numK,dado->dimension);
     gsl_vector *m0 = gsl_vector_alloc(dado->dimension);
     gsl_matrix *W0 = gsl_matrix_alloc(dado->dimension,dado->dimension);
 
     gmm *gm = gmm_initialize(dado,vbg->K);
     treinoEM(gm,dado,pool,4);
+
+    printf("Variational EM\n");
 
     gsl_matrix_set_identity(W0);
 
@@ -685,10 +697,24 @@ int main(int argc, char *arvg[])
     }
 
     vem_train(vbg,gm,dado,1.0,1.0,gm->dimension + 1.0,m0,W0);
-    feas_delete(dado);
-    gmm_delete(gmix);
 
+    feas_delete(dado);
+    gmm_delete(gm);
+    saveVGMM(argv[2],vbg);
+    vbg_delete(vbg);
     return 0;
+}
+
+void vbg_delete(VBGMM *m)
+{
+    int i;
+    for (i=0;i<m->K;i++)
+        gsl_matrix_free(m->W[i]);
+    gsl_matrix_free(m->m);
+    gsl_vector_free(m->alpha);
+    gsl_vector_free(m->beta);
+    gsl_vector_free(m->v);
+    gsl_vector_free(m->L);
 }
 
 void saveVGMM(char *fname,VBGMM *m)
@@ -700,7 +726,7 @@ void saveVGMM(char *fname,VBGMM *m)
     gsl_vector_fprintf(f,m->beta,"%.10f\n");
     gsl_vector_fprintf(f,m->v,"%.10f\n");
     gsl_matrix_fprintf(f,m->m,"%.10f");
-    for(i=0;i<m->K;i++);
+    for(i=0;i<m->K;i++)
         gsl_matrix_fprintf(f,m->W[i],"%.10f");
     fclose(f);
 }
