@@ -28,8 +28,8 @@ GNU General Public License for more details. */
 #define vset gsl_vector_set
 #define mset gsl_matrix_set
 
-#define VBGMMMAXITER 100
-#define THRES 0.00000000001
+#define VBGMMMAXITER 2000
+#define THRES 0.00000015136
 #define M_PI 3.14159265358979323846
 
 typedef struct VBGMM
@@ -205,7 +205,6 @@ void* Ecomp (EARG_T *arg)
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0)
 {
     int i,j,k,t;
-    double constant;
     number D = dado->dimension, N = dado->samples;
     number K = gm->num;
     decimal likIncr = THRES+1;
@@ -325,7 +324,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_permutation_free(perm);
     }
 
-    constant = D * 0.30102999566;
     for (t=0; t<VBGMMMAXITER; t++)
     {
         /*Calculo de r*/
@@ -346,6 +344,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         int f1 = 0,f2 = 0;
         EARG_T arg1, arg2;
         pthread_t tid1,tid2;
+        pthread_attr_t tattr;
 
         arg1.K_ = arg2.K_ = K;
         arg1.D_ = arg2.D_ = D;
@@ -362,11 +361,15 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         arg1.dado_ = arg2.dado_ = dado;
         arg1.f = &f1;arg2.f = &f2;
 
-        pthread_create(&tid1,NULL,Ecomp,&arg1);
-        pthread_create(&tid2,NULL,Ecomp,&arg2);
+        pthread_attr_init(&tattr);
+        pthread_attr_setdetachstate(&tattr,PTHREAD_CREATE_DETACHED);
+        pthread_create(&tid1,&tattr,Ecomp,&arg1);
+        pthread_create(&tid2,&tattr,Ecomp,&arg2);
 
-        while(!f1 && !f2){}
-
+        while(1)
+            if (f1 && f2)
+                break;
+        f1 = f2 = 0;
         ///
 
         gsl_vector *rhoexprow = gsl_vector_alloc(K);
@@ -648,17 +651,25 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 }
 
 void treinoEM(gmm* gmix, data *feas, workers *pool, int imax);
+void saveVGMM(char *fname,VBGMM *m);
 
-int main()
+int main(int argc, char *arvg[])
 {
     VBGMM *vbg;
-    int i;
+    int i,numK;
     workers *pool=workers_create(1);
-    data *dado=feas_load("faithful.txt",pool);
+    //data *dado=feas_load("faithful.txt",pool);
+    //data *dado=feas_load("treino.txt",pool);
+    //data *dado=feas_load("data.txt",pool);
+
+    if (c < 4)
+    {
+        printf("Uso:\nSRE <Num K de gaussianas> <arquivos de dados> <>");
+    }
 
     printf("%d %d\n",dado->samples,dado->dimension);
 
-    vbg = VBGMM_alloc(4,dado->dimension);
+    vbg = VBGMM_alloc(128,dado->dimension);
     gsl_vector *m0 = gsl_vector_alloc(dado->dimension);
     gsl_matrix *W0 = gsl_matrix_alloc(dado->dimension,dado->dimension);
 
@@ -675,8 +686,23 @@ int main()
 
     vem_train(vbg,gm,dado,1.0,1.0,gm->dimension + 1.0,m0,W0);
     feas_delete(dado);
+    gmm_delete(gmix);
 
     return 0;
+}
+
+void saveVGMM(char *fname,VBGMM *m)
+{
+    FILE *f = fopen(fname,"w");
+    int i;
+    fprintf(f,"%d %d\n",m->K,m->dim);
+    gsl_vector_fprintf(f,m->alpha,"%.10f\n");
+    gsl_vector_fprintf(f,m->beta,"%.10f\n");
+    gsl_vector_fprintf(f,m->v,"%.10f\n");
+    gsl_matrix_fprintf(f,m->m,"%.10f");
+    for(i=0;i<m->K;i++);
+        gsl_matrix_fprintf(f,m->W[i],"%.10f");
+    fclose(f);
 }
 
 void treinoEM(gmm* gmix, data *feas, workers *pool, int imax)
