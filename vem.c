@@ -54,6 +54,7 @@ VBGMM* VBGMM_alloc(number k, number d)
     mdl->m = NULL;
     mdl->W = NULL;
     mdl->L = gsl_vector_alloc(VBGMMMAXITER);
+    gsl_vector_set_zero(mdl->L);
     mdl->K = k;
     mdl->dim = d;
     return mdl;
@@ -143,6 +144,39 @@ typedef struct EARG_T
     data *dado_;
     int *f;
 }EARG_T;
+
+typedef struct rARG_T
+{
+    int K_;
+    int N_;
+    int s1_;
+    int s2_;
+    gsl_vector *rhoexprow_;
+    gsl_matrix *logRho_;
+    gsl_matrix *logr_;
+    gsl_matrix *r_;
+    int *f;
+}rARG_T;
+
+void* rcomp (rARG_T *arg)
+{
+    int i,j,K = arg->K_,s1 = arg->s1_,s2 = arg->s2_;
+    gsl_vector *rhoexprow = arg->rhoexprow_;
+    gsl_matrix *logRho = arg->logRho_, *logr = arg->logr_, *r = arg->r_;
+
+    for(i=s1; i<s2; i++)
+        for (j=0; j<K; j++)
+            vset(rhoexprow,i,vget(rhoexprow,i) + exp(mget(logRho,i,j)));
+
+    for (i=s1; i<s2; i++)
+        for (j=0; j<logRho->size2; j++)
+        {
+            mset(logr,i,j,mget(logRho,i,j)-log(vget(rhoexprow,i)));
+            mset(r,i,j,exp(mget(logr,i,j)));
+        }
+    *(arg->f) = 1;
+    return NULL;
+}
 
 void* Ecomp (EARG_T *arg)
 {
@@ -388,16 +422,34 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
         rhoexprow = gsl_vector_alloc(N);
         gsl_vector_set_zero(rhoexprow);
-        for(i=0; i<N; i++)
-            for (j=0; j<K; j++)
-                vset(rhoexprow,i,vget(rhoexprow,i) + exp(mget(logRho,i,j)));
 
-        for (i=0; i<logRho->size1; i++)
-            for (j=0; j<logRho->size2; j++)
-            {
-                mset(logr,i,j,mget(logRho,i,j)-log(vget(rhoexprow,i)));
-                mset(r,i,j,exp(mget(logr,i,j)));
-            }
+        /*Computacao paralela de r*/
+        rARG_T rarg1,rarg2;
+        rhoexprow = gsl_vector_alloc(N);
+        gsl_vector_set_zero(rhoexprow);
+
+        rarg1.K_ = rarg2.K_ = K;
+        rarg1.N_ = rarg2.N_ = N;
+        rarg1.rhoexprow_ = rarg2.rhoexprow_ = rhoexprow;
+        rarg1.logRho_ = rarg2.logRho_ = logRho;
+        rarg1.logr_ = rarg2.logr_ = logr;
+        rarg1.r_ = rarg2.r_ = r;
+        rarg1.f = &f1;
+        rarg2.f = &f2;
+        rarg1.s1_ = 0;
+        rarg2.s1_ = N>>2;
+        rarg1.s2_ = N>>2;
+        rarg2.s2_ = N;
+
+        pthread_attr_init(&tattr);
+        pthread_attr_setdetachstate(&tattr,PTHREAD_CREATE_DETACHED);
+        pthread_create(&tid1,&tattr,rcomp,&rarg1);
+        pthread_create(&tid2,&tattr,rcomp,&rarg2);
+
+        while(1)
+            if(f1 && f2)
+                break;
+        f1 = f2 = 0;
 
         gsl_matrix *diff1, *diff2;
         gsl_matrix *rkq = gsl_matrix_alloc(D,N);
@@ -692,8 +744,8 @@ int main(int argc, char *argv[])
 
     for (i=0; i<vbg->dim; i++)
     {
-        vset(m0,i,dado->mean[i]);
-        mset(W0,i,i,dado->variance[i]);
+        vset(m0,i,1.0);
+        mset(W0,i,i,200.0);
     }
 
     vem_train(vbg,gm,dado,1.0,1.0,gm->dimension + 1.0,m0,W0);
@@ -722,13 +774,19 @@ void saveVGMM(char *fname,VBGMM *m)
     FILE *f = fopen(fname,"w");
     int i;
     fprintf(f,"%d %d\n",m->K,m->dim);
-    gsl_vector_fprintf(f,m->alpha,"%.10f\n");
-    gsl_vector_fprintf(f,m->beta,"%.10f\n");
-    gsl_vector_fprintf(f,m->v,"%.10f\n");
+    gsl_vector_fprintf(f,m->alpha,"%.10f");
+    fprintf(f,"\n");
+    gsl_vector_fprintf(f,m->beta,"%.10f");
+    fprintf(f,"\n");
+    gsl_vector_fprintf(f,m->v,"%.10f");
+    fprintf(f,"\n");
     gsl_matrix_fprintf(f,m->m,"%.10f");
+    fprintf(f,"\n");
     for(i=0;i<m->K;i++)
         gsl_matrix_fprintf(f,m->W[i],"%.10f");
+    gsl_vector_fprintf(f,m->L,"%.10f");
     fclose(f);
+    printf("\nModelo armazenado em %s\n<K> <dim>\n<alpha>\n\n<beta>\n\n<v>\n\n<M_k(dim x 1 x K) (k=1..K)>\n\n<W_k (dim x dim x K)>\n",fname);
 }
 
 void treinoEM(gmm* gmix, data *feas, workers *pool, int imax)
