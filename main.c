@@ -1,253 +1,123 @@
-#include <stdlib.h>
+/* Variational Expectation Maximization for Gaussian Mixture Models.
+Copyright (C) 2012-2015 Douglas Medeiros
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details. */
+
 #include <stdio.h>
-#include <gtk/gtk.h>
-#include <gdk/gdkx.h>
-#include <gmodule.h>
-#include <glib/gi18n.h>
-#include <pthread.h>
 
-GtkWidget *drawingarea = NULL;
+#include "vem.h"
 
-gulong video_area_xid = 0, wave_area_xid = 0;
+gsl_vector *heap_VD;
+gsl_matrix *heap_MTX;
 
-char *filename = NULL;
-char stt = 0;
-
-char campause = 0;
-
-pthread_t tidmp3 = 0,tidcam = 0, tidrec = 0;
-GtkWidget *label1 = NULL;
-
-
-int mp3 (char *musica);
-int pausepipe();
-int playpipe();
-int endpipe();
-
-void playtrack ();
-void* play();
-
-G_MODULE_EXPORT void rotulo1(GtkObject *wid, gpointer data)
+int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
 {
-    label1 = GTK_WIDGET(wid);
-    printf("Label ok\n");
-}
+    VBGMM *vbg;
+    int numK;
+    workers *pool=NULL;
+    data *dado = NULL;
 
-G_MODULE_EXPORT void helloWorld (GtkObject *wid, gpointer data)
-{
-    gint res = 0;
-    GtkWidget *win = gtk_widget_get_ancestor(wid,GTK_TYPE_WINDOW);
-    GtkWidget *winFile = gtk_file_chooser_dialog_new ("Abrir MP3",
-                         GTK_WINDOW(win),
-                         GTK_FILE_CHOOSER_ACTION_OPEN,
-                         _("_Cancel"),
-                         GTK_RESPONSE_CANCEL,
-                         _("_Open"),
-                         GTK_RESPONSE_ACCEPT,
-                         NULL);
+    numK = pK;
+    pool = workers_create(1);
+    dado = feas_load(ftrn,pool);
 
+    printf("K = %d N = %d dim = %d\n",numK,dado->samples,dado->dimension);
 
-    res = gtk_dialog_run (GTK_DIALOG (winFile));
-    if (res == GTK_RESPONSE_ACCEPT)
+    vbg = VBGMM_alloc(numK,dado->dimension);
+
+    /*! INICIALIZACAO DO VBGMM*/
+    gsl_vector *m0 = heap_VD;
+    gsl_matrix *W0 = heap_MTX;
+    gmm *gm;
+    double alpha0,beta0,v0;
+    alpha0 = ((double)dado->samples/vbg->K);
+    beta0 = 1.0;
+    v0 = vbg->dim;
+
+    gm = gmm_initialize(dado,vbg->K);
+    treinoEM(gm,dado,pool,5);
+
+    gsl_matrix_set_identity(W0);
+    //gsl_matrix_scale(W0,1.0);
+    gsl_vector_set_all(m0,0.0);
+
+    //for (numK=0; numK<vbg->dim; numK++)
+        //mset(W0,numK,numK,dado->variance[numK]);
+    /// FIM INICIALIZACAO
+
+    printf("Variational EM\n");
+    vem_train(vbg,gm,dado,alpha0,beta0,v0,m0,W0);
+
+    printf("VEM Ok.\nExecutando Testes...\n");
+
+    /*!testes*/
+    char ftname[150];
+    gsl_vector *pscores = gsl_vector_alloc(54),*nscores = gsl_vector_alloc(54*40);
+    int i,j;
+    for (i=0;i<54;i++)
     {
-        char txt[100], *tkn, cp[200];
-        GtkFileChooser *chooser = GTK_FILE_CHOOSER (winFile);
-        GtkWidget *pane = gtk_widget_get_ancestor(wid,GTK_TYPE_BOX);
-        GList * botoes = gtk_container_children(pane);
-        filename = gtk_file_chooser_get_filename (chooser);
-        strcpy(cp,filename);
-        tkn = strtok(filename,"/");
-        do
-        {
-            strcpy(txt,tkn);
-            tkn = strtok(NULL,"/");
-        }while(tkn);
-        gtk_label_set_text(GTK_LABEL(label1),txt);
-        strcpy(filename,cp);
-        stt = 0x01;
-        endpipe();
-        play();
+        sprintf(ftname,"testes/teste%d/teste%d_%d.txt",spk,spk,i+1);
+        vset(pscores,i,runtest(ftname,vbg,spk));
     }
-
-    gtk_widget_destroy (winFile);
-}
-
-void *novatred()
-{
-    mp3(filename);
-    return NULL;
-}
-
-void *callcam()
-{
-    cam();
-    return NULL;
-}
-
-void* play()
-{
-    pthread_create(&tidmp3,NULL,novatred,NULL);
-    return NULL;
-}
-
-G_MODULE_EXPORT void playtrack (GtkObject *btn, gpointer data)
-{
-    switch(stt)
-    {
-    case(0x01):
-        stt = 0x00;
-        pausepipe();
-        break;
-    case(0x00):
-        stt = 0x01;
-        playpipe();
-        break;
-    }
-}
-
-G_MODULE_EXPORT void camera (GtkObject *btn, gpointer data)
-{
-    if (!tidcam) pthread_create(&tidcam,NULL,&callcam,NULL);
-    else
-    {
-        if (!campause++) pausecam();
-        else
+    sprintf(ftname,"testes/scrs/%s/K%d/scores_pos_%d.bin",nomeexp,vbg->K,spk);
+    savescore(ftname,pscores,vbg->K);
+    gsl_vector_free(pscores);
+    for (i=0;i<40;i++)
+        for (j=0;j<54;j++)
         {
-            playcam();
-            campause = 0;
+            sprintf(ftname,"testes/imposter/imposter%d_%d.txt",i+1,j+1);
+            vset(nscores,i*54+j,runtest(ftname,vbg,spk));
         }
-    }
-    return NULL;
-}
+    sprintf(ftname,"testes/scrs/%s/K%d/scores_neg_%d.bin",nomeexp,vbg->K,spk);
+    savescore(ftname,nscores,vbg->K);
+    gsl_vector_free(nscores);
 
-G_MODULE_EXPORT void recvideo (GtkObject *btn, gpointer data)
-{
-    if (!tidrec)
-    {
-        gravar();
-        tidrec = 1;
-    }
-    else
-    {
-        stopgravar();
-        tidrec = 0;
-    }
-}
-
-G_MODULE_EXPORT void camerastop(GtkObject *btn, gpointer data)
-{
-    endcam();
-    tidcam = 0;
-    campause = 0;
-}
-
-G_MODULE_EXPORT void video_area_realize_cb (GtkObject * widget, gpointer data)
-{
-#if GTK_CHECK_VERSION(2,18,0)
-  // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
-  // it as well in newer Gtk versions
-  if (!gdk_window_ensure_native ((GTK_WIDGET(widget))->window))
-    g_error ("Couldn't create native window needed for GstXOverlay!");
-#endif
-
-#ifdef GDK_WINDOWING_X11
-    GtkWidget *win = (GtkWidget *) widget;
-    video_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-    printf("xcamvid ok\n");
-#endif
-}
-
-G_MODULE_EXPORT void wave_area_realize_cb (GtkObject * widget, gpointer data)
-{
-#if GTK_CHECK_VERSION(2,18,0)
-  // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
-  // it as well in newer Gtk versions
-  if (!gdk_window_ensure_native ((GTK_WIDGET(widget))->window))
-    g_error ("Couldn't create native window needed for GstXOverlay!");
-#endif
-
-#ifdef GDK_WINDOWING_X11
-    GtkWidget *win = (GtkWidget *) widget;
-    wave_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-    printf("xwave ok\n");
-#endif
-}
-
-int main (int argc, char *argv[])
-{
-    GtkBuilder *builder = NULL;
-    GError *error = NULL;
-    GtkWidget *win = NULL;
-
-    /* Initialize GTK+ */
-    g_log_set_handler ("Gtk", G_LOG_LEVEL_WARNING, (GLogFunc) gtk_false, NULL);
-    gtk_init (&argc, &argv);
-    g_log_set_handler ("Gtk", G_LOG_LEVEL_WARNING, g_log_default_handler, NULL);
-
-    builder = gtk_builder_new();
-    if (!gtk_builder_add_from_file(builder,"Main.glade",&error))
-    {
-        g_warning("P1 Erro: %s",error->message);
-        g_free(error);
-        return 0xE;
-    }
-
-    win = GTK_WIDGET(gtk_builder_get_object(builder,"janela"));
-    gtk_builder_connect_signals(builder, builder);
-    gtk_widget_show_all (win);
-    gtk_main ();
-
-    /* Create the main window */
-//    win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-//    gtk_container_set_border_width (GTK_CONTAINER (win), 8);
-//    gtk_window_set_title (GTK_WINDOW (win), "Player - douglasjfm");
-//    gtk_window_resize(GTK_WINDOW (win),640,480);
-//    gtk_window_set_position (GTK_WINDOW (win), GTK_WIN_POS_CENTER);
-//    gtk_widget_realize (win);
-//    g_signal_connect (win, "destroy", gtk_main_quit, NULL);
-//
-//    /* Create a vertical box with buttons */
-//    vbox = gtk_vbox_new (TRUE, 6);
-//
-//    /*cria uma panned vertical */
-//    panned = gtk_hpaned_new();
-//    gtk_paned_add1(GTK_PANED(panned), vbox);
-//
-//    gtk_container_add (GTK_CONTAINER (win), panned);
-//
-//    button = gtk_button_new_from_stock ("Escolher");
-//    g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (helloWorld), (gpointer) win);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    button = gtk_button_new_from_stock ("Tocar/Pausar");
-//    g_signal_connect (button, "clicked", G_CALLBACK(playtrack), NULL);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    button = gtk_button_new_from_stock ("Cam");
-//    g_signal_connect (button, "clicked", camera, NULL);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    button = gtk_button_new_from_stock ("Stop");
-//    g_signal_connect (button, "clicked", camerastop, NULL);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    button = gtk_button_new_from_stock ("Rec");
-//    g_signal_connect (button, "clicked", recvideo, NULL);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    label1 = gtk_label_new("...Nenhum arquivo");
-//    gtk_box_pack_start (GTK_BOX (vbox), label1, TRUE, TRUE, 0);
-//
-//    button = gtk_button_new_from_stock ("Fechar");
-//    g_signal_connect (button, "clicked", gtk_main_quit, NULL);
-//    gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
-//
-//    /* configura a janela video */
-//    video_area = gtk_drawing_area_new();
-//    gtk_drawing_area_size(video_area,320,240);
-//    g_signal_connect(video_area,"realize",G_CALLBACK (video_area_realize_cb),video_area);
-//    gtk_widget_set_double_buffered(video_area,FALSE);
-//    gtk_paned_add2(GTK_PANED(panned), video_area);
-
+    feas_delete(dado);
+    gmm_delete(gm);
+    vbg_delete(vbg);
     return 0;
 }
+
+int main()
+{
+    int i;
+    heap_MTX = gsl_matrix_alloc(57,57);
+    heap_VD = gsl_vector_alloc(57);
+    const char exp[] = "exp1";
+    char cmd[50];
+
+    sprintf(cmd,"mkdir testes/scrs/%s/K8",exp);
+    system(cmd);
+    sprintf(cmd,"mkdir testes/scrs/%s/K16",exp);
+    system(cmd);
+    sprintf(cmd,"mkdir testes/scrs/%s/K32",exp);
+    system(cmd);
+    sprintf(cmd,"mkdir testes/scrs/%s/K64",exp);
+    system(cmd);
+    sprintf(cmd,"mkdir testes/scrs/%s/K128",exp);
+    system(cmd);
+
+    for (i=1;i<=48;i++)
+    {
+        char treino[30];
+        sprintf(treino,"treino/treino%d.txt",i);
+        main2(8,i,treino,exp);
+        main2(16,i,treino,exp);
+        main2(32,i,treino,exp);
+        main2(64,i,treino,exp);
+        main2(128,i,treino,exp);
+    }
+    gsl_matrix_free(heap_MTX);
+    gsl_vector_free(heap_VD);
+    return 0;
+}
+
+

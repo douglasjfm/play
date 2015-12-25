@@ -11,38 +11,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details. */
 
-#include <gsl/gsl_matrix.h>
-#include <gsl/gsl_blas.h>
-#include <gsl/gsl_linalg.h>
-#include <gsl/gsl_sf.h>
-#include <math.h>
-#include <pthread.h>
-
-#include "global.h"
-#include "workers.h"
-#include "data.h"
-#include "gmm.h"
-
-#define vget gsl_vector_get
-#define mget gsl_matrix_get
-#define vset gsl_vector_set
-#define mset gsl_matrix_set
-
-#define VBGMMMAXITER 2000
-#define THRES 0.00000015136
-#define M_PI 3.14159265358979323846
-
-typedef struct VBGMM
-{
-    number K;
-    number dim;
-    gsl_vector *alpha;
-    gsl_vector *beta;
-    gsl_vector *v;
-    gsl_matrix **W;
-    gsl_matrix *m;
-    gsl_vector *L;
-} VBGMM;
+#include "vem.h"
 
 VBGMM* VBGMM_alloc(number k, number d)
 {
@@ -58,6 +27,44 @@ VBGMM* VBGMM_alloc(number k, number d)
     mdl->K = k;
     mdl->dim = d;
     return mdl;
+}
+
+void vbg_delete(VBGMM *m)
+{
+    int i;
+    for (i=0;i<m->K;i++)
+        gsl_matrix_free(m->W[i]);
+    gsl_matrix_free(m->m);
+    gsl_vector_free(m->alpha);
+    gsl_vector_free(m->beta);
+    gsl_vector_free(m->v);
+    gsl_vector_free(m->L);
+}
+
+void saveVGMM(char *fname,VBGMM *m)
+{
+    FILE *f = fopen(fname,"w");
+    int i;
+    fprintf(f,"%d %d\n",m->K,m->dim);
+    gsl_vector_fprintf(f,m->alpha,"%.10f");
+    fprintf(f,"\n");
+    gsl_vector_fprintf(f,m->beta,"%.10f");
+    fprintf(f,"\n");
+    gsl_vector_fprintf(f,m->v,"%.10f");
+    fprintf(f,"\n");
+    gsl_matrix_fprintf(f,m->m,"%.10f");
+    fprintf(f,"\n");
+    for(i=0;i<m->K;i++)
+        gsl_matrix_fprintf(f,m->W[i],"%.10f");
+
+    printf("\n");
+    i=0;
+    while(vget(m->L,i) < -0.0001 && i < m->L->size)
+    {
+        fprintf(f,"%.5f\n",vget(m->L,i));
+        i++;
+    }
+    fclose(f);
 }
 
 double mtrace (gsl_matrix *m)
@@ -78,7 +85,7 @@ double determinante (gsl_matrix *m)
 {
     int s,i;
     double r = 1;
-    if (m->size1 != m->size2)
+  if (m->size1 != m->size2)
     {
         printf("determinate: nao eh quadrada!\n");
         exit(0xE);
@@ -87,6 +94,7 @@ double determinante (gsl_matrix *m)
     gsl_linalg_LU_decomp(m,p,&s);
     for(i=0; i<m->size1; i++)
         r *= mget(m,i,i);
+    gsl_permutation_free(p);
     return r*s;
 }
 
@@ -114,7 +122,7 @@ gsl_matrix* matrix_from_vec_x_vec (gsl_vector *a, gsl_vector *b, double aa, doub
 double somatorio (gsl_vector *v)
 {
     double s;
-    gsl_vector *vtr = gsl_vector_alloc(v->size);
+ gsl_vector *vtr = gsl_vector_alloc(v->size);
     gsl_vector_set_all(vtr,1.0000000);
     gsl_blas_ddot(v,vtr,&s);
     gsl_vector_free(vtr);
@@ -183,14 +191,12 @@ void* Ecomp (EARG_T *arg)
     int c,i;
 
     int K = arg->K_, D = arg->D_, s1 = arg->s1_, s2 = arg->s2_;
-    gsl_vector* v, *beta, *logLambdaTilde;
+    gsl_vector* v, *beta;
     gsl_matrix **W, *m, *E;
     data *dado;
-    double constant = D * 0.30102999566;
 
     v = arg->v_;
     beta = arg->beta_;
-    logLambdaTilde = arg->logLambdaTilde_;
     W = arg->W_;
     m = arg->m_;
     E = arg->E_;
@@ -198,15 +204,9 @@ void* Ecomp (EARG_T *arg)
 
     for (c=0; c<K; c++)
     {
-        gsl_vector *t1, *difxm, *difxm2;
+        gsl_vector *difxm, *difxm2;
         int n;
         gsl_vector_view mkcol;
-        t1 = gsl_vector_alloc(D);
-
-        for (i=0; i<t1->size; i++)
-            gsl_vector_set(t1,i,gsl_sf_psi(0.5 * gsl_vector_get(v,c) - 0.5 - i/2));
-
-        vset(logLambdaTilde,c,constant + somatorio(t1) + log(determinante(W[c])));
 
         difxm = gsl_vector_alloc(D);
         difxm2 = gsl_vector_alloc(D);
@@ -230,7 +230,6 @@ void* Ecomp (EARG_T *arg)
         }
         gsl_vector_free(difxm);
         gsl_vector_free(difxm2);
-        gsl_vector_free(t1);
     }
     *(arg->f) = 1;
     return NULL;
@@ -239,9 +238,9 @@ void* Ecomp (EARG_T *arg)
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0)
 {
     int i,j,k,t;
-    number D = dado->dimension, N = dado->samples;
-    number K = gm->num;
-    decimal likIncr = THRES+1;
+    int D = dado->dimension, N = dado->samples;
+    int K = gm->num;
+    double likIncr = THRES+1,constant = D*log(2);
     gsl_vector *logLambdaTilde = gsl_vector_alloc(K);
     gsl_matrix *E = gsl_matrix_alloc(N,K);
     gsl_vector *trSW = gsl_vector_alloc(K);
@@ -363,7 +362,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         /*Calculo de r*/
         double psiAlphaHat, sumAlpha;
         int c;
-        gsl_vector *logPiTil;
+        gsl_vector *logPiTil, *t1;
         gsl_matrix *logRho = gsl_matrix_alloc(E->size1,E->size2);
         gsl_matrix *r = gsl_matrix_alloc(E->size1,E->size2);
         gsl_matrix *logr = gsl_matrix_alloc(E->size1,E->size2);
@@ -371,8 +370,16 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         psiAlphaHat = gsl_sf_psi(sumAlpha);
 
         logPiTil = gsl_vector_alloc(alpha->size);
+
+        t1 = gsl_vector_alloc(D);
+
         for (c=0; c<alpha->size; c++)
+        {
+            for (i=0;i<D;i++)
+                vset(t1,i,gsl_sf_psi(0.5 * (vget(v,c)-i)));
+            vset(logLambdaTilde,c,somatorio(t1) + constant + log(determinante(W[c])));
             vset(logPiTil,c,gsl_sf_psi(gsl_vector_get(alpha,c))-psiAlphaHat);
+        }
 
         /*computacao paralela de E*/
         int f1 = 0,f2 = 0;
@@ -383,8 +390,8 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         arg1.K_ = arg2.K_ = K;
         arg1.D_ = arg2.D_ = D;
         arg1.s1_ = 0;
-        arg2.s1_ = ((dado->samples)>>1)+1;
-        arg1.s2_ = ((dado->samples)>>1)+1;
+        arg2.s1_ = N>>1;
+        arg1.s2_ = N>>1;
         arg2.s2_ = dado->samples;
         arg1.v_ = arg2.v_ = v;
         arg1.beta_ = arg2.beta_ = beta;
@@ -437,8 +444,8 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         rarg1.f = &f1;
         rarg2.f = &f2;
         rarg1.s1_ = 0;
-        rarg2.s1_ = N>>2;
-        rarg1.s2_ = N>>2;
+        rarg2.s1_ = N>>1;
+        rarg1.s2_ = N>>1;
         rarg2.s2_ = N;
 
         pthread_attr_init(&tattr);
@@ -700,93 +707,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     gsl_matrix_free(IDxD);
 
     return ;
-}
-
-void treinoEM(gmm* gmix, data *feas, workers *pool, int imax);
-void saveVGMM(char *fname,VBGMM *m);
-void vbg_delete(VBGMM *m);
-
-int main(int argc, char *argv[])
-{
-    VBGMM *vbg;
-    int i,numK;
-    workers *pool=NULL;
-    data *dado = NULL;
-
-    if (argc != 4)
-    {
-        printf("Uso:\nSRE <nome arquivo de dados> <nome para salvar o modelo> <numero de gaussianas>\n");
-        exit(14);
-    }
-
-    numK = atoi(argv[3]);
-    if (numK<=0)
-    {
-        printf("Numero Invalido %d\nUso:\nSRE <nome arquivo de dados> <nome para salvar o modelo> <numero de gaussianas>\n",numK);
-        exit(14);
-    }
-    //numK = 4;
-    pool = workers_create(1);//dado = feas_load("data.txt",pool);
-    dado = feas_load(argv[1],pool);
-
-    printf("K = %d N = %d dim = %d\n",numK,dado->samples,dado->dimension);
-
-    vbg = VBGMM_alloc(numK,dado->dimension);
-    gsl_vector *m0 = gsl_vector_alloc(dado->dimension);
-    gsl_matrix *W0 = gsl_matrix_alloc(dado->dimension,dado->dimension);
-
-    gmm *gm = gmm_initialize(dado,vbg->K);
-    treinoEM(gm,dado,pool,4);
-
-    printf("Variational EM\n");
-
-    gsl_matrix_set_identity(W0);
-
-    for (i=0; i<vbg->dim; i++)
-    {
-        vset(m0,i,1.0);
-        mset(W0,i,i,200.0);
-    }
-
-    vem_train(vbg,gm,dado,1.0,1.0,gm->dimension + 1.0,m0,W0);
-
-    feas_delete(dado);
-    gmm_delete(gm);
-    saveVGMM(argv[2],vbg);
-    vbg_delete(vbg);
-    return 0;
-}
-
-void vbg_delete(VBGMM *m)
-{
-    int i;
-    for (i=0;i<m->K;i++)
-        gsl_matrix_free(m->W[i]);
-    gsl_matrix_free(m->m);
-    gsl_vector_free(m->alpha);
-    gsl_vector_free(m->beta);
-    gsl_vector_free(m->v);
-    gsl_vector_free(m->L);
-}
-
-void saveVGMM(char *fname,VBGMM *m)
-{
-    FILE *f = fopen(fname,"w");
-    int i;
-    fprintf(f,"%d %d\n",m->K,m->dim);
-    gsl_vector_fprintf(f,m->alpha,"%.10f");
-    fprintf(f,"\n");
-    gsl_vector_fprintf(f,m->beta,"%.10f");
-    fprintf(f,"\n");
-    gsl_vector_fprintf(f,m->v,"%.10f");
-    fprintf(f,"\n");
-    gsl_matrix_fprintf(f,m->m,"%.10f");
-    fprintf(f,"\n");
-    for(i=0;i<m->K;i++)
-        gsl_matrix_fprintf(f,m->W[i],"%.10f");
-    gsl_vector_fprintf(f,m->L,"%.10f");
-    fclose(f);
-    printf("\nModelo armazenado em %s\n<K> <dim>\n<alpha>\n\n<beta>\n\n<v>\n\n<M_k(dim x 1 x K) (k=1..K)>\n\n<W_k (dim x dim x K)>\n",fname);
 }
 
 void treinoEM(gmm* gmix, data *feas, workers *pool, int imax)

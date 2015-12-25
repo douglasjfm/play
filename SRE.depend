@@ -1,0 +1,106 @@
+# depslib dependency file v1.0
+1450466992 source:/home/douglas/Área de Trabalho/SRE/class.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1450466929 /home/douglas/Área de Trabalho/SRE/global.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<float.h>
+	<limits.h>
+	<unistd.h>
+	<getopt.h>
+	<pthread.h>
+	<zlib.h>
+
+1450450025 /home/douglas/Área de Trabalho/SRE/workers.h
+
+1450450025 /home/douglas/Área de Trabalho/SRE/data.h
+
+1450450025 /home/douglas/Área de Trabalho/SRE/gmm.h
+
+1450468067 source:/home/douglas/Área de Trabalho/SRE/data.c
+	"global.h"
+	"workers.h"
+	"data.h"
+
+1450571949 source:/home/douglas/Área de Trabalho/SRE/gmm_base.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1450450025 source:/home/douglas/Área de Trabalho/SRE/gmm_class.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1450450025 source:/home/douglas/Área de Trabalho/SRE/gmm_merge.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1450450025 source:/home/douglas/Área de Trabalho/SRE/gmm_train.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1450466158 source:/home/douglas/Área de Trabalho/SRE/workers.c
+	"global.h"
+
+1450467803 source:/home/douglas/Área de Trabalho/SRE/train.c
+	"global.h"
+	"workers.h"
+	"data.h"
+	"gmm.h"
+
+1451014372 source:/home/douglas/Área de Trabalho/SRE/vem.c
+	"vem.h"
+
+1451052297 source:/home/douglas/Área de Trabalho/SRE/main.c
+	<stdio.h>
+	"vem.h"
+
+1451047131 /home/douglas/Área de Trabalho/SRE/vem.h
+	<gsl/gsl_matrix.h>
+	<gsl/gsl_blas.h>
+	<gsl/gsl_linalg.h>
+	<gsl/gsl_sf.h>
+	<math.h>
+	<pthread.h>
+	<global.h>
+	<workers.h>
+	<data.h>
+	<gmm.h>
+
+1450466929 /home/douglas/Área de Trabalho/SRE/include/global.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<float.h>
+	<limits.h>
+	<unistd.h>
+	<getopt.h>
+	<pthread.h>
+	<zlib.h>
+
+1450450025 /home/douglas/Área de Trabalho/SRE/include/workers.h
+
+1450450025 /home/douglas/Área de Trabalho/SRE/include/data.h
+
+1450933228 /home/douglas/Área de Trabalho/SRE/include/gmm.h
+
+1451011395 source:/home/douglas/Área de Trabalho/SRE/score.c
+	"vem.h"
+
+1451047111 source:/home/douglas/Área de Trabalho/SRE/SRE.c
+	"vem.h"
+
