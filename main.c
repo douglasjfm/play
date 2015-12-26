@@ -18,6 +18,11 @@ GNU General Public License for more details. */
 gsl_vector *heap_VD;
 gsl_matrix *heap_MTX;
 
+gsl_matrix *mtxd2;
+gsl_matrix *tmpscore;
+
+gsl_permutation *permutglobal;
+
 int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
 {
     VBGMM *vbg;
@@ -86,13 +91,20 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     return 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     int i;
+    char exp[30];
+    char cmd[50];
+
+    sprintf(exp,"%s","exp1");
+
     heap_MTX = gsl_matrix_alloc(57,57);
     heap_VD = gsl_vector_alloc(57);
-    const char exp[] = "exp1";
-    char cmd[50];
+    mtxd2 = gsl_matrix_alloc(57,2);
+    tmpscore = gsl_matrix_alloc(57,57);
+
+    permutglobal = gsl_permutation_alloc(57);
 
     sprintf(cmd,"mkdir testes/scrs/%s/K8",exp);
     system(cmd);
@@ -116,8 +128,9 @@ int main()
         main2(128,i,treino,exp);
     }
     gsl_matrix_free(heap_MTX);
+    gsl_matrix_free(mtxd2);
+    gsl_matrix_free(tmpscore);
     gsl_vector_free(heap_VD);
+    gsl_permutation_free(permutglobal);
     return 0;
 }
-
-

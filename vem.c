@@ -13,6 +13,8 @@ GNU General Public License for more details. */
 
 #include "vem.h"
 
+extern gsl_permutation *permutglobal;
+
 VBGMM* VBGMM_alloc(number k, number d)
 {
     VBGMM *mdl;
@@ -90,7 +92,7 @@ double determinante (gsl_matrix *m)
         printf("determinate: nao eh quadrada!\n");
         exit(0xE);
     }
-    gsl_permutation *p = gsl_permutation_alloc(m->size1);
+    gsl_permutation *p = permutglobal;
     gsl_linalg_LU_decomp(m,p,&s);
     for(i=0; i<m->size1; i++)
         r *= mget(m,i,i);
@@ -121,20 +123,11 @@ gsl_matrix* matrix_from_vec_x_vec (gsl_vector *a, gsl_vector *b, double aa, doub
 
 double somatorio (gsl_vector *v)
 {
-    double s;
- gsl_vector *vtr = gsl_vector_alloc(v->size);
-    gsl_vector_set_all(vtr,1.0000000);
-    gsl_blas_ddot(v,vtr,&s);
-    gsl_vector_free(vtr);
-    return s;
-}
-
-gsl_vector* vexp (gsl_vector* v)
-{
+    double s=0;
     int i;
-    for (i=0; i<v->size; i++)
-        vset(v,i,exp(vget(v,i)));
-    return v;
+    for (i=0;i<v->size;i++)
+        s += vget(v,i);
+    return s;
 }
 
 typedef struct EARG_T
@@ -302,6 +295,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     onesN = gsl_vector_alloc(N);
     gsl_vector_set_all(onesD,1);
     gsl_vector_set_all(onesK,1);
+    gsl_vector_set_all(onesN,1);
 
     m = gsl_matrix_alloc(D,K);
     m2 = gsl_matrix_alloc(D,K);
@@ -343,7 +337,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
         // Invert the matrix
         W[k] = gsl_matrix_alloc(D,D);
-        gsl_permutation *perm = gsl_permutation_alloc (Sk->size1);
+        gsl_permutation *perm = permutglobal;
         gsl_linalg_LU_decomp (Sk, perm, &s);
         gsl_linalg_LU_invert (Sk, perm, W[k]);
         gsl_matrix_mul_elements(W[k],IDxD);//printf("---%d %d\n",k,s);gsl_matrix_fprintf(stdout,W[k],"%.13f");
@@ -353,8 +347,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_matrix_free(Sk);
         gsl_matrix_free(Qdiff3);
         gsl_vector_free(diff3);
-        //gsl_vector_free(inverse);
-        gsl_permutation_free(perm);
     }
 
     for (t=0; t<VBGMMMAXITER; t++)

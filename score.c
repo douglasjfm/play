@@ -1,7 +1,10 @@
 
 #include "vem.h"
 
-gsl_matrix *expheap = NULL;
+extern gsl_matrix *mtxd2;
+extern gsl_matrix *tmpscore;
+
+gsl_matrix * expheap = NULL;
 
 double stu(gsl_vector *x, gsl_vector *m, gsl_matrix *S, double v);
 double delta(gsl_vector *x, gsl_vector *m, gsl_matrix *S);
@@ -12,8 +15,8 @@ double score(gsl_matrix *X, VBGMM *modelo)
     double logAlphaChapeu = log(somatorio(modelo->alpha));
     double sum,scor = 0;
 
-    gsl_matrix *tmp = gsl_matrix_alloc(modelo->dim,modelo->dim);
-    expheap = gsl_matrix_alloc(modelo->dim,2);
+    gsl_matrix *tmp = tmpscore;
+    expheap = mtxd2;
 
     for (i=0;i<X->size1;i++)
     {
