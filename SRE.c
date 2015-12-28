@@ -1,6 +1,17 @@
 
 #include "vem.h"
 
+void f_del (data *d)
+{
+    int i=0;
+    for (i=0;i<d->samples;i++)
+        free(d->data[i]);
+    free(d->data);
+    free(d->mean);
+    free(d->variance);
+    free(d);
+}
+
 data *f_load (char *nome)
 {
     FILE *f = fopen(nome,"rb");
@@ -38,16 +49,16 @@ double runtest (char *fname,VBGMM *modelo, int spk)
 
     fala = gsl_matrix_alloc(teste->samples,teste->dimension);
 
-    printf("\nspk = %d K = %d, Rodando testes %s\n%d amostras\n",spk,modelo->K,fname,teste->samples);
+    printf("spk = %d K = %d, %s\n",spk,modelo->K,fname);
 
     for(i=0;i<teste->samples;i++)
         for(j=0;j<teste->dimension;j++)
             mset(fala,i,j,teste->data[i][j]);
 
     scr = score(fala,modelo);
-    printf("%.10f",scr);
+    printf("%.10f\n",scr);
 
-    feas_delete(teste);
+    f_del(teste);
     gsl_matrix_free(fala);
     return scr;
 }

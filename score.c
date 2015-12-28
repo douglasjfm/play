@@ -31,18 +31,16 @@ double score(gsl_matrix *X, VBGMM *modelo)
 
             gsl_vector_view mk = gsl_matrix_column(modelo->m,k);
 
-            gsl_matrix *Wk = modelo->W[k];
             gsl_matrix *Lk = tmp;
 
-            gsl_matrix_memcpy(Lk,Wk);
+            gsl_matrix_memcpy(Lk,modelo->W[k]);
             gsl_matrix_scale(Lk,lk);
 
             sum += log(ak) + stu(&(x.vector),&(mk.vector),Lk,vk+1-modelo->dim);
         }
         scor += sum - logAlphaChapeu;
+        //printf("\n");
     }
-    gsl_matrix_free(tmp);
-    gsl_matrix_free(expheap);
     return scor/X->size1;
 }
 
@@ -52,6 +50,7 @@ double stu(gsl_vector *x, gsl_vector *m, gsl_matrix *S, double v)
     a = gsl_sf_lngamma((x->size+v)/2) - gsl_sf_lngamma(v/2);
     b = log(sqrt(determinante(S))) + log(pow((M_PI*v),(x->size*0.5)));
     c = log(1+delta(x,m,S)/v) * (-(x->size + v)/2);
+    //printf("%03.0lf ",a+b+c);
     return a+b+c;
 }
 

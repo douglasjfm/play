@@ -41,6 +41,8 @@ void vbg_delete(VBGMM *m)
     gsl_vector_free(m->beta);
     gsl_vector_free(m->v);
     gsl_vector_free(m->L);
+    free(m->W);
+    free(m);
 }
 
 void saveVGMM(char *fname,VBGMM *m)
@@ -61,7 +63,7 @@ void saveVGMM(char *fname,VBGMM *m)
 
     printf("\n");
     i=0;
-    while(vget(m->L,i) < -0.0001 && i < m->L->size)
+    while(i < m->L->size && ((vget(m->L,i) < -0.0001) || (vget(m->L,i) > 0.0001)))
     {
         fprintf(f,"%.5f\n",vget(m->L,i));
         i++;
@@ -96,7 +98,6 @@ double determinante (gsl_matrix *m)
     gsl_linalg_LU_decomp(m,p,&s);
     for(i=0; i<m->size1; i++)
         r *= mget(m,i,i);
-    gsl_permutation_free(p);
     return r*s;
 }
 
@@ -233,7 +234,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     int i,j,k,t;
     int D = dado->dimension, N = dado->samples;
     int K = gm->num;
-    double likIncr = THRES+1,constant = D*log(2);
+    double likIncr = THRES+10.0,constant = D*log(2);
     gsl_vector *logLambdaTilde = gsl_vector_alloc(K);
     gsl_matrix *E = gsl_matrix_alloc(N,K);
     gsl_vector *trSW = gsl_vector_alloc(K);
@@ -351,13 +352,33 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
     for (t=0; t<VBGMMMAXITER; t++)
     {
-        /*Calculo de r*/
         double psiAlphaHat, sumAlpha;
+        double logCalpha0, logB0, logCalpha, DlogBeta0, H;
+        double Lt1,Lt2,Lt3,Lt4,Lt41,Lt42,Lt5,Lt6,Lt7;
         int c;
-        gsl_vector *logPiTil, *t1;
+
+        gsl_vector *logPiTil, *t1, *alphgamln;
+        gsl_vector *vdiffD1, *vdiffD2;
+
+        gsl_permutation *permD;
+
         gsl_matrix *logRho = gsl_matrix_alloc(E->size1,E->size2);
         gsl_matrix *r = gsl_matrix_alloc(E->size1,E->size2);
         gsl_matrix *logr = gsl_matrix_alloc(E->size1,E->size2);
+        gsl_vector *rhoexprow = gsl_vector_alloc(K);
+        gsl_matrix *mKxN = gsl_matrix_alloc(K,N);
+        gsl_matrix *diff1, *diff2;
+        gsl_matrix *rkq = gsl_matrix_alloc(D,N);
+        gsl_matrix *mNxD = gsl_matrix_alloc(N,D);
+        gsl_matrix *mDxD = gsl_matrix_alloc(D,D);
+
+        gsl_vector_view visu;
+
+        int f1 = 0,f2 = 0;
+        EARG_T arg1, arg2;
+        pthread_t tid1,tid2;
+        pthread_attr_t tattr1, tattr2;
+
         sumAlpha = somatorio(alpha);
         psiAlphaHat = gsl_sf_psi(sumAlpha);
 
@@ -374,10 +395,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         }
 
         /*computacao paralela de E*/
-        int f1 = 0,f2 = 0;
-        EARG_T arg1, arg2;
-        pthread_t tid1,tid2;
-        pthread_attr_t tattr;
 
         arg1.K_ = arg2.K_ = K;
         arg1.D_ = arg2.D_ = D;
@@ -394,20 +411,22 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         arg1.dado_ = arg2.dado_ = dado;
         arg1.f = &f1;arg2.f = &f2;
 
-        pthread_attr_init(&tattr);
-        pthread_attr_setdetachstate(&tattr,PTHREAD_CREATE_DETACHED);
-        pthread_create(&tid1,&tattr,Ecomp,&arg1);
-        pthread_create(&tid2,&tattr,Ecomp,&arg2);
+        pthread_attr_init(&tattr1);
+        pthread_attr_init(&tattr2);
+        pthread_attr_setdetachstate(&tattr1,PTHREAD_CREATE_DETACHED);
+        pthread_attr_setdetachstate(&tattr2,PTHREAD_CREATE_DETACHED);
+        pthread_create(&tid1,&tattr1,Ecomp,&arg1);
+        pthread_create(&tid2,&tattr2,Ecomp,&arg2);
 
         while(1)
             if (f1 && f2)
                 break;
         f1 = f2 = 0;
+        pthread_attr_destroy(&tattr1);
+        pthread_attr_destroy(&tattr2);
         ///
 
-        gsl_vector *rhoexprow = gsl_vector_alloc(K);
         gsl_vector_set_zero(rhoexprow);
-        gsl_matrix *mKxN = gsl_matrix_alloc(K,N);
         gsl_vector_set_all(onesN,1);
 
         gsl_vector_add(rhoexprow,logLambdaTilde);
@@ -417,15 +436,12 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_matrix_transpose_memcpy(logRho,mKxN);
 
         gsl_vector_free(rhoexprow);
-        gsl_matrix_free(mKxN);
 
         rhoexprow = gsl_vector_alloc(N);
         gsl_vector_set_zero(rhoexprow);
 
         /*Computacao paralela de r*/
         rARG_T rarg1,rarg2;
-        rhoexprow = gsl_vector_alloc(N);
-        gsl_vector_set_zero(rhoexprow);
 
         rarg1.K_ = rarg2.K_ = K;
         rarg1.N_ = rarg2.N_ = N;
@@ -440,19 +456,19 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         rarg1.s2_ = N>>1;
         rarg2.s2_ = N;
 
-        pthread_attr_init(&tattr);
-        pthread_attr_setdetachstate(&tattr,PTHREAD_CREATE_DETACHED);
-        pthread_create(&tid1,&tattr,rcomp,&rarg1);
-        pthread_create(&tid2,&tattr,rcomp,&rarg2);
+        pthread_attr_init(&tattr1);
+        pthread_attr_init(&tattr2);
+        pthread_attr_setdetachstate(&tattr1,PTHREAD_CREATE_DETACHED);
+        pthread_attr_setdetachstate(&tattr2,PTHREAD_CREATE_DETACHED);
+        pthread_create(&tid1,&tattr1,rcomp,&rarg1);
+        pthread_create(&tid2,&tattr2,rcomp,&rarg2);
 
         while(1)
             if(f1 && f2)
                 break;
         f1 = f2 = 0;
-
-        gsl_matrix *diff1, *diff2;
-        gsl_matrix *rkq = gsl_matrix_alloc(D,N);
-        gsl_matrix *mNxD = gsl_matrix_alloc(N,D);
+        pthread_attr_destroy(&tattr1);
+        pthread_attr_destroy(&tattr2);
 
         diff1 = gsl_matrix_alloc(D,N);
         diff2 = gsl_matrix_alloc(D,N);
@@ -489,23 +505,21 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             gsl_matrix_scale(S[i],1/vget(Nk,i));
         }//printf("\n%d\n",t);gsl_matrix_fprintf(stdout,S[0],"%f");printf("\n\n");
 
-        double logCalpha0 = gsl_sf_lngamma(K*alpha0) - K*gsl_sf_lngamma(alpha0);
+        logCalpha0 = gsl_sf_lngamma(K*alpha0) - K*gsl_sf_lngamma(alpha0);
 
-        double logB0 = (v0/2)*log(determinante(invW0)) - (v0*D/2)*log(2) - (D*(D-1)/4)*log(M_PI);
+        logB0 = (v0/2)*log(determinante(invW0)) - (v0*D/2)*log(2) - (D*(D-1)/4)*log(M_PI);
         for(i=0; i<D; i++)
             vset(onesD,i,gsl_sf_lngamma((v0-i)/2));
         logB0 -= somatorio(onesD);
         gsl_vector_set_all(onesD,1);
 
-        gsl_vector *alphgamln = gsl_vector_alloc(alpha->size);
+        alphgamln = gsl_vector_alloc(alpha->size);
         for(i=0; i<alpha->size; i++)
             gsl_vector_set(alphgamln,i,gsl_sf_lngamma(vget(alpha,i)));
-        double logCalpha = gsl_sf_lngamma(somatorio(alpha)) - somatorio(alphgamln);
+        logCalpha = gsl_sf_lngamma(somatorio(alpha)) - somatorio(alphgamln);
 
-        double H = 0;
-        gsl_matrix *mDxD = gsl_matrix_alloc(D,D);
-        gsl_vector *vdiffD1, *vdiffD2;
-        gsl_vector_view visu;
+        H = 0;
+
         vdiffD1 = gsl_vector_alloc(D);
         vdiffD2 = gsl_vector_alloc(D);
         //printf("\n%d\n",t);gsl_matrix_fprintf(stdout,S[3],"%f");printf("\n\n");
@@ -540,11 +554,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1,invW0,W[k],0,mDxD);
             vset(trW0invW,k,mtrace(mDxD));
         }
-        gsl_vector_free(vdiffD1);
-        gsl_vector_free(vdiffD2);
         //printf("\n%d\n",t);gsl_matrix_fprintf(stdout,S[3],"%f");printf("\n\n");
-
-        double Lt1,Lt2,Lt3,Lt4,Lt41,Lt42,Lt5,Lt6,Lt7;
 
         for(i=0; i<K; i++)
             vset(alphgamln,i,vget(logLambdaTilde,i) - D/vget(beta,i) - vget(trSW,i) - vget(v,i)*vget(xbarWxbar,i) - D*log(2*M_PI));
@@ -557,7 +567,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
         Lt3 = logCalpha0 + (alpha0-1)*somatorio(logPiTil);
 
-        double DlogBeta0 = D*log(beta0/(2*M_PI));
+        DlogBeta0 = D*log(beta0/(2*M_PI));
         for(i=0; i<K; i++)
             vset(alphgamln,i,DlogBeta0 + vget(logLambdaTilde,i) - D*beta0/vget(beta,i) - beta0*vget(v,i)*vget(mWm,i));
         Lt41 = 0.5*somatorio(alphgamln);
@@ -621,7 +631,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         }
 
         /*new W*/
-        gsl_permutation *permD = gsl_permutation_alloc(D);
+        permD = gsl_permutation_alloc(D);
         for(k=0; k<K; k++)
         {
             double var1;
@@ -658,11 +668,15 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_matrix_free(r);
         gsl_matrix_free(logr);
         gsl_matrix_free(mDxD);
+        gsl_matrix_free(mKxN);
 
         gsl_vector_free(alphgamln);
         gsl_vector_free(logPiTil);
         gsl_vector_free(rhoexprow);
+        gsl_vector_free(t1);
         gsl_permutation_free(permD);
+        gsl_vector_free(vdiffD1);
+        gsl_vector_free(vdiffD2);
 
         if(likIncr < THRES)
             break;
@@ -680,6 +694,8 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
     for(i=0; i<K; i++)
         gsl_matrix_free(S[i]);
+
+    free(S);
 
     gsl_vector_free(trW0invW);
     gsl_vector_free(mWm);
@@ -724,5 +740,5 @@ void treinoEM(gmm* gmix, data *feas, workers *pool, int imax)
         if(x==gmix->num)break;
         last=INT_MIN;
     }
-    workers_finish(pool);
+    //workers_finish(pool);
 }
