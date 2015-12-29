@@ -61,14 +61,14 @@
 	"data.h"
 	"gmm.h"
 
-1451014372 source:/home/douglas/Área de Trabalho/SRE/vem.c
+1451315209 source:/home/douglas/Área de Trabalho/SRE/vem.c
 	"vem.h"
 
-1451052297 source:/home/douglas/Área de Trabalho/SRE/main.c
+1451390296 source:/home/douglas/Área de Trabalho/SRE/main.c
 	<stdio.h>
 	"vem.h"
 
-1451047131 /home/douglas/Área de Trabalho/SRE/vem.h
+1451168993 /home/douglas/Área de Trabalho/SRE/vem.h
 	<gsl/gsl_matrix.h>
 	<gsl/gsl_blas.h>
 	<gsl/gsl_linalg.h>
@@ -98,9 +98,9 @@
 
 1450933228 /home/douglas/Área de Trabalho/SRE/include/gmm.h
 
-1451011395 source:/home/douglas/Área de Trabalho/SRE/score.c
+1451170787 source:/home/douglas/Área de Trabalho/SRE/score.c
 	"vem.h"
 
-1451047111 source:/home/douglas/Área de Trabalho/SRE/SRE.c
+1451336588 source:/home/douglas/Área de Trabalho/SRE/SRE.c
 	"vem.h"
 

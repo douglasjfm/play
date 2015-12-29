@@ -49,14 +49,14 @@ double runtest (char *fname,VBGMM *modelo, int spk)
 
     fala = gsl_matrix_alloc(teste->samples,teste->dimension);
 
-    printf("spk = %d K = %d, %s\n",spk,modelo->K,fname);
+    //printf("spk = %d K = %d, %s\n",spk,modelo->K,fname);
 
     for(i=0;i<teste->samples;i++)
         for(j=0;j<teste->dimension;j++)
             mset(fala,i,j,teste->data[i][j]);
 
     scr = score(fala,modelo);
-    printf("%.10f\n",scr);
+    //printf("%.10f\n",scr);
 
     f_del(teste);
     gsl_matrix_free(fala);

@@ -128,11 +128,7 @@ int main(int argc, char *argv[])
         W0IF = atoi(argv[4]);
         sprintf(exp,"%s",argv[5]);
     }
-    if (argc == 4)
-    {
-        plotscr(argv[2],atoi(argv[3]));
-        exit(0);
-    }
+
     if (argc == 1)
     {
         printf("SRE <a0> <beta0> <v0> <W0_SCALE> <EXP_NAME>\na0: ");
@@ -168,7 +164,7 @@ int main(int argc, char *argv[])
     system(cmd);
     sprintf(cmd,"mkdir testes/scrs/%s/K64",exp);
     system(cmd);
-    sprintf(cmd,"mkdir testes/scrs/%s/K128",exp);
+    sprintf(cmd,"mkdir testes/scrs/%s/K100",exp);
     system(cmd);
 
     for (i=1;i<=48;i++)
@@ -178,6 +174,7 @@ int main(int argc, char *argv[])
         main2(16,i,treino,exp);
         main2(32,i,treino,exp);
         main2(64,i,treino,exp);
+        main2(100,i,treino,exp);
     }
     gsl_matrix_free(heap_MTX);
     gsl_matrix_free(mtxd2);
@@ -185,28 +182,4 @@ int main(int argc, char *argv[])
     gsl_vector_free(heap_VD);
     gsl_permutation_free(permutglobal);
     return 0;
-}
-
-void plotscr (char *exp, int k)
-{
-    char pathpos[100],pathneg[100];
-    double pos[54],neg[2160];
-    FILE *posf = NULL, *negf = NULL;
-    sprintf(pathpos,"testes/scrs/%s/K%d/scores_pos_1.bin",exp,k);
-    sprintf(pathneg,"testes/scrs/%s/K%d/scores_neg_1.bin",exp,k);
-
-    posf = fopen(pathpos,"rb");
-    negf = fopen(pathneg,"rb");
-
-    if(!posf || !negf)
-    {
-        printf("Arquivos não econtrados\n%s\n%s\n",pathpos,pathneg);
-        exit(1);
-    }
-
-    fread(pos,sizeof(double),54,posf);
-    fread(neg,sizeof(double),2160,negf);
-
-    fclose(posf);
-    fclose(negf);
 }
