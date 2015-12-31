@@ -31,7 +31,7 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     VBGMM *vbg;
 
     int numK;
-    int i,j;
+    int i,j,c=0;
 
     workers *pool=NULL;
 
@@ -78,17 +78,25 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     printf("Variational EM\n");
     vem_train(vbg,gm,dado,alpha0,beta0,v0,m0,W0);
 
-    saveVGMM("spker.txt",vbg);
+    sprintf(ftname,"testes/modelo/spkr%d.txt",spk);
+    saveVGMM(ftname,vbg);
 
-    printf("VEM Ok.\nExecutando Testes...\n");
+    printf("VEM Ok.\nExecutando Testes...locutor: %d\n",spk);
 
     /*!testes*/
     pscores = gsl_vector_alloc(54);
     nscores = gsl_vector_alloc(54*40);
+    printf("00000000000000000000000000000000000000000");
+    fflush(stdout);
     for (i=0;i<54;i++)
     {
         sprintf(ftname,"testes/teste%d/teste%d_%d.txt",spk,spk,i+1);
         vset(pscores,i,runtest(ftname,vbg,spk));
+        if(i==53)
+        {
+            printf("%c%c%c",8,32,8);
+            fflush(stdout);
+        }
     }
 
     sprintf(ftname,"testes/scrs/%s/K%d/scores_pos_%d.bin",nomeexp,vbg->K,spk);
@@ -99,8 +107,13 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
         {
             sprintf(ftname,"testes/imposter/imposter%d_%d.txt",i+1,j+1);
             vset(nscores,i*54+j,runtest(ftname,vbg,spk));
+            if(j==53)
+            {
+                printf("%c%c%c",8,32,8);
+                fflush(stdout);
+            }
         }
-
+    printf("\n");
     sprintf(ftname,"testes/scrs/%s/K%d/scores_neg_%d.bin",nomeexp,vbg->K,spk);
     savescore(ftname,nscores,vbg->K);
 
@@ -174,7 +187,7 @@ int main(int argc, char *argv[])
         main2(16,i,treino,exp);
         main2(32,i,treino,exp);
         main2(64,i,treino,exp);
-        main2(100,i,treino,exp);
+        //main2(100,i,treino,exp);
     }
     gsl_matrix_free(heap_MTX);
     gsl_matrix_free(mtxd2);

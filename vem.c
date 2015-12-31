@@ -61,7 +61,7 @@ void saveVGMM(char *fname,VBGMM *m)
     for(i=0;i<m->K;i++)
         gsl_matrix_fprintf(f,m->W[i],"%.10f");
 
-    printf("\n");
+    fprintf(f,"\n\n");
     i=0;
     while(i < m->L->size && ((vget(m->L,i) < -0.0001) || (vget(m->L,i) > 0.0001)))
     {

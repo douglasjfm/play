@@ -18,7 +18,7 @@
 #define vset gsl_vector_set
 #define mset gsl_matrix_set
 
-#define DIM 12
+#define DIM 57
 #define VBGMMMAXITER 2000
 #define THRES 0.00000001
 #define M_PI 3.14159265358979323846

@@ -56,7 +56,7 @@ double runtest (char *fname,VBGMM *modelo, int spk)
             mset(fala,i,j,teste->data[i][j]);
 
     scr = score(fala,modelo);
-    //printf("%.10f\n",scr);
+    //printf("%.1f\n",scr);
 
     f_del(teste);
     gsl_matrix_free(fala);

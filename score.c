@@ -39,7 +39,6 @@ double score(gsl_matrix *X, VBGMM *modelo)
             sum += log(ak) + stu(&(x.vector),&(mk.vector),Lk,vk+1-modelo->dim);
         }
         scor += sum - logAlphaChapeu;
-        //printf("\n");
     }
     return scor/X->size1;
 }
@@ -50,7 +49,6 @@ double stu(gsl_vector *x, gsl_vector *m, gsl_matrix *S, double v)
     a = gsl_sf_lngamma((x->size+v)/2) - gsl_sf_lngamma(v/2);
     b = log(sqrt(determinante(S))) + log(pow((M_PI*v),(x->size*0.5)));
     c = log(1+delta(x,m,S)/v) * (-(x->size + v)/2);
-    //printf("%03.0lf ",a+b+c);
     return a+b+c;
 }
 
