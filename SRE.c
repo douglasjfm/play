@@ -38,7 +38,7 @@ data *f_load (char *nome)
     return r;
 }
 
-double runtest (char *fname,VBGMM *modelo, int spk)
+double runtest (char *fname,VBGMM *modelo, int spk, char modo)
 {
     gsl_matrix *fala;
     int i,j;
@@ -55,7 +55,8 @@ double runtest (char *fname,VBGMM *modelo, int spk)
         for(j=0;j<teste->dimension;j++)
             mset(fala,i,j,teste->data[i][j]);
 
-    scr = score(fala,modelo);
+    if (modo=='s') scr = score(fala,modelo);
+    else scr = score2(fala,modelo);
     //printf("%.1f\n",scr);
 
     f_del(teste);

@@ -1,5 +1,5 @@
 function [spos sneg] = getscores(exp,k,A,s)
-pathexp = sprintf('testes/scrs/%s/K%d/',exp,k);
+pathexp = sprintf('res%s/scrs/K%d/',exp,k);
 spos = [];
 sneg = [];
 if (A < 3)
@@ -22,7 +22,7 @@ for j=1:40
 endfor
 fclose(fid1);
 fclose(fid2);
-printf('%d %d\n', length(spos),length(sneg));
+#printf('%d %d\n', length(spos),length(sneg));
 smin = min([spos sneg]);
 spos = bsxfun(@plus,spos,abs(smin));
 sneg = bsxfun(@plus,sneg,abs(smin));

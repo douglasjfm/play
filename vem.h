@@ -18,10 +18,9 @@
 #define vset gsl_vector_set
 #define mset gsl_matrix_set
 
-#define DIM 57
-#define VBGMMMAXITER 2000
-#define THRES 0.00000001
-#define M_PI 3.14159265358979323846
+#define VBGMMMAXITER 50
+#define THRES 0.0000000001
+#define PI 3.14159265358979323846
 
 typedef struct VBGMM
 {
@@ -32,6 +31,9 @@ typedef struct VBGMM
     gsl_vector *v;
     gsl_matrix **W;
     gsl_matrix *m;
+    gsl_matrix **S;
+    gsl_vector *pi;
+    gsl_matrix *xbarra;
     gsl_vector *L;
 } VBGMM;
 
@@ -51,8 +53,16 @@ double score(gsl_matrix *X, VBGMM *modelo);
 
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0);
 
-double runtest (char *fname,VBGMM *modelo, int spk);
+double runtest (char *fname,VBGMM *modelo, int spk, char modo);
 
 void savescore (char *fname, gsl_vector *vt,int K);
+
+void calcDetL(VBGMM *modelo);
+
+void calcInvS(VBGMM *modelo);
+
+double *detL;
+
+gsl_matrix **invS;
 
 #endif // VEM_H_INCLUDED

@@ -13,6 +13,9 @@ GNU General Public License for more details. */
 
 #include "vem.h"
 
+extern double *detL;
+extern gsl_matrix **invS;
+extern gsl_matrix *mtxd2;
 extern gsl_permutation *permutglobal;
 
 VBGMM* VBGMM_alloc(number k, number d)
@@ -28,6 +31,7 @@ VBGMM* VBGMM_alloc(number k, number d)
     gsl_vector_set_zero(mdl->L);
     mdl->K = k;
     mdl->dim = d;
+    detL = (double*) calloc(k,sizeof(double));
     return mdl;
 }
 
@@ -35,14 +39,23 @@ void vbg_delete(VBGMM *m)
 {
     int i;
     for (i=0;i<m->K;i++)
+    {
         gsl_matrix_free(m->W[i]);
+        gsl_matrix_free(m->S[i]);
+        gsl_matrix_free(invS[i]);
+    }
+    gsl_matrix_free(m->xbarra);
     gsl_matrix_free(m->m);
     gsl_vector_free(m->alpha);
     gsl_vector_free(m->beta);
     gsl_vector_free(m->v);
     gsl_vector_free(m->L);
+    gsl_vector_free(m->pi);
     free(m->W);
+    free(m->S);
     free(m);
+    free(detL);
+    free(invS);
 }
 
 void saveVGMM(char *fname,VBGMM *m)
@@ -71,6 +84,47 @@ void saveVGMM(char *fname,VBGMM *m)
     fclose(f);
 }
 
+/*! Adianta o calculo do Det de L, para a dist. de Stuart*/
+void calcDetL(VBGMM *modelo)
+{
+    int k;
+    gsl_matrix *tmp = gsl_matrix_alloc(modelo->dim,modelo->dim);
+    /*Adianta o calculo det Lk*/
+    for(k=0; k<modelo->K; k++)
+    {
+        double bk = vget(modelo->beta,k);
+        double vk = vget(modelo->v,k);
+        double lk = (vk+1-modelo->dim)*bk/(bk+1);
+
+        gsl_matrix *Lk = tmp;
+
+        gsl_matrix_memcpy(Lk,modelo->W[k]);
+        gsl_matrix_scale(Lk,lk);
+
+        detL[k] = determinante(Lk);
+    }
+    gsl_matrix_free(tmp);
+}
+
+/*! Adianta o calculo da Inv de S, para agilizar a dist. Normal*/
+void calcInvS(VBGMM *modelo)
+{
+    int k,s;
+    gsl_permutation *perm = permutglobal;
+    gsl_matrix *is, *tmp = gsl_matrix_alloc(modelo->dim,modelo->dim);
+    invS = (gsl_matrix**) calloc(modelo->K,sizeof(gsl_matrix*));
+    /*Adianta o calculo det Lk*/
+    for(k=0; k<modelo->K; k++)
+    {
+        is = gsl_matrix_alloc(modelo->dim,modelo->dim);
+        gsl_matrix_memcpy(tmp,modelo->S[k]);
+        gsl_linalg_LU_decomp (tmp, perm, &s);
+        gsl_linalg_LU_invert (tmp, perm, is);
+        invS[k] = is;
+    }
+    gsl_matrix_free(tmp);
+}
+
 double mtrace (gsl_matrix *m)
 {
     int i;
@@ -85,19 +139,25 @@ double mtrace (gsl_matrix *m)
     return r;
 }
 
-double determinante (gsl_matrix *m)
+double determinante (gsl_matrix *mtx)
 {
     int s,i;
     double r = 1;
-  if (m->size1 != m->size2)
+    gsl_matrix *m;
+    gsl_permutation *p;
+    if (mtx->size1 != mtx->size2)
     {
         printf("determinate: nao eh quadrada!\n");
         exit(0xE);
     }
-    gsl_permutation *p = permutglobal;
+    p = permutglobal;
+    m = gsl_matrix_alloc(mtx->size1,mtx->size2);
+    gsl_matrix_memcpy(m,mtx);
     gsl_linalg_LU_decomp(m,p,&s);
     for(i=0; i<m->size1; i++)
         r *= mget(m,i,i);
+
+    gsl_matrix_free(m);
     return r*s;
 }
 
@@ -242,7 +302,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     gsl_vector *mWm = gsl_vector_alloc(K);
     gsl_vector *trW0invW = gsl_vector_alloc(K);
 
-    gsl_vector *alpha, *beta, *v;
+    gsl_vector *alpha, *beta, *v, *pi;
     gsl_matrix **W, *invW0, *m, *m2;
 
     gsl_matrix *x = gsl_matrix_alloc(D,N), *IDxD;
@@ -287,6 +347,8 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     gsl_vector_set_all(v,v0);
     gsl_vector_add(v,Nk);
 
+    pi = gsl_vector_alloc(K);
+
     W = (gsl_matrix**) calloc(K,sizeof(gsl_matrix*));
     invW0 = inver(W0);
 
@@ -311,8 +373,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
     gsl_matrix_div_elements(m,m2);
 
-    //gsl_matrix_fprintf(stdout,m,"%f");
-
     IDxD = gsl_matrix_alloc(D,D);
     gsl_matrix_set_identity(IDxD);
     for (k=0; k<K; k++)
@@ -335,14 +395,11 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_matrix_add(Sk,Qdiff3);
         gsl_matrix_add(Sk,invW0);
 
-        // Invert the matrix
         W[k] = gsl_matrix_alloc(D,D);
         gsl_permutation *perm = permutglobal;
         gsl_linalg_LU_decomp (Sk, perm, &s);
-        gsl_linalg_LU_invert (Sk, perm, W[k]);
-        gsl_matrix_mul_elements(W[k],IDxD);//printf("---%d %d\n",k,s);gsl_matrix_fprintf(stdout,W[k],"%.13f");
-
-        //gsl_matrix_memcpy(W[k],inverse);
+        gsl_linalg_LU_invert (Sk, perm, W[k]);//gsl_matrix_fprintf(stdout,W[k],"%.15f");
+        //gsl_matrix_mul_elements(W[k],IDxD);
 
         gsl_matrix_free(Sk);
         gsl_matrix_free(Qdiff3);
@@ -379,7 +436,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         pthread_attr_t tattr1, tattr2;
 
         sumAlpha = somatorio(alpha);
-        psiAlphaHat = gsl_sf_psi(sumAlpha);
+        psiAlphaHat = gsl_sf_psi_int(sumAlpha);
 
         logPiTil = gsl_vector_alloc(alpha->size);
 
@@ -389,7 +446,11 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         for (c=0; c<alpha->size; c++)
         {
             for (i=0;i<D;i++)
-                vset(t1,i,gsl_sf_psi(0.5 * (vget(v,c)-i)));
+            {
+                double vk = (vget(v,c)-i)/2;
+                double t1v = gsl_sf_psi(vk);
+                vset(t1,i,t1v);
+            }
             vset(logLambdaTilde,c,somatorio(t1) + constant + log(determinante(W[c])));
             vset(logPiTil,c,gsl_sf_psi(gsl_vector_get(alpha,c))-psiAlphaHat);
         }
@@ -441,7 +502,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         rhoexprow = gsl_vector_alloc(N);
         gsl_vector_set_zero(rhoexprow);
 
-        /*Computacao paralela de r*/
+        /*!Computacao paralela de r*/
         rARG_T rarg1,rarg2;
 
         rarg1.K_ = rarg2.K_ = K;
@@ -474,6 +535,14 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         diff1 = gsl_matrix_alloc(D,N);
         diff2 = gsl_matrix_alloc(D,N);
 
+        ///Eqs 10.83
+        for(k=0; k<K; k++)
+        {
+            gsl_vector_view rk = gsl_matrix_column(r,k);
+            vset(pi,k,somatorio(&(rk.vector))/N);
+        }
+
+        ///Eqs 10.51,52,53
         for(i=0; i<Nk->size; i++)
         {
             gsl_vector_view vis = gsl_matrix_column(r,i),rk;
@@ -502,13 +571,13 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
             gsl_matrix_mul_elements(diff2,diff1);
             gsl_blas_dgemm(CblasNoTrans,CblasTrans,1,diff2,diff1,0,S[i]);
-            gsl_matrix_mul_elements(S[i],IDxD);
+            //gsl_matrix_mul_elements(S[i],IDxD);
             gsl_matrix_scale(S[i],1/vget(Nk,i));
         }
 
         logCalpha0 = gsl_sf_lngamma(K*alpha0) - K*gsl_sf_lngamma(alpha0);
 
-        logB0 = (v0/2)*log(determinante(invW0)) - (v0*D/2)*log(2) - (D*(D-1)/4)*log(M_PI);
+        logB0 = (v0/2)*log(determinante(invW0)) - (v0*D/2)*log(2) - (D*(D-1)/4)*log(PI);
         for(i=0; i<D; i++)
             vset(onesD,i,gsl_sf_lngamma((v0-i)/2));
         logB0 -= somatorio(onesD);
@@ -525,15 +594,16 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         vdiffD2 = gsl_vector_alloc(D);
         for(k=0; k<K; k++)
         {
-            double logBk = (vget(v,k)/2)*log(determinante(invW0)) - (vget(v,k)*D/2)*log(2) - (D*(D-1)/4)*log(M_PI);
+            double logBk = -(vget(v,k)/2)*log(determinante(W[k])) - (vget(v,k)*D/2)*log(2) - (D*(D-1)/4)*log(PI);
             double tmp;
             for(i=0; i<D; i++)
                 vset(onesD,i,gsl_sf_lngamma((vget(v,k)-i)/2));
             logBk -= somatorio(onesD);
 
-            H = H -logBk - 0.5*(vget(v,k)-D-1)*vget(logLambdaTilde,k) + 0.5*vget(v,k)*D;
+            H += -logBk - 0.5*(vget(v,k)-D-1)*vget(logLambdaTilde,k) + 0.5*vget(v,k)*D;
 
             gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1,S[k],W[k],0,mDxD);
+            gsl_matrix_scale(mDxD,vget(v,k));
             vset(trSW,k,mtrace(mDxD));
 
             visu = gsl_matrix_column(xbar,k);
@@ -555,8 +625,9 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             vset(trW0invW,k,mtrace(mDxD));
         }
 
+        ///Eqs 10.71,...,10.77
         for(i=0; i<K; i++)
-            vset(alphgamln,i,vget(logLambdaTilde,i) - D/vget(beta,i) - vget(trSW,i) - vget(v,i)*vget(xbarWxbar,i) - D*log(2*M_PI));
+            vset(alphgamln,i,vget(logLambdaTilde,i) - D/vget(beta,i) - vget(trSW,i) - vget(v,i)*vget(xbarWxbar,i) - D*log(2*PI));
         gsl_vector_mul(alphgamln,Nk);
         Lt1 = 0.5*somatorio(alphgamln);
 
@@ -566,7 +637,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
         Lt3 = logCalpha0 + (alpha0-1)*somatorio(logPiTil);
 
-        DlogBeta0 = D*log(beta0/(2*M_PI));
+        DlogBeta0 = D*log(beta0/(2*PI));
         for(i=0; i<K; i++)
             vset(alphgamln,i,DlogBeta0 + vget(logLambdaTilde,i) - D*beta0/vget(beta,i) - beta0*vget(v,i)*vget(mWm,i));
         Lt41 = 0.5*somatorio(alphgamln);
@@ -592,10 +663,10 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         Lt6 = somatorio(alphgamln) + logCalpha;
 
         for(i=0; i<K; i++)
-            vset(alphgamln,i,vget(logLambdaTilde,i) + D * log(vget(beta,i)/(2*M_PI)));
+            vset(alphgamln,i,vget(logLambdaTilde,i) + D * log(vget(beta,i)/(2*PI)));
         Lt7 = somatorio(alphgamln)/2.0 - D*K/2.0 - H;
 
-        vset(vbg->L,t,Lt1+Lt2+Lt3+Lt4+Lt5+Lt6+Lt7);
+        vset(vbg->L,t,Lt1+Lt2+Lt3+Lt4-(Lt5+Lt6+Lt7));
 
         printf("%d: %.7f\n",t,vget(vbg->L,t));
 
@@ -603,7 +674,6 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             printf("Alerta: Limite inferior decresceu: %f\n",vget(vbg->L,t-1) - vget(vbg->L,t));
 
         /*VM*/
-
         for(i=0; i<K; i++)
             vset(alpha,i,alpha0 + vget(Nk,i));
         for(i=0; i<K; i++)
@@ -627,7 +697,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             gsl_vector_scale(&(mi.vector),1/vget(beta,i));
         }
 
-        /*new W*/
+        /*novo W*/
         permD = gsl_permutation_alloc(D);
         for(k=0; k<K; k++)
         {
@@ -644,7 +714,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             gsl_matrix_add(mDxD,invW0);
             gsl_linalg_LU_decomp (mDxD, permD, &i);
             gsl_linalg_LU_invert (mDxD, permD, W[k]);
-            gsl_matrix_mul_elements(W[k],IDxD);
+            //gsl_matrix_mul_elements(W[k],IDxD);
         }
 
         if(t>0)
@@ -675,7 +745,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_vector_free(vdiffD2);
 
         ///Para se convergir ou decair
-        if((likIncr < THRES) || ((t > 1) && (vget(vbg->L,t) < vget(vbg->L,t-1))))
+        if((likIncr < THRES) /*|| ((t > 1) && (vget(vbg->L,t) < vget(vbg->L,t-1)))*/)
             break;
 
         gsl_vector_set_all(onesK,1.0);
@@ -688,11 +758,14 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     vbg->beta = beta;
     vbg->v = v;
     vbg->m = m;
+    vbg->S = S;
+    vbg->pi = pi;
+    vbg->xbarra = xbar;
 
-    for(i=0; i<K; i++)
-        gsl_matrix_free(S[i]);
-
-    free(S);
+//    for(i=0; i<K; i++)
+//        gsl_matrix_free(S[i]);
+//
+//    free(S);
 
     gsl_vector_free(trW0invW);
     gsl_vector_free(mWm);
@@ -708,7 +781,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     gsl_matrix_free(invW0);
     gsl_matrix_free(m2);
     gsl_matrix_free(x);
-    gsl_matrix_free(xbar);
+//    gsl_matrix_free(xbar);
     gsl_matrix_free(IDxD);
 
     return ;
