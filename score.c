@@ -15,7 +15,7 @@ double delta(gsl_vector *x, gsl_vector *m, gsl_matrix *S);
 double score2(gsl_matrix *X, VBGMM *modelo)
 {
     int i,k;
-    double sum,scor;
+    double sum,scor=0;
     expheap = mtxd2;
     for (i=0; i<X->size1; i++)
     {
@@ -27,11 +27,11 @@ double score2(gsl_matrix *X, VBGMM *modelo)
 
             gsl_vector_view mk = gsl_matrix_column(modelo->xbarra,k);
 
-            sum += log(pk) + normaln(&(x.vector),&(mk.vector),modelo->S[k],k);
+            sum += pk * normaln(&(x.vector),&(mk.vector),modelo->S[k],k);
         }
         scor += sum;
     }
-    return scor/X->size1;
+    return log(scor)/X->size1;
 }
 
 double score(gsl_matrix *X, VBGMM *modelo)
@@ -72,11 +72,10 @@ double score(gsl_matrix *X, VBGMM *modelo)
 double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk)
 {
     double a,b,c;
-    int s;
     gsl_vector_view v1 = gsl_matrix_column(expheap,0),v2 = gsl_matrix_column(expheap,1);
 
     a = 1/pow((2*PI),(x->size/2));
-    b = 1/pow(determinante(S),(0.5));
+    b = 1/pow(detL[sk],(0.5));
 
     gsl_vector_memcpy(&(v1.vector),x);
     gsl_vector_sub(&(v1.vector),m);
@@ -85,7 +84,7 @@ double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk)
 
     c = exp(-c/2);
 
-    return log(a*b*c);
+    return a*b*c;
 }
 
 double stu(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk, double v)

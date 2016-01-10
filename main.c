@@ -104,8 +104,8 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     sprintf(cmd,"mkdir res%s/scrs/K%d",nomeexp,vbg->K);
     system(cmd);
 
-    calcDetL(vbg);
-    calcInvS(vbg);
+    calcDetL(vbg,modo);
+    if (modo=='n') calcInvS(vbg);
 
     printf("\n-----------------------------------------");
     fflush(stdout);

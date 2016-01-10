@@ -49,15 +49,12 @@ double runtest (char *fname,VBGMM *modelo, int spk, char modo)
 
     fala = gsl_matrix_alloc(teste->samples,teste->dimension);
 
-    //printf("spk = %d K = %d, %s\n",spk,modelo->K,fname);
-
     for(i=0;i<teste->samples;i++)
         for(j=0;j<teste->dimension;j++)
             mset(fala,i,j,teste->data[i][j]);
 
     if (modo=='s') scr = score(fala,modelo);
     else scr = score2(fala,modelo);
-    //printf("%.1f\n",scr);
 
     f_del(teste);
     gsl_matrix_free(fala);
@@ -68,6 +65,6 @@ void savescore (char *fname, gsl_vector *vt, int K)
 {
     FILE *fl;
     fl = fopen(fname,"w");
-    gsl_vector_fprintf(fl,vt,"%.3f");
+    gsl_vector_fprintf(fl,vt,"%.10f");
     fclose(fl);
 }

@@ -18,7 +18,7 @@
 #define vset gsl_vector_set
 #define mset gsl_matrix_set
 
-#define VBGMMMAXITER 50
+#define VBGMMMAXITER 150
 #define THRES 0.0000000001
 #define PI 3.14159265358979323846
 
@@ -50,6 +50,7 @@ double somatorio (gsl_vector *v);
 gsl_matrix* inver (gsl_matrix *m);
 
 double score(gsl_matrix *X, VBGMM *modelo);
+double score2(gsl_matrix *X, VBGMM *modelo);
 
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0);
 
@@ -57,7 +58,7 @@ double runtest (char *fname,VBGMM *modelo, int spk, char modo);
 
 void savescore (char *fname, gsl_vector *vt,int K);
 
-void calcDetL(VBGMM *modelo);
+void calcDetL(VBGMM *modelo, char modo);
 
 void calcInvS(VBGMM *modelo);
 

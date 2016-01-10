@@ -1,0 +1,12 @@
+grafos('-d8b',8,0);
+grafos('-d8b',8,1);
+grafos('-d8b',8,2);
+grafos('-d8b',16,0);
+grafos('-d8b',16,1);
+grafos('-d8b',16,2);
+grafos('-d8b',32,0);
+grafos('-d8b',32,1);
+grafos('-d8b',32,2);
+grafos('-d8b',64,0);
+grafos('-d8b',64,1);
+grafos('-d8b',64,2);
