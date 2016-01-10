@@ -214,7 +214,7 @@ typedef struct EARG_T
     gsl_matrix **W_;
     gsl_matrix *m_;
     gsl_matrix *E_;
-    data *dado_;
+    gsl_matrix *dado_;
     int *f;
 }EARG_T;
 
@@ -253,25 +253,26 @@ void* rcomp (rARG_T *arg)
 
 void* Ecomp (EARG_T *arg)
 {
-    int c,i;
+    int c;
 
     int K = arg->K_, D = arg->D_, s1 = arg->s1_, s2 = arg->s2_;
     gsl_vector* v, *beta;
     gsl_matrix **W, *m, *E;
-    data *dado;
+    gsl_matrix *x;
 
     v = arg->v_;
     beta = arg->beta_;
     W = arg->W_;
     m = arg->m_;
     E = arg->E_;
-    dado = arg->dado_;
+    x = arg->dado_;
+
+    gsl_vector *difxm, *difxm2;
 
     for (c=0; c<K; c++)
     {
-        gsl_vector *difxm, *difxm2;
         int n;
-        gsl_vector_view mkcol;
+        gsl_vector_view mkcol,vx;
 
         difxm = gsl_vector_alloc(D);
         difxm2 = gsl_vector_alloc(D);
@@ -279,8 +280,8 @@ void* Ecomp (EARG_T *arg)
         for (n=s1; n<s2; n++)
         {
             double enk;
-            for (i=0; i<D; i++)
-                gsl_vector_set(difxm,i,dado->data[n][i]);
+            vx = gsl_matrix_column(x,n);
+            gsl_vector_memcpy(difxm,&(vx.vector));
 
             gsl_vector_sub(difxm,&(mkcol.vector));
 
@@ -293,9 +294,9 @@ void* Ecomp (EARG_T *arg)
 
             gsl_matrix_set(E,n,c,enk);
         }
-        gsl_vector_free(difxm);
-        gsl_vector_free(difxm2);
     }
+    gsl_vector_free(difxm);
+    gsl_vector_free(difxm2);
     *(arg->f) = 1;
     return NULL;
 }
@@ -485,7 +486,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         arg1.W_ = arg2.W_ = W;
         arg1.m_ = arg2.m_ = m;
         arg1.E_ = arg2.E_ = E;
-        arg1.dado_ = arg2.dado_ = dado;
+        arg1.dado_ = arg2.dado_ = x;
         arg1.f = &f1;arg2.f = &f2;
 
         pthread_attr_init(&tattr1);
