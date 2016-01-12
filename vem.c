@@ -15,6 +15,7 @@ GNU General Public License for more details. */
 
 extern double *detL;
 extern gsl_matrix *tmpscore2;
+extern gsl_matrix *tmpscore3;
 extern gsl_matrix **invS;
 extern gsl_matrix *mtxd2;
 extern gsl_permutation *permutglobal;
@@ -116,12 +117,14 @@ void calcInvS(VBGMM *modelo)
 {
     int k,s;
     gsl_permutation *perm = permutglobal;
-    gsl_matrix *is, *tmp = tmpscore2;
+    gsl_matrix *is, *tmp = tmpscore2, *id = tmpscore3;
     invS = (gsl_matrix**) calloc(modelo->K,sizeof(gsl_matrix*));
+    gsl_matrix_set_identity(id);
     for(k=0; k<modelo->K; k++)
     {
         is = gsl_matrix_alloc(modelo->dim,modelo->dim);
         gsl_matrix_memcpy(tmp,modelo->S[k]);
+        gsl_matrix_mul_elements(tmp,id);
         gsl_linalg_LU_decomp (tmp, perm, &s);
         gsl_linalg_LU_invert (tmp, perm, is);
         invS[k] = is;
@@ -144,8 +147,7 @@ double mtrace (gsl_matrix *m)
 
 double determinante (gsl_matrix *mtx)
 {
-    int s,i;
-    double r = 1;
+    int s;
     gsl_matrix *m;
     gsl_permutation *p;
     if (mtx->size1 != mtx->size2)
@@ -157,10 +159,7 @@ double determinante (gsl_matrix *mtx)
     m = tmpscore2;
     gsl_matrix_memcpy(m,mtx);
     gsl_linalg_LU_decomp(m,p,&s);
-    for(i=0; i<m->size1; i++)
-        r *= mget(m,i,i);
-
-    return r*s;
+    return gsl_linalg_LU_det(m,s);
 }
 
 gsl_matrix* inver (gsl_matrix *m)
@@ -421,12 +420,12 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
     for (t=0; t<VBGMMMAXITER; t++)
     {
         double psiAlphaHat, sumAlpha;
-        double logCalpha0, logB0, logCalpha, DlogBeta0, H;
+        double logCalpha0, logB0, logCalpha, DlogBeta0;
         double Lt1,Lt2,Lt3,Lt4,Lt41,Lt42,Lt5,Lt6,Lt7;
         int c;
 
         gsl_vector *logPiTil, *t1, *alphgamln;
-        gsl_vector *vdiffD1, *vdiffD2;
+        gsl_vector *vdiffD1, *vdiffD2, *HqLambda;
 
         gsl_permutation *permD;
 
@@ -606,7 +605,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             gsl_vector_set(alphgamln,i,gsl_sf_lngamma(vget(alpha,i)));
         logCalpha = gsl_sf_lngamma(somatorio(alpha)) - somatorio(alphgamln);
 
-        H = 0;
+        HqLambda = gsl_vector_alloc(K);
 
         vdiffD1 = gsl_vector_alloc(D);
         vdiffD2 = gsl_vector_alloc(D);
@@ -618,7 +617,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
                 vset(onesD,i,gsl_sf_lngamma((vget(v,k)-i)/2));
             logBk -= somatorio(onesD);
 
-            H += -logBk - 0.5*(vget(v,k)-D-1)*vget(logLambdaTilde,k) + 0.5*vget(v,k)*D;
+            vset(HqLambda, k, 0.5*vget(v,k)*D - logBk - 0.5*(vget(v,k)-D-1)*vget(logLambdaTilde,k));
 
             gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1,S[k],W[k],0,mDxD);
             gsl_matrix_scale(mDxD,vget(v,k));
@@ -681,8 +680,8 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         Lt6 = somatorio(alphgamln) + logCalpha;
 
         for(i=0; i<K; i++)
-            vset(alphgamln,i,vget(logLambdaTilde,i) + D * log(vget(beta,i)/(2*PI)));
-        Lt7 = somatorio(alphgamln)/2.0 - D*K/2.0 - H;
+            vset(alphgamln,i,0.5*vget(logLambdaTilde,i) + 0.5*D*log(vget(beta,i)/(2*PI)) - 0.5*D - vget(HqLambda,i));
+        Lt7 = somatorio(alphgamln);
 
         vset(vbg->L,t,Lt1+Lt2+Lt3+Lt4-(Lt5+Lt6+Lt7));
 
@@ -761,6 +760,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         gsl_permutation_free(permD);
         gsl_vector_free(vdiffD1);
         gsl_vector_free(vdiffD2);
+        gsl_vector_free(HqLambda);
 
         ///Para se convergir ou decair
         if((likIncr < THRES) /*|| ((t > 1) && (vget(vbg->L,t) < vget(vbg->L,t-1)))*/)

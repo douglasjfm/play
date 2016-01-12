@@ -105,7 +105,7 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     system(cmd);
 
     calcDetL(vbg,modo);
-    if (modo=='n') calcInvS(vbg);
+    calcInvS(vbg);
 
     printf("\n-----------------------------------------");
     fflush(stdout);
@@ -155,9 +155,7 @@ int main(int argc, char *argv[])
     char cmd[50];
     char treino[30];
 
-    modo = 'n';
-
-    //printf("%lf",gsl_sf_psi((39.22 - 0)/2)),exit(1);
+    modo = 's';
 
     if (argc == 7)
     {
