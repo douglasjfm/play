@@ -303,7 +303,7 @@ void* Ecomp (EARG_T *arg)
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0)
 {
     int i,j,k,t;
-    int D = dado->dimension, N = dado->samples;
+    int D = dado->dimension, N = 1500;//dado->samples;
     int K = gm->num;
     double likIncr = THRES+10.0,constant = D*log(2);
     gsl_vector *logLambdaTilde = gsl_vector_alloc(K);
@@ -478,7 +478,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
         arg1.s1_ = 0;
         arg2.s1_ = N>>1;
         arg1.s2_ = N>>1;
-        arg2.s2_ = dado->samples;
+        arg2.s2_ = N;
         arg1.v_ = arg2.v_ = v;
         arg1.beta_ = arg2.beta_ = beta;
         arg1.logLambdaTilde_ = arg2.logLambdaTilde_ = logLambdaTilde;
@@ -620,7 +620,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
             vset(HqLambda, k, 0.5*vget(v,k)*D - logBk - 0.5*(vget(v,k)-D-1)*vget(logLambdaTilde,k));
 
             gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1,S[k],W[k],0,mDxD);
-            gsl_matrix_scale(mDxD,vget(v,k));
+            //gsl_matrix_scale(mDxD,vget(v,k));
             vset(trSW,k,mtrace(mDxD));
 
             visu = gsl_matrix_column(xbar,k);
@@ -644,7 +644,7 @@ void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, do
 
         ///Eqs 10.71,...,10.77
         for(i=0; i<K; i++)
-            vset(alphgamln,i,vget(logLambdaTilde,i) - D/vget(beta,i) - vget(trSW,i) - vget(v,i)*vget(xbarWxbar,i) - D*log(2*PI));
+            vset(alphgamln,i,vget(logLambdaTilde,i) - D/vget(beta,i) - vget(v,i)*vget(trSW,i) - vget(v,i)*vget(xbarWxbar,i) - D*log(2*PI));
         gsl_vector_mul(alphgamln,Nk);
         Lt1 = 0.5*somatorio(alphgamln);
 

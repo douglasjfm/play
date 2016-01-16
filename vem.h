@@ -18,7 +18,7 @@
 #define vset gsl_vector_set
 #define mset gsl_matrix_set
 
-#define VBGMMMAXITER 120
+#define VBGMMMAXITER 20
 #define THRES 0.0000000001
 #define PI 3.14159265358979323846
 

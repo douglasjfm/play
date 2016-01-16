@@ -1,7 +1,7 @@
 function [far frr frr2 eer]=ploteer(exp,k,a,teta)
 spos = [];
 sneg = [];
-for s=1:13
+for s=1:48
 [sposi snegi] = getscores(exp,k,a,s);
 spos = [spos sposi];
 sneg = [sneg snegi];

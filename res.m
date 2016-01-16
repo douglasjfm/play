@@ -1,4 +1,4 @@
-exp = '-d8c';
+exp = '_16';
 grafos(exp,8,0);
 grafos(exp,8,1);
 grafos(exp,8,2);
