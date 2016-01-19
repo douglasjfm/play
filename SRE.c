@@ -38,6 +38,28 @@ data *f_load (char *nome)
     return r;
 }
 
+double runtest2 (char *fname,VBGMM *modelo, int spk, char modo)
+{
+    gsl_matrix *fala;
+    int i,j;
+    double scr;
+    data *teste = NULL;
+
+    teste = f_load(fname);
+
+    fala = gsl_matrix_alloc(teste->samples,teste->dimension);
+
+    for(i=0;i<teste->samples;i++)
+        for(j=0;j<teste->dimension;j++)
+            mset(fala,i,j,teste->data[i][j]);
+
+    if (modo=='s') scr = score_aux(fala,modelo);
+    else scr = score2(fala,modelo);
+
+    f_del(teste);
+    gsl_matrix_free(fala);
+    return scr;
+}
 double runtest (char *fname,VBGMM *modelo, int spk, char modo)
 {
     gsl_matrix *fala;

@@ -19,6 +19,7 @@ gsl_vector *heap_VD;
 gsl_matrix *heap_MTX;
 
 gsl_matrix *mtxd2;
+gsl_matrix *mtxd2_aux;
 gsl_matrix *tmpscore;
 gsl_matrix *tmpscore2;
 gsl_matrix *tmpscore3;
@@ -31,6 +32,38 @@ double W0IF,M0IF;
 unsigned int DIM;
 
 char modo;
+
+typedef struct ARGS
+{
+    VBGMM *modelo;
+    int speaker_i;
+    gsl_vector *scoresv;
+    char *exp;
+    int *f;
+}ARGS;
+
+void* tredscores(ARGS *a)
+{
+    int i,j;
+    char ftname[100], *nomeexp = a->exp;
+    VBGMM *vbg = a->modelo;
+    int spk = a->speaker_i;
+    gsl_vector *nscores = a->scoresv;
+
+    for (i=20;i<40;i++)
+        for (j=0;j<54;j++)
+        {
+            sprintf(ftname,"testes%s/imposter/imposter%d_%d.txt",nomeexp,i+1,j+1);
+            vset(nscores,i*54+j,runtest2(ftname,vbg,spk,modo));
+            if(j==53)
+            {
+                printf("%c%c%c",8,32,8);
+                fflush(stdout);
+            }
+        }
+    *(a->f) = 1;
+    return NULL;
+}
 
 int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
 {
@@ -48,6 +81,10 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
 
     gsl_vector *m0 = heap_VD;
     gsl_matrix *W0 = heap_MTX;
+
+    ARGS arg;
+    pthread_t tid1;
+    pthread_attr_t tattr1;
 
     gmm *gm;
 
@@ -124,7 +161,18 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     sprintf(ftname,"res%s/scrs/K%d/scores_pos_%d.bin",nomeexp,vbg->K,spk);
     savescore(ftname,pscores,vbg->K);
 
-    for (i=0;i<40;i++)
+    c = 0;
+    arg.f = &c;
+    arg.modelo = vbg;
+    arg.speaker_i = spk;
+    arg.scoresv = nscores;
+    arg.exp = nomeexp;
+
+    pthread_attr_init(&tattr1);
+    pthread_attr_setdetachstate(&tattr1,PTHREAD_CREATE_DETACHED);
+    pthread_create(&tid1,&tattr1,tredscores,&arg);
+
+    for (i=0;i<20;i++)
         for (j=0;j<54;j++)
         {
             sprintf(ftname,"testes%s/imposter/imposter%d_%d.txt",nomeexp,i+1,j+1);
@@ -135,6 +183,12 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
                 fflush(stdout);
             }
         }
+    while(1)
+            if (c)
+                break;
+    c = 0;
+    pthread_attr_destroy(&tattr1);
+
     printf("\n");
     sprintf(ftname,"res%s/scrs/K%d/scores_neg_%d.bin",nomeexp,vbg->K,spk);
     savescore(ftname,nscores,vbg->K);
@@ -191,6 +245,7 @@ int main(int argc, char *argv[])
     heap_MTX = gsl_matrix_alloc(DIM,DIM);
     heap_VD = gsl_vector_alloc(DIM);
     mtxd2 = gsl_matrix_alloc(DIM,2);
+    mtxd2_aux = gsl_matrix_alloc(DIM,2);
     tmpscore = gsl_matrix_alloc(DIM,DIM);
     tmpscore2 = gsl_matrix_alloc(DIM,DIM);
     tmpscore3 = gsl_matrix_alloc(DIM,DIM);
@@ -210,12 +265,11 @@ int main(int argc, char *argv[])
         main2(8,i,treino,exp);
         main2(16,i,treino,exp);
         main2(32,i,treino,exp);
-        //main2(57,i,treino,exp);
         main2(64,i,treino,exp);
-        //main2(80,i,treino,exp);
     }
     gsl_matrix_free(heap_MTX);
     gsl_matrix_free(mtxd2);
+    gsl_matrix_free(mtxd2_aux);
     gsl_matrix_free(tmpscore);
     gsl_matrix_free(tmpscore2);
     gsl_matrix_free(tmpscore3);

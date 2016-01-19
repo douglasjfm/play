@@ -303,7 +303,7 @@ void* Ecomp (EARG_T *arg)
 void vem_train (VBGMM *vbg, gmm *gm, data *dado, double alpha0, double beta0, double v0, gsl_vector *m0, gsl_matrix *W0)
 {
     int i,j,k,t;
-    int D = dado->dimension, N = 1500;//dado->samples;
+    int D = dado->dimension, N = dado->samples;
     int K = gm->num;
     double likIncr = THRES+10.0,constant = D*log(2);
     gsl_vector *logLambdaTilde = gsl_vector_alloc(K);
