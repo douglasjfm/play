@@ -6,9 +6,7 @@
 
 int tela (int argc, char *argv[])
 {
-    GtkWidget *button = NULL;
     GtkWidget *win = NULL;
-    GtkWidget *vbox = NULL;
 
     /* Initialize GTK+ */
     g_log_set_handler ("Gtk", G_LOG_LEVEL_WARNING, (GLogFunc) gtk_false, NULL);

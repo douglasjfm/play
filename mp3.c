@@ -4,6 +4,9 @@
 #include <gst/interfaces/xoverlay.h>
 
 GstElement *pipeline_a = NULL;
+GstElement *tudo = NULL;
+GstElement *pipescop = NULL;
+
 extern gulong wave_area_xid;
 
 static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, gpointer user_data)
@@ -42,31 +45,27 @@ int endpipe()//gera um erro para finalizar o pipeline
 
 int pausepipe()
 {
-    gst_element_set_state(pipeline_a,GST_STATE_PAUSED);
+    gst_element_set_state(tudo,GST_STATE_PAUSED);
     return 0;
 }
 
 int playpipe()
 {
-    gst_element_set_state(pipeline_a,GST_STATE_PLAYING);
+    gst_element_set_state(tudo,GST_STATE_PLAYING);
     return 0;
 }
 
 int mp3 (char *musica)
 {
-    GstElement *source_a=0, *sink_a=0, *sinkrtcp=0, *sink3_a=0, *enc_a=0, *conv_a=0;
+    GstElement *source_a=0, *sink_a=0, *enc_a=0, *conv_a=0;
     GstElement *tee_a=0, *fila[2], *scope=0, *scpfil, *scpsink=0;
     GMainLoop *app_loop=0;
-    GstElement *balaio = NULL;
     GstElement *pipescop = NULL;
-    GstCaps *caps=0;
 
-    GstBus *bus=0, *busscp=0;
+    GstBus *bus=0;
 
     GstMessage *msg=0;
     GstStateChangeReturn ret;
-
-    gboolean link_ok;
 
     //GMain Loop
     app_loop = g_main_loop_new (NULL, FALSE);
@@ -88,7 +87,7 @@ int mp3 (char *musica)
     /* Create the empty pipeline */
     pipeline_a = gst_pipeline_new("audio-pipeline");
     pipescop = gst_pipeline_new("pipe-scopio");
-    balaio = gst_pipeline_new("balaio");
+    tudo = gst_pipeline_new("balaio");
 
     g_object_set(source_a,"location",musica,NULL);
     g_object_set(scope,"shader",0,"style",3,NULL);
@@ -111,9 +110,9 @@ int mp3 (char *musica)
     gst_bin_add(GST_BIN(pipescop), scpsink);
     gst_bin_add(GST_BIN(pipescop), scpfil);
 
-    gst_bin_add(GST_BIN(balaio), pipescop);
-    gst_bin_add(GST_BIN(balaio), tee_a);
-    gst_bin_add(GST_BIN(balaio), pipeline_a);
+    gst_bin_add(GST_BIN(tudo), pipescop);
+    gst_bin_add(GST_BIN(tudo), tee_a);
+    gst_bin_add(GST_BIN(tudo), pipeline_a);
 
     if (gst_element_link_many(source_a, enc_a, conv_a, tee_a, fila[0], sink_a, NULL) != TRUE)
     {
@@ -134,14 +133,12 @@ int mp3 (char *musica)
         printf("scope ok\n");
     }
 
-
-    busscp = gst_element_get_bus(pipescop);
     bus = gst_element_get_bus(pipeline_a);
     gst_bus_set_sync_handler(bus,(GstBusSyncHandler) NULL,NULL);
     gst_bus_set_sync_handler(bus,(GstBusSyncHandler) bus_sync_handler2,NULL);
 
     /* Start playing */
-    ret = gst_element_set_state(balaio, GST_STATE_PLAYING);
+    ret = gst_element_set_state(tudo, GST_STATE_PLAYING);
 
     if (ret == GST_STATE_CHANGE_FAILURE)
     {
@@ -162,8 +159,8 @@ int mp3 (char *musica)
 
     /* Free resources */
     gst_object_unref(bus);
-    gst_element_set_state(pipeline_a, GST_STATE_NULL);
-    gst_object_unref(pipeline_a);
+    gst_element_set_state(tudo, GST_STATE_NULL);
+    gst_object_unref(tudo);
     g_main_loop_unref(app_loop);
     return 0;
 }
