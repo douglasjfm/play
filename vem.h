@@ -50,6 +50,7 @@ double somatorio (gsl_vector *v);
 gsl_matrix* inver (gsl_matrix *m);
 
 double score_aux(gsl_matrix *X, VBGMM *modelo);
+double score2_aux(gsl_matrix *X, VBGMM *modelo);
 double score(gsl_matrix *X, VBGMM *modelo);
 double score2(gsl_matrix *X, VBGMM *modelo);
 

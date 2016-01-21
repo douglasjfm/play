@@ -10,7 +10,7 @@ extern double *detL;
 extern gsl_matrix **invS;
 extern gsl_permutation *permutglobal;
 
-double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk);
+double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk, int heapid);
 double stu(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk, double v, int heapid);
 double delta(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int heapid);
 
@@ -26,15 +26,38 @@ double score2(gsl_matrix *X, VBGMM *modelo)
         sum = 0;
         for (k=0; k<modelo->K; k++)
         {
-            double pk = vget(modelo->pi,k);
+            double pk = exp(vget(modelo->pi,k));
 
             gsl_vector_view mk = gsl_matrix_column(modelo->xbarra,k);
 
-            sum += pk * normaln(&(x.vector),&(mk.vector),modelo->S[k],k);
+            sum += pk * normaln(&(x.vector),&(mk.vector),modelo->S[k],k,0);
         }
-        scor += sum;
+        scor += log(sum);
     }
-    return log(scor)/X->size1;
+    return scor/X->size1;
+}
+
+double score2_aux(gsl_matrix *X, VBGMM *modelo)
+{
+    int i,k;
+    double sum,scor=0;
+    expheap[0] = mtxd2;
+    expheap[1] = mtxd2_aux;
+    for (i=0; i<X->size1; i++)
+    {
+        gsl_vector_view x = gsl_matrix_row(X,i);
+        sum = 0;
+        for (k=0; k<modelo->K; k++)
+        {
+            double pk = exp(vget(modelo->pi,k));
+
+            gsl_vector_view mk = gsl_matrix_column(modelo->xbarra,k);
+
+            sum += pk * normaln(&(x.vector),&(mk.vector),modelo->S[k],k,1);
+        }
+        scor += log(sum);
+    }
+    return scor/X->size1;
 }
 
 double score_aux(gsl_matrix *X, VBGMM *modelo)
@@ -108,10 +131,11 @@ double score(gsl_matrix *X, VBGMM *modelo)
     return scor/X->size1;
 }
 
-double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk)
+double normaln(gsl_vector *x, gsl_vector *m, gsl_matrix *S, int sk, int heapid)
 {
     double a,b,c;
-    gsl_vector_view v1 = gsl_matrix_column(expheap[0],0),v2 = gsl_matrix_column(expheap[0],1);
+    gsl_matrix *heap = expheap[heapid];
+    gsl_vector_view v1 = gsl_matrix_column(heap,0),v2 = gsl_matrix_column(heap,1);
 
     a = 1/pow((2*PI),(x->size/2));
     b = 1/pow(detL[sk],(0.5));

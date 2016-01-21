@@ -65,6 +65,45 @@ void* tredscores(ARGS *a)
     return NULL;
 }
 
+void gm2VBGMM(gmm *m, VBGMM *vm)
+{
+    int i,j;
+
+    gsl_matrix_set_zero(vm->xbarra);
+    for (i=0;i<vm->K;i++)
+        for (j=0;j<vm->dim;j++)
+            mset(vm->xbarra,j,i,m->mix[i].mean[j]);
+
+    for (i=0;i<vm->K;i++)
+    {
+        gsl_matrix_set_identity(vm->S[i]);
+        for (j=0;j<vm->dim;j++)
+            mset(vm->S[i],j,j,m->mix[i].dcov[j]);
+    }
+
+    for (i=0;i<vm->K;i++)
+        vset(vm->pi,i,m->mix[i].prior);
+}
+
+data* metade(data* dado, workers *pool)
+{
+    FILE *tmp = fopen("tmp.txt","w");
+    int i=0,j;
+    int n = dado->samples>>1;
+    fprintf(tmp,"%d %d\n",dado->dimension,n);
+    for (i=0;i<n;i++)
+    {
+        for(j=0;j<dado->dimension;j++)
+            fprintf(tmp,"%.14f ",dado->data[i][j]);//data sam x dim
+        fprintf(tmp,"\n");
+    }
+    fclose(tmp);
+    feas_delete(dado);
+    dado = feas_load("tmp.txt",pool);
+    system("rm tmp.txt");
+    return dado;
+}
+
 int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
 {
     VBGMM *vbg;
@@ -94,6 +133,9 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     pool = workers_create(1);
     dado = feas_load(ftrn,pool);
 
+//    dado = metade(dado,pool);
+//    dado = metade(dado,pool);
+
     printf("K = %d N = %d dim = %d\n",numK,dado->samples,dado->dimension);
 
     vbg = VBGMM_alloc(numK,dado->dimension);
@@ -104,7 +146,8 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     v0 = V0;
 
     gm = gmm_initialize(dado,vbg->K);
-    treinoEM(gm,dado,pool,5);
+    treinoEM(gm,dado,pool,50);
+
     ///Inicializa W0 com a matriz id ou Precisao dos dados ou Min Var.
     gsl_matrix_set_identity(W0);
     if (W0IF < -10)
@@ -126,11 +169,18 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
         alpha0 = abs(alpha0 * dado->samples);
     /// FIM INICIALIZACAO
 
-    printf("Variational EM\n");
-    vem_train(vbg,gm,dado,alpha0,beta0,v0,m0,W0);
+    if (modo != 'n')
+    {
+        printf("Variational EM\n");
+        vem_train(vbg,gm,dado,alpha0,beta0,v0,m0,W0);
+    }
+    else
+    {
+        gm2VBGMM(gm,vbg);
+    }
 
     sprintf(ftname,"res%s/modelo/spkr%d_%d.txt",nomeexp,spk,pK);
-    saveVGMM(ftname,vbg);
+    if (modo=='s') saveVGMM(ftname,vbg);
 
     printf("VEM Ok.\nExecutando Testes...locutor: %d\n",spk);
 
@@ -142,7 +192,7 @@ int main2(int pK,int spk,char ftrn[30], const char *nomeexp)
     system(cmd);
 
     calcDetL(vbg,modo);
-    calcInvS(vbg);
+    if (modo!='s') calcInvS(vbg);
 
     printf("\n-----------------------------------------");
     fflush(stdout);
@@ -209,7 +259,7 @@ int main(int argc, char *argv[])
     char cmd[50];
     char treino[30];
 
-    modo = 's';
+    modo = 'g';///s,n ou g
 
     if (argc == 7)
     {
@@ -232,12 +282,18 @@ int main(int argc, char *argv[])
         printf("exp_name: ");scanf("%s",exp);
     }
     else printf("Numero invalido de parametros\n"),exit(0xE);
-    printf("Dimensionalidade: ");
+    printf("Dimensaodos dados: ");
     scanf("%u",&DIM);
 
     printf("a0: %lf\nbeta0: %lf\nv0: %lf\nW0_SCALE: %lf\nM0_COND: %lf\nexp_name: %s\nDIM: %u\n",ALPHA0,BETA0,V0,W0IF,M0IF,exp,DIM);
     printf("\nok (y/n)? ");
-    scanf("%s",cmd+1);
+    if (V0 >= DIM)
+        scanf("%s",cmd+1);
+    else
+    {
+        printf("Erro: v0 deve ser >= que Dimensao dos dados: %.1f < %d\n",V0,DIM);
+        exit(0xe);
+    }
 
     if (*(cmd+1) != 'y')
         printf("'%c'",*(cmd+1)),exit(0);

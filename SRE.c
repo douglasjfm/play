@@ -54,7 +54,7 @@ double runtest2 (char *fname,VBGMM *modelo, int spk, char modo)
             mset(fala,i,j,teste->data[i][j]);
 
     if (modo=='s') scr = score_aux(fala,modelo);
-    else scr = score2(fala,modelo);
+    else scr = score2_aux(fala,modelo);
 
     f_del(teste);
     gsl_matrix_free(fala);
