@@ -2,12 +2,27 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gst/interfaces/xoverlay.h>
+#include "play.h"
 
 GstElement *pipeline_a = NULL;
 GstElement *tudo = NULL;
 GstElement *pipescop = NULL;
 
 extern gulong wave_area_xid;
+
+static gboolean cb_print_position (GstElement *pipeline)
+{
+    gint64 pos, len;
+    GstFormat frm = GST_FORMAT_PERCENT;
+
+    gst_element_query_position (pipeline, &frm, &pos);
+    gst_element_query_duration (pipeline, &frm, &len);
+//    g_print ("Time: %" GST_TIME_FORMAT " / %" GST_TIME_FORMAT "\n",GST_TIME_ARGS (pos), GST_TIME_ARGS (len));
+//    fflush(stdout);
+    setprogresso(pos,len);
+    /* call me again */
+    return TRUE;
+}
 
 static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, gpointer user_data)
 {
@@ -35,7 +50,8 @@ static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, gp
 
 int endpipe()//gera um erro para finalizar o pipeline
 {
-    if (pipeline_a){
+    if (pipeline_a)
+    {
         GstElement *src = gst_bin_get_by_name(GST_BIN(pipeline_a),"mp3src");
         GstElement *dest = gst_bin_get_by_name(GST_BIN(pipeline_a),"mp3dec");
         gst_element_unlink(src,dest);
@@ -87,7 +103,7 @@ int mp3 (char *musica)
     /* Create the empty pipeline */
     pipeline_a = gst_pipeline_new("audio-pipeline");
     pipescop = gst_pipeline_new("pipe-scopio");
-    tudo = gst_pipeline_new("balaio");
+    tudo = gst_pipeline_new("tudo");
 
     g_object_set(source_a,"location",musica,NULL);
     g_object_set(scope,"shader",0,"style",3,NULL);
@@ -132,6 +148,9 @@ int mp3 (char *musica)
         gst_element_link(tee_a,fila[1]);
         printf("scope ok\n");
     }
+
+
+    g_timeout_add (500, (GSourceFunc) cb_print_position, tudo);
 
     bus = gst_element_get_bus(pipeline_a);
     gst_bus_set_sync_handler(bus,(GstBusSyncHandler) NULL,NULL);

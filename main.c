@@ -8,12 +8,12 @@
 #include <pthread.h>
 #include "play.h"
 
-#define UIGLADE "Main.glade"
+#define UIGLADE "/home/douglas/Área de Trabalho/TrackMP3/Main.glade"
 
 
 
 GtkWidget *drawingarea = NULL;
-
+GtkProgressBar *barra;
 gulong video_area_xid = 0, wave_area_xid = 0;
 
 char *filename = NULL;
@@ -26,6 +26,14 @@ GtkWidget *label1 = NULL;
 
 void playtrack ();
 void* play();
+
+void setprogresso(guint pos, guint len)
+{
+    double f = ((double)pos/len);
+    gtk_progress_bar_set_fraction(barra,f);
+    //printf("%.15lf %u %u\n",f,pos,len);
+    //fflush(stdout);
+}
 
 G_MODULE_EXPORT void rotulo1(GtkObject *wid, gpointer data)
 {
@@ -129,6 +137,11 @@ G_MODULE_EXPORT void recvideo (GtkObject *btn, gpointer data)
         stopgravar();
         tidrec = 0;
     }
+}
+
+G_MODULE_EXPORT void progress_bar_realize_cb (GtkObject * widget, gpointer data)
+{
+    barra = GTK_PROGRESS_BAR(widget);
 }
 
 G_MODULE_EXPORT void camerastop(GtkObject *btn, gpointer data)
