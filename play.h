@@ -8,7 +8,7 @@ void stopgravar();
 void gravar();
 int cam ();
 
-void setprogresso(guint pos, guint len);
+void setprogresso(guint pos, guint len, char *tmp);
 
 int mp3 (char *musica);
 int pausepipe();

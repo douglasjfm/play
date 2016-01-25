@@ -8,20 +8,28 @@ GstElement *pipeline_a = NULL;
 GstElement *tudo = NULL;
 GstElement *pipescop = NULL;
 
+int barraSt = FALSE;
+int posRet = FALSE;
+
 extern gulong wave_area_xid;
 
 static gboolean cb_print_position (GstElement *pipeline)
 {
-    gint64 pos, len;
+    gint64 pos, tmp, len;
+    char strtmp[25];
     GstFormat frm = GST_FORMAT_PERCENT;
+    GstFormat frm2 = GST_FORMAT_TIME;
 
     gst_element_query_position (pipeline, &frm, &pos);
     gst_element_query_duration (pipeline, &frm, &len);
-//    g_print ("Time: %" GST_TIME_FORMAT " / %" GST_TIME_FORMAT "\n",GST_TIME_ARGS (pos), GST_TIME_ARGS (len));
+    gst_element_query_position (pipeline, &frm2, &tmp);
+
+    sprintf(strtmp,"%"GST_TIME_FORMAT,GST_TIME_ARGS(tmp));
 //    fflush(stdout);
-    setprogresso(pos,len);
+    setprogresso(pos,len,strtmp);
     /* call me again */
-    return TRUE;
+    posRet = barraSt;
+    return posRet;
 }
 
 static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, gpointer user_data)
@@ -55,6 +63,7 @@ int endpipe()//gera um erro para finalizar o pipeline
         GstElement *src = gst_bin_get_by_name(GST_BIN(pipeline_a),"mp3src");
         GstElement *dest = gst_bin_get_by_name(GST_BIN(pipeline_a),"mp3dec");
         gst_element_unlink(src,dest);
+        barraSt = FALSE;
     }
     return 0;
 }
@@ -149,7 +158,8 @@ int mp3 (char *musica)
         printf("scope ok\n");
     }
 
-
+    while(posRet == TRUE){}
+    barraSt = TRUE;
     g_timeout_add (500, (GSourceFunc) cb_print_position, tudo);
 
     bus = gst_element_get_bus(pipeline_a);

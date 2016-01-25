@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkwidget.h>
+#include <gtk/gtkprogressbar.h>
 #include <gdk/gdkx.h>
 #include <gmodule.h>
 #include <glib/gi18n.h>
@@ -23,22 +24,32 @@ char campause = 0;
 
 pthread_t tidmp3 = 0,tidcam = 0, tidrec = 0;
 GtkWidget *label1 = NULL;
+GtkWidget *tracklabel = NULL;
 
 void playtrack ();
 void* play();
 
-void setprogresso(guint pos, guint len)
+void setprogresso(guint pos, guint len, char *tmp)
 {
     double f = ((double)pos/len);
+    int i;
     gtk_progress_bar_set_fraction(barra,f);
-    //printf("%.15lf %u %u\n",f,pos,len);
-    //fflush(stdout);
+    for (i=0;tmp[i]!='.';i++);
+    tmp[i] = '\0';
+    gtk_label_set(GTK_LABEL(tracklabel),tmp);
+    fflush(stdout);
 }
 
 G_MODULE_EXPORT void rotulo1(GtkObject *wid, gpointer data)
 {
     label1 = GTK_WIDGET(wid);
     printf("Label ok\n");
+}
+
+G_MODULE_EXPORT void rotulo2(GtkObject *wid, gpointer data)
+{
+    tracklabel = GTK_WIDGET(wid);
+    printf("track label ok\n");
 }
 
 G_MODULE_EXPORT void helloWorld (GtkObject *wid, gpointer data)
