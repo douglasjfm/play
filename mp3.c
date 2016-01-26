@@ -13,6 +13,28 @@ int posRet = FALSE;
 
 extern gulong wave_area_xid;
 
+void set_pos_track(float newpos)
+{
+    gint64 len;
+    gint64 intpos;
+    GstFormat frm = GST_FORMAT_TIME;
+
+    if (!tudo) return;
+
+    gst_element_query_duration (tudo, &frm, &len);
+    intpos = len*newpos;
+    printf("mp3: %lld = %lld * %f\n",intpos,len,newpos);
+    gst_element_set_state(tudo,GST_STATE_PAUSED);
+    gst_element_seek (tudo,1.0,
+        frm,
+        GST_SEEK_FLAG_FLUSH,
+        GST_SEEK_TYPE_SET,
+        intpos,
+        GST_SEEK_TYPE_NONE,
+        GST_CLOCK_TIME_NONE);
+    gst_element_set_state(tudo,GST_STATE_PLAYING);
+}
+
 static gboolean cb_print_position (GstElement *pipeline)
 {
     gint64 pos, tmp, len;

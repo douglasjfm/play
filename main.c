@@ -11,10 +11,12 @@
 
 #define UIGLADE "/home/douglas/Área de Trabalho/TrackMP3/Main.glade"
 
-
+GtkWidget *win = NULL;
 
 GtkWidget *drawingarea = NULL;
 GtkProgressBar *barra;
+GtkWidget *eventbox;
+
 gulong video_area_xid = 0, wave_area_xid = 0;
 
 char *filename = NULL;
@@ -38,6 +40,18 @@ void setprogresso(guint pos, guint len, char *tmp)
     tmp[i] = '\0';
     gtk_label_set(GTK_LABEL(tracklabel),tmp);
     fflush(stdout);
+}
+
+G_MODULE_EXPORT void set_track_pos(GtkWidget *widget, GdkEvent *ev, gpointer user_data)
+{
+    float newpos = ev->button.x/450;
+    printf("main: %f\n",newpos);
+    set_pos_track(newpos);
+}
+
+G_MODULE_EXPORT void progress_bar_realize_cb (GtkObject * widget, gpointer data)
+{
+    barra = GTK_PROGRESS_BAR(widget);
 }
 
 G_MODULE_EXPORT void rotulo1(GtkObject *wid, gpointer data)
@@ -64,7 +78,6 @@ G_MODULE_EXPORT void helloWorld (GtkObject *wid, gpointer data)
                          _("_Open"),
                          GTK_RESPONSE_ACCEPT,
                          NULL);
-
 
     res = gtk_dialog_run (GTK_DIALOG (winFile));
     if (res == GTK_RESPONSE_ACCEPT)
@@ -150,11 +163,6 @@ G_MODULE_EXPORT void recvideo (GtkObject *btn, gpointer data)
     }
 }
 
-G_MODULE_EXPORT void progress_bar_realize_cb (GtkObject * widget, gpointer data)
-{
-    barra = GTK_PROGRESS_BAR(widget);
-}
-
 G_MODULE_EXPORT void camerastop(GtkObject *btn, gpointer data)
 {
     endcam();
@@ -200,7 +208,6 @@ int main (int argc, char *argv[])
 {
     GtkBuilder *builder = NULL;
     GError *error = NULL;
-    GtkWidget *win = NULL;
 
     /* Initialize GTK+ */
     gtk_init (&argc, &argv);

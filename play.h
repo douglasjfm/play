@@ -9,6 +9,7 @@ void gravar();
 int cam ();
 
 void setprogresso(guint pos, guint len, char *tmp);
+void set_pos_track(float newpos);
 
 int mp3 (char *musica);
 int pausepipe();
