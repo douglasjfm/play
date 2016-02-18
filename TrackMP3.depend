@@ -1,12 +1,6 @@
 # depslib dependency file v1.0
-1449729469 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
-	<stdlib.h>
-	<stdio.h>
-	<gtk/gtk.h>
-	<gdk/gdkx.h>
-	<gmodule.h>
-	<glib/gi18n.h>
-	<pthread.h>
+1455261235 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+	"play.h"
 
 1441970685 /usr/include/gtk-2.0/gtk/gtk.h
 	<gdk/gdk.h>
@@ -2467,11 +2461,12 @@
 	<libintl.h>
 	<string.h>
 
-1449815653 source:/home/douglas/Área de Trabalho/TrackMP3/mp3.c
+1453981823 source:/home/douglas/Área de Trabalho/TrackMP3/mp3.c
 	<gst/gst.h>
 	<stdlib.h>
 	<string.h>
 	<gst/interfaces/xoverlay.h>
+	"play.h"
 
 1387309679 /usr/include/gstreamer-0.10/gst/gst.h
 	<glib.h>
@@ -2558,7 +2553,7 @@
 1387309679 /usr/include/gstreamer-0.10/gst/gstconfig.h
 	<libxml/parser.h>
 
-1447425815 /usr/include/libxml2/libxml/parser.h
+1452798839 /usr/include/libxml2/libxml/parser.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
@@ -2572,13 +2567,13 @@
 	<libxml/xmlIO.h>
 	<libxml/globals.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlversion.h
+1452798839 /usr/include/libxml2/libxml/xmlversion.h
 	<libxml/xmlexports.h>
 	<ansidecl.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlexports.h
+1452798839 /usr/include/libxml2/libxml/xmlexports.h
 
-1447425815 /usr/include/libxml2/libxml/tree.h
+1452798839 /usr/include/libxml2/libxml/tree.h
 	<stdio.h>
 	<limits.h>
 	<libxml/xmlversion.h>
@@ -2586,31 +2581,31 @@
 	<libxml/xmlregexp.h>
 	<libxml/xmlmemory.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlstring.h
+1452798839 /usr/include/libxml2/libxml/xmlstring.h
 	<stdarg.h>
 	<libxml/xmlversion.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlregexp.h
+1452798839 /usr/include/libxml2/libxml/xmlregexp.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/dict.h>
 
-1447425815 /usr/include/libxml2/libxml/dict.h
+1452798839 /usr/include/libxml2/libxml/dict.h
 	<limits.h>
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlmemory.h
+1452798839 /usr/include/libxml2/libxml/xmlmemory.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/threads.h>
 	<libxml/globals.h>
 
-1447425815 /usr/include/libxml2/libxml/threads.h
+1452798839 /usr/include/libxml2/libxml/threads.h
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
 
-1447425815 /usr/include/libxml2/libxml/globals.h
+1452798839 /usr/include/libxml2/libxml/globals.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xmlerror.h>
@@ -2619,33 +2614,33 @@
 	<libxml/xmlmemory.h>
 	<libxml/threads.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlerror.h
+1452798839 /usr/include/libxml2/libxml/xmlerror.h
 	<libxml/parser.h>
 
-1447425815 /usr/include/libxml2/libxml/SAX.h
+1452798839 /usr/include/libxml2/libxml/SAX.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1447425815 /usr/include/libxml2/libxml/xlink.h
+1452798839 /usr/include/libxml2/libxml/xlink.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1447425815 /usr/include/libxml2/libxml/SAX2.h
+1452798839 /usr/include/libxml2/libxml/SAX2.h
 	<stdio.h>
 	<stdlib.h>
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/xlink.h>
 
-1447425815 /usr/include/libxml2/libxml/hash.h
+1452798839 /usr/include/libxml2/libxml/hash.h
 	<libxml/xmlversion.h>
 	<libxml/parser.h>
 	<libxml/dict.h>
 
-1447425815 /usr/include/libxml2/libxml/valid.h
+1452798839 /usr/include/libxml2/libxml/valid.h
 	<libxml/xmlversion.h>
 	<libxml/xmlerror.h>
 	<libxml/tree.h>
@@ -2653,25 +2648,25 @@
 	<libxml/xmlautomata.h>
 	<libxml/xmlregexp.h>
 
-1447425815 /usr/include/libxml2/libxml/list.h
+1452798839 /usr/include/libxml2/libxml/list.h
 	<libxml/xmlversion.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlautomata.h
+1452798839 /usr/include/libxml2/libxml/xmlautomata.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 	<libxml/xmlregexp.h>
 
-1447425815 /usr/include/libxml2/libxml/entities.h
+1452798839 /usr/include/libxml2/libxml/entities.h
 	<libxml/xmlversion.h>
 	<libxml/tree.h>
 
-1447425815 /usr/include/libxml2/libxml/encoding.h
+1452798839 /usr/include/libxml2/libxml/encoding.h
 	<libxml/xmlversion.h>
 	<iconv.h>
 	<unicode/ucnv.h>
 	<libxml/tree.h>
 
-1447425815 /usr/include/libxml2/libxml/xmlIO.h
+1452798839 /usr/include/libxml2/libxml/xmlIO.h
 	<stdio.h>
 	<libxml/xmlversion.h>
 	<libxml/globals.h>
@@ -2918,7 +2913,7 @@
 	<gst/interfaces/xoverlay.h>
 	<stdlib.h>
 
-1448072516 source:/home/douglas/Área de Trabalho/TrackMP3/tela.c
+1453418905 source:/home/douglas/Área de Trabalho/TrackMP3/tela.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
@@ -3293,4 +3288,37 @@
 
 1400007940 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
 	<gst/gst.h>
+
+1455261221 /home/douglas/Área de Trabalho/TrackMP3/play.h
+	<stdlib.h>
+	<stdio.h>
+	<gtk/gtk.h>
+	<gtk/gtkwidget.h>
+	<gtk/gtkprogressbar.h>
+	<gdk/gdkx.h>
+	<gmodule.h>
+	<glib/gi18n.h>
+	<pthread.h>
+
+1455118528 source:/home/douglas/Área de Trabalho/TrackMP3/http.c
+	<stdio.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+	<stdlib.h>
+	<netdb.h>
+	<string.h>
+
+1455814675 source:/home/douglas/Área de Trabalho/TrackMP3/ui.c
+	"play.h"
+
+1446488601 source:/home/douglas/Área de Trabalho/TrackMP3/ouvir.c
+	<gst/gst.h>
+	<gst/interfaces/xoverlay.h>
+	<stdlib.h>
+	<string.h>
+
+1455814434 source:/home/douglas/Área de Trabalho/TrackMP3/TX.c
+	<gst/gst.h>
+	<stdlib.h>
+	<string.h>
 

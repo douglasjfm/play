@@ -11,28 +11,33 @@ GstElement *pipescop = NULL;
 int barraSt = FALSE;
 int posRet = FALSE;
 
+gboolean blockbar = FALSE;
+
 extern gulong wave_area_xid;
 
 void set_pos_track(float newpos)
 {
     gint64 len;
     gint64 intpos;
+    gint64 sec2 = 2000000000;
     GstFormat frm = GST_FORMAT_TIME;
+    GstState st = GST_STATE_PAUSED, pd = GST_STATE_PLAYING;
 
     if (!tudo) return;
 
     gst_element_query_duration (tudo, &frm, &len);
     intpos = len*newpos;
-    printf("mp3: %lld = %lld * %f\n",intpos,len,newpos);
+    blockbar = TRUE;
     gst_element_set_state(tudo,GST_STATE_PAUSED);
+    //gst_element_get_state(tudo,NULL,NULL,-1);
     gst_element_seek (tudo,1.0,
         frm,
         GST_SEEK_FLAG_FLUSH,
-        GST_SEEK_TYPE_SET,
-        intpos,
-        GST_SEEK_TYPE_NONE,
-        GST_CLOCK_TIME_NONE);
+        GST_SEEK_TYPE_SET,intpos,
+        GST_SEEK_TYPE_NONE,GST_CLOCK_TIME_NONE);
     gst_element_set_state(tudo,GST_STATE_PLAYING);
+    gst_element_get_state(tudo,&st,&pd,sec2);
+    blockbar = FALSE;
 }
 
 static gboolean cb_print_position (GstElement *pipeline)
@@ -42,13 +47,15 @@ static gboolean cb_print_position (GstElement *pipeline)
     GstFormat frm = GST_FORMAT_PERCENT;
     GstFormat frm2 = GST_FORMAT_TIME;
 
+    while (blockbar);
+
     gst_element_query_position (pipeline, &frm, &pos);
     gst_element_query_duration (pipeline, &frm, &len);
     gst_element_query_position (pipeline, &frm2, &tmp);
 
     sprintf(strtmp,"%"GST_TIME_FORMAT,GST_TIME_ARGS(tmp));
-//    fflush(stdout);
     setprogresso(pos,len,strtmp);
+
     /* call me again */
     posRet = barraSt;
     return posRet;

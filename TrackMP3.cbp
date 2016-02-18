@@ -35,10 +35,13 @@
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config --cflags --libs gtk+-2.0 gstreamer-0.10 gmodule-2.0`" />
+			<Add option="`pkg-config --cflags --libs gstreamer-0.10 gmodule-2.0 gtk+-2.0`" />
 			<Add library="/usr/lib/libgstinterfaces-0.10.so" />
 		</Linker>
 		<Unit filename="cam.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="http.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">
@@ -47,7 +50,11 @@
 		<Unit filename="mp3.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="play.h" />
 		<Unit filename="tela.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ui.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>
