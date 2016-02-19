@@ -6,12 +6,12 @@ GtkWidget *eventbox = NULL;
 
 gulong video_area_xid = 0, wave_area_xid = 0;
 
-char *filename = NULL;
+char *filename = NULL, meuip[25],ipcall[25];
 char stt = 0;
 
 char campause = 0;
 
-pthread_t tidmp3 = 0,tidcam = 0, tidrec = 0;
+pthread_t tidmp3 = 0,tidcam = 0, tidrec = 0,tidserv = 0,tidtx = 0;
 GtkWidget *label1 = NULL;
 GtkWidget *tracklabel = NULL;
 
@@ -214,20 +214,20 @@ G_MODULE_EXPORT void logar_tele()
     strcat(url,strnome);
     extip = httpget("cidadelimpa.bugs3.com",url);
     strcpy(url,"online ");
-    strcat(url,extip);
     gtk_label_set(logstt,url);
     telstt = 'o';
+    pthread_create(&tidserv,NULL,&initserv,NULL);
 }
 
 G_MODULE_EXPORT void call_user()
 {
     char *extip, strnome[80],url[150];
     GtkEntry *nome = GTK_ENTRY(gtk_builder_get_object(builder,"entry1"));
-    GtkLabel *logstt = GTK_LABEL(gtk_builder_get_object(builder,"label2"));
-    strcpy(strnome,nome->text);
-    strcpy(url,"getip.php?login=");
-    strcat(url,strnome);
-    extip = httpget("cidadelimpa.bugs3.com",url);
-    if (strlen(extip))
-        teleTX(extip);
+    strcpy(ipcall,nome->text);
+//    strcpy(url,"getip.php?login=");
+//    strcat(url,strnome);
+//    extip = httpget("cidadelimpa.bugs3.com",url);
+//    printf("usu ip : %s\n",extip);
+    if (strlen(ipcall))
+        pthread_create(&tidtx,NULL,&chamar,NULL);
 }

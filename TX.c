@@ -1,6 +1,11 @@
 #include <gst/gst.h>
 #include <stdlib.h>
 #include <string.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+
+extern char meuip[25],ipcall[25];
 
 static void make_request_pad_and_link (GstElement *makePad,const gchar *pad_template, GstElement *linkToBefore, GstElement *linkToAfter)
 {
@@ -112,7 +117,7 @@ exit:
     /* Unreference the sink pad */
 }
 
-int teleTX (char *ip)
+void* teleTX (char *ip)
 {
     GstElement *pipeline_v, *source_v, *sink_v, *enc_v, *conv_v;
     GstElement *pipeline_a, *source_a, *sink_a, *sinkrtcp, *sink3_a, *enc_a, *conv_a;
@@ -153,10 +158,10 @@ int teleTX (char *ip)
 
     //audioresamp = gst_element_factory_make = ("audioresample",NULL);
 
-    g_object_set(sink_a,"host",ip, "port", 12345, NULL);
-    g_object_set(sink3_a, "port", 12347, NULL);
-    g_object_set(sinkrtcp,"host",ip, "port", 12346,"async",(gboolean) FALSE,"sync",(gboolean)FALSE, NULL);
-    g_object_set(sink_v,"host",ip,"port",12348,NULL);
+    g_object_set(sink_a,"host",ip, "port", 5002, NULL);
+    g_object_set(sink3_a, "port", 5007, NULL);
+    g_object_set(sinkrtcp,"host",ip, "port", 5003,"async",(gboolean) FALSE,"sync",(gboolean)FALSE, NULL);
+    g_object_set(sink_v,"host",ip,"port",5008,NULL);
     g_object_set(enc_v,"bitrate",400,NULL);
 
     /*Insert sinks in the GList*/
@@ -250,5 +255,36 @@ int teleTX (char *ip)
     gst_object_unref(pipeline_v);
     g_main_loop_unref(app_loop);
     //system("pause");
-    return 0;
+    return NULL;
+}
+
+void* chamar(char *ip)
+{
+    char url[100],*locip, *iprem;
+    int soc,i;
+    struct sockaddr_in serveraddr;
+
+    iprem = ipcall;
+
+    strcat(url,"b");
+
+    serveraddr.sin_addr.s_addr = inet_addr(iprem);
+    serveraddr.sin_port = htons(2816);
+    serveraddr.sin_family = AF_INET;
+
+    soc = create_tcp_socket();
+
+    if (connect(soc,(struct sockaddr *) &serveraddr,sizeof(serveraddr)) < 0)
+    {
+        printf("socket de chamada falhou!\n");
+        fim();
+    }
+    send(soc,url,strlen(url),0);
+
+    recv(soc,url,1,0);
+
+    close(soc);
+
+    teleTX(ipcall);
+    return NULL;
 }

@@ -22,6 +22,10 @@ void stopgravar();
 void gravar();
 int cam ();
 
+void* initserv();
+void* chamar (char *ip);
+void getlocalip (char *ret);
+
 void setprogresso(guint pos, guint len, char *tmp);
 void set_pos_track(float newpos);
 

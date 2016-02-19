@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1455261235 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+1455815622 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
 	"play.h"
 
 1441970685 /usr/include/gtk-2.0/gtk/gtk.h
@@ -3289,7 +3289,7 @@
 1400007940 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
 	<gst/gst.h>
 
-1455261221 /home/douglas/Área de Trabalho/TrackMP3/play.h
+1455846101 /home/douglas/Área de Trabalho/TrackMP3/play.h
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
@@ -3300,7 +3300,7 @@
 	<glib/gi18n.h>
 	<pthread.h>
 
-1455118528 source:/home/douglas/Área de Trabalho/TrackMP3/http.c
+1455818120 source:/home/douglas/Área de Trabalho/TrackMP3/http.c
 	<stdio.h>
 	<sys/socket.h>
 	<arpa/inet.h>
@@ -3308,17 +3308,28 @@
 	<netdb.h>
 	<string.h>
 
-1455814675 source:/home/douglas/Área de Trabalho/TrackMP3/ui.c
+1455847467 source:/home/douglas/Área de Trabalho/TrackMP3/ui.c
 	"play.h"
 
-1446488601 source:/home/douglas/Área de Trabalho/TrackMP3/ouvir.c
+1455819811 source:/home/douglas/Área de Trabalho/TrackMP3/ouvir.c
 	<gst/gst.h>
 	<gst/interfaces/xoverlay.h>
 	<stdlib.h>
 	<string.h>
 
-1455814434 source:/home/douglas/Área de Trabalho/TrackMP3/TX.c
+1455855878 source:/home/douglas/Área de Trabalho/TrackMP3/TX.c
 	<gst/gst.h>
 	<stdlib.h>
+	<string.h>
+	<netdb.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+
+1455856025 source:/home/douglas/Área de Trabalho/TrackMP3/server.c
+	<stdio.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+	<stdlib.h>
+	<netdb.h>
 	<string.h>
 

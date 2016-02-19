@@ -126,7 +126,6 @@ int create_tcp_socket()
     return sock;
 }
 
-
 char *get_ip(char *host)
 {
     struct hostent *hent;

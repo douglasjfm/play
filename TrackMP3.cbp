@@ -38,6 +38,9 @@
 			<Add option="`pkg-config --cflags --libs gstreamer-0.10 gmodule-2.0 gtk+-2.0`" />
 			<Add library="/usr/lib/libgstinterfaces-0.10.so" />
 		</Linker>
+		<Unit filename="TX.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="cam.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -50,7 +53,13 @@
 		<Unit filename="mp3.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="ouvir.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="play.h" />
+		<Unit filename="server.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="tela.c">
 			<Option compilerVar="CC" />
 		</Unit>

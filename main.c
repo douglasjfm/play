@@ -1,6 +1,6 @@
 #include "play.h"
 
-#define UIGLADE "/home/douglas/Área de Trabalho/TrackMP3/Main.glade"
+#define UIGLADE "Main.glade"
 
 int main (int argc, char *argv[])
 {

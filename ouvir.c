@@ -100,6 +100,7 @@ void *ouvirf(char *ippeer)
     GstElement *pipelisten, *rtpbin, *src_a, *rtpdepay, *dec_a, *conv_a, *sink_a, *sink_rtcp, *src_rtcp;
 
     GMainLoop *listen_loop = g_main_loop_new (NULL, FALSE);
+
     GstCaps *udpCaps = NULL;
 
     /* Initialize GStreamer */
@@ -143,6 +144,9 @@ void *ouvirf(char *ippeer)
 
     make_request_pad_and_link(rtpbin,"recv_rtp_sink_%d",src_a,NULL,udpCaps);
     make_request_pad_and_link(rtpbin,"send_rtcp_src_%d",NULL,sink_rtcp,NULL);
+
+    g_main_loop_run(listen_loop);
+    g_main_loop_unref(listen_loop);
 
     return 0;
 }
