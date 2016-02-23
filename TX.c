@@ -143,7 +143,7 @@ void* teleTX (char *ip)
     source_a = gst_element_factory_make("alsasrc",NULL);
 
     conv_a = gst_element_factory_make("audioconvert",NULL);
-    conv_v = gst_element_factory_make("ffmpegcolorspace",NULL);
+    conv_v = gst_element_factory_make("videoconvert",NULL);
 
     enc_a = gst_element_factory_make("opusenc",NULL);
     enc_v = gst_element_factory_make("theoraenc",NULL);
@@ -176,7 +176,6 @@ void* teleTX (char *ip)
     if (!pipeline_a || !source_a || !sink_a || !enc_a || !conv_a || !pipeline_v || !source_v || !sink_v || !enc_v || !conv_v)
     {
         g_printerr("Not all elements could be created.");
-        //system("pause");
         return -1;
     }
 
@@ -195,12 +194,13 @@ void* teleTX (char *ip)
     gst_bin_add(GST_BIN(pipeline_v), enc_v);
     gst_bin_add(GST_BIN(pipeline_v), sink_v);
 
+    printf("mandando %s\n",ip);
+
     if (gst_element_link_many(source_a, conv_a, enc_a, rtpspxpay, NULL) != TRUE)
     {
         g_printerr("Elements audio could not be linked.\n");
         gst_object_unref(pipeline_a);
         gst_object_unref(pipeline_v);
-        //system("pause");
         return -1;
     }
     if (gst_element_link_many(source_v, conv_v, enc_v, sink_v, NULL) != TRUE)
@@ -208,11 +208,9 @@ void* teleTX (char *ip)
         g_printerr("Elements video could not be linked.\n");
         gst_object_unref(pipeline_v);
         gst_object_unref(pipeline_a);
-        //system("pause");
         return -1;
     }
 
-    //g_signal_connect(demux, "pad-added", G_CALLBACK(pad_added_handler), dec);
     g_signal_connect(rtpbin, "pad-added", G_CALLBACK(pad_added_handler), sinkList);//tratar send_rtp_src tratar send_rtcp_src
 
     make_request_pad_and_link(rtpbin,"send_rtp_sink_%d",rtpspxpay,NULL);
@@ -229,7 +227,6 @@ void* teleTX (char *ip)
         gst_object_unref(pipeline_a);
         gst_object_unref(pipeline_v);
 
-        //system("pause");
         return -1;
     }
 
@@ -243,9 +240,7 @@ void* teleTX (char *ip)
     g_main_loop_run (app_loop);
 
     /* Parse message */
-
     gst_message_unref(msg);
-
 
     /* Free resources */
     gst_object_unref(bus);
@@ -254,7 +249,6 @@ void* teleTX (char *ip)
     gst_object_unref(pipeline_a);
     gst_object_unref(pipeline_v);
     g_main_loop_unref(app_loop);
-    //system("pause");
     return NULL;
 }
 

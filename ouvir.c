@@ -1,5 +1,5 @@
 #include <gst/gst.h>
-#include <gst/interfaces/xoverlay.h>
+#include <gst/video/video.h>
 #include <stdlib.h>
 #include <string.h>
 

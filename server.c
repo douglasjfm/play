@@ -29,9 +29,10 @@ void* initserv()
     printf("esperando chamadas...\n");
     peerlen = sizeof(peer);
     clisoc = accept(soc, (struct sockaddr *) &peer,&peerlen < 0);
-    printf("chamada recebida\n");
+    printf("chamada recebida ");
     getsockname(clisoc,(struct sockaddr *)&peer,&peerlen);
     sprintf(peerip,"%s",inet_ntoa(peer.sin_addr));
+    printf("%s\n",inet_ntoa(peer.sin_addr));
     ouvirf(peerip);
     msg[0] = 'b';
     msg[1] = '\0';

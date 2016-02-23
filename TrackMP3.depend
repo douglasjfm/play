@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1455815622 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
+1456101087 source:/home/douglas/Área de Trabalho/TrackMP3/main.c
 	"play.h"
 
-1441970685 /usr/include/gtk-2.0/gtk/gtk.h
+1455293368 /usr/include/gtk-2.0/gtk/gtk.h
 	<gdk/gdk.h>
 	<gtk/gtkaboutdialog.h>
 	<gtk/gtkaccelgroup.h>
@@ -213,7 +213,7 @@
 	<gtk/gtktipsquery.h>
 	<gtk/gtktooltips.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdk.h
+1455293362 /usr/include/gtk-2.0/gdk/gdk.h
 	<gdk/gdkapplaunchcontext.h>
 	<gdk/gdkcairo.h>
 	<gdk/gdkcolor.h>
@@ -243,7 +243,7 @@
 	<gdk/gdkvisual.h>
 	<gdk/gdkwindow.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkapplaunchcontext.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkapplaunchcontext.h
 	<gio/gio.h>
 	<gdk/gdkscreen.h>
 
@@ -1248,7 +1248,7 @@
 1411667515 /usr/include/glib-2.0/gio/gnotification.h
 	<gio/giotypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkscreen.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkscreen.h
 	<cairo.h>
 	"gdk/gdktypes.h"
 	"gdk/gdkdisplay.h"
@@ -1264,7 +1264,7 @@
 
 1420641759 /usr/include/cairo/cairo-deprecated.h
 
-1441970678 /usr/include/gtk-2.0/gdk/gdktypes.h
+1455293362 /usr/include/gtk-2.0/gdk/gdktypes.h
 	<glib.h>
 	<pango/pango.h>
 	<glib-object.h>
@@ -1398,40 +1398,40 @@
 	<glib.h>
 	<pango/pango-font.h>
 
-1441970678 /usr/lib/i386-linux-gnu/gtk-2.0/include/gdkconfig.h
+1455293362 /usr/lib/i386-linux-gnu/gtk-2.0/include/gdkconfig.h
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkdisplay.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkdisplay.h
 	<gdk/gdktypes.h>
 	<gdk/gdkevents.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkevents.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkevents.h
 	<gdk/gdkcolor.h>
 	<gdk/gdktypes.h>
 	<gdk/gdkdnd.h>
 	<gdk/gdkinput.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkcolor.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkcolor.h
 	<cairo.h>
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkdnd.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkdnd.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkinput.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkinput.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkcairo.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkcairo.h
 	<gdk/gdkcolor.h>
 	<gdk/gdkpixbuf.h>
 	<pango/pangocairo.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkpixbuf.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkpixbuf.h
 	<cairo.h>
 	<gdk/gdktypes.h>
 	<gdk/gdkrgb.h>
 	<gdk-pixbuf/gdk-pixbuf.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkrgb.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkrgb.h
 	<gdk/gdktypes.h>
 
 1444484071 /usr/include/gdk-pixbuf-2.0/gdk-pixbuf/gdk-pixbuf.h
@@ -1486,93 +1486,93 @@
 	<pango/pango.h>
 	<cairo.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkcursor.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkcursor.h
 	<gdk/gdktypes.h>
 	<gdk-pixbuf/gdk-pixbuf.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkdisplaymanager.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkdisplaymanager.h
 	<gdk/gdktypes.h>
 	<gdk/gdkdisplay.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkdrawable.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkdrawable.h
 	<gdk/gdktypes.h>
 	<gdk/gdkgc.h>
 	<gdk/gdkrgb.h>
 	<gdk-pixbuf/gdk-pixbuf.h>
 	<cairo.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkgc.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkgc.h
 	<gdk/gdkcolor.h>
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkenumtypes.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkenumtypes.h
 	<glib-object.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkfont.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkfont.h
 	<gdk/gdktypes.h>
 	<pango/pango.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkimage.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkimage.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkkeys.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkkeys.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkpango.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkpango.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkpixmap.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkpixmap.h
 	<gdk/gdktypes.h>
 	<gdk/gdkdrawable.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkproperty.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkproperty.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkregion.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkregion.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkselection.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkselection.h
 	<gdk/gdktypes.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkspawn.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkspawn.h
 	<gdk/gdkscreen.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdktestutils.h
+1455293362 /usr/include/gtk-2.0/gdk/gdktestutils.h
 	<gdk/gdkwindow.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkwindow.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkwindow.h
 	<gdk/gdkdrawable.h>
 	<gdk/gdktypes.h>
 	<gdk/gdkevents.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkvisual.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkvisual.h
 	<gdk/gdktypes.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaboutdialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaboutdialog.h
 	<gtk/gtkdialog.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkdialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkdialog.h
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkwindow.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkwindow.h
 	<gtk/gtkaccelgroup.h>
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaccelgroup.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaccelgroup.h
 	<gdk/gdk.h>
 	<gtk/gtkenums.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkenums.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkenums.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbin.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbin.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcontainer.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcontainer.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkadjustment.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkwidget.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkwidget.h
 	<gdk/gdk.h>
 	<gtk/gtkaccelgroup.h>
 	<gtk/gtkobject.h>
@@ -1581,33 +1581,33 @@
 	<gtk/gtksettings.h>
 	<atk/atk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkobject.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkobject.h
 	<gdkconfig.h>
 	<gtk/gtkenums.h>
 	<gtk/gtktypeutils.h>
 	<gtk/gtkdebug.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktypeutils.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktypeutils.h
 	<gtk/gtktypebuiltins.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktypebuiltins.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktypebuiltins.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkdebug.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkdebug.h
 	<glib.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkadjustment.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkadjustment.h
 	<gdk/gdk.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkstyle.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkstyle.h
 	<gdk/gdk.h>
 	<gtk/gtkenums.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtksettings.h
+1455293368 /usr/include/gtk-2.0/gtk/gtksettings.h
 	<gtk/gtkrc.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrc.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrc.h
 	<gtk/gtkstyle.h>
 
 1392349625 /usr/include/atk-1.0/atk/atk.h
@@ -1745,219 +1745,219 @@
 1392349625 /usr/include/atk-1.0/atk/atkwindow.h
 	<atk/atkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaccellabel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaccellabel.h
 	<gtk/gtklabel.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtklabel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtklabel.h
 	<gtk/gtkmisc.h>
 	<gtk/gtkwindow.h>
 	<gtk/gtkmenu.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmisc.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmisc.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmenu.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmenu.h
 	<gtk/gtkaccelgroup.h>
 	<gtk/gtkmenushell.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmenushell.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmenushell.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaccelmap.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaccelmap.h
 	<gtk/gtkaccelgroup.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaccessible.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaccessible.h
 	<atk/atk.h>
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaction.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaction.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkactiongroup.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkactiongroup.h
 	<gtk/gtkaction.h>
 	<gtk/gtktypeutils.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkactivatable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkactivatable.h
 	<gtk/gtkaction.h>
 	<gtk/gtktypeutils.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkalignment.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkalignment.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkarrow.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkarrow.h
 	<gtk/gtkmisc.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkaspectframe.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkaspectframe.h
 	<gtk/gtkframe.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkframe.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkframe.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkassistant.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkassistant.h
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbbox.h
 	<gtk/gtkbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbox.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbindings.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbindings.h
 	<gdk/gdk.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbuildable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbuildable.h
 	<gtk/gtkbuilder.h>
 	<gtk/gtktypeutils.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbuilder.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbuilder.h
 	<gdkconfig.h>
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkbutton.h
 	<gtk/gtkbin.h>
 	<gtk/gtkimage.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkimage.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkimage.h
 	<gio/gio.h>
 	<gtk/gtkmisc.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcalendar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcalendar.h
 	<gtk/gtkwidget.h>
 	<gtk/gtksignal.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtksignal.h
+1455293368 /usr/include/gtk-2.0/gtk/gtksignal.h
 	<gtk/gtkenums.h>
 	<gtk/gtktypeutils.h>
 	<gtk/gtkobject.h>
 	<gtk/gtkmarshal.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmarshal.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmarshal.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcelleditable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcelleditable.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcelllayout.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcelllayout.h
 	<gtk/gtkcellrenderer.h>
 	<gtk/gtktreeviewcolumn.h>
 	<gtk/gtkbuildable.h>
 	<gtk/gtkbuilder.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrenderer.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrenderer.h
 	<gtk/gtkcelleditable.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreeviewcolumn.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreeviewcolumn.h
 	<gtk/gtkcellrenderer.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreesortable.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreemodel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreemodel.h
 	<glib-object.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreesortable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreesortable.h
 	<gtk/gtktreemodel.h>
 	<gtk/gtktypeutils.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrendereraccel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrendereraccel.h
 	<gtk/gtkcellrenderertext.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrenderertext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrenderertext.h
 	<gtk/gtkcellrenderer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrenderercombo.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrenderercombo.h
 	<gtk/gtktreemodel.h>
 	<gtk/gtkcellrenderertext.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrendererpixbuf.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrendererpixbuf.h
 	<gtk/gtkcellrenderer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrendererprogress.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrendererprogress.h
 	<gtk/gtkcellrenderer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrendererspin.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrendererspin.h
 	<gtk/gtkcellrenderertext.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrendererspinner.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrendererspinner.h
 	<gtk/gtkcellrenderer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellrenderertoggle.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellrenderertoggle.h
 	<gtk/gtkcellrenderer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcellview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcellview.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkcellrenderer.h>
 	<gtk/gtktreemodel.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcheckbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcheckbutton.h
 	<gtk/gtktogglebutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktogglebutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktogglebutton.h
 	<gtk/gtkbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcheckmenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcheckmenuitem.h
 	<gtk/gtkmenuitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmenuitem.h
 	<gtk/gtkitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkitem.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkclipboard.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkclipboard.h
 	<gtk/gtkselection.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkselection.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkselection.h
 	<gtk/gtkwidget.h>
 	<gtk/gtktextiter.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextiter.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextiter.h
 	<gtk/gtktexttag.h>
 	<gtk/gtktextchild.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktexttag.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktexttag.h
 	<gdk/gdk.h>
 	<gtk/gtkenums.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextchild.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextchild.h
 	<gdkconfig.h>
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcolorbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcolorbutton.h
 	<gtk/gtkbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcolorsel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcolorsel.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvbox.h
 	<gtk/gtkbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcolorseldialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcolorseldialog.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkcolorsel.h>
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcombobox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcombobox.h
 	<gtk/gtkbin.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreeview.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreeview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreeview.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreeviewcolumn.h>
 	<gtk/gtkdnd.h>
 	<gtk/gtkentry.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkdnd.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkdnd.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkselection.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkentry.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkentry.h
 	<gtk/gtkeditable.h>
 	<gtk/gtkimcontext.h>
 	<gtk/gtkmenu.h>
@@ -1966,232 +1966,232 @@
 	<gtk/gtkimage.h>
 	<gtk/gtkselection.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkeditable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkeditable.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkimcontext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkimcontext.h
 	<gdk/gdk.h>
 	<gtk/gtkobject.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkentrybuffer.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkentrybuffer.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkentrycompletion.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkentrycompletion.h
 	<gtk/gtktreemodel.h>
 	<gtk/gtkliststore.h>
 	<gtk/gtktreeviewcolumn.h>
 	<gtk/gtktreemodelfilter.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkliststore.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkliststore.h
 	<gdkconfig.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreesortable.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreemodelfilter.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreemodelfilter.h
 	<gdkconfig.h>
 	<gtk/gtktreemodel.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcomboboxentry.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcomboboxentry.h
 	<gtk/gtkcombobox.h>
 	<gtk/gtktreemodel.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcomboboxtext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcomboboxtext.h
 	<gtk/gtkcombobox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkdrawingarea.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkdrawingarea.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkeventbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkeventbox.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkexpander.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkexpander.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfixed.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfixed.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilechooser.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilechooser.h
 	<gtk/gtkfilefilter.h>
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilefilter.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilefilter.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilechooserbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilechooserbutton.h
 	<gtk/gtkhbox.h>
 	<gtk/gtkfilechooser.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhbox.h
 	<gtk/gtkbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilechooserdialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilechooserdialog.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkfilechooser.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilechooserwidget.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilechooserwidget.h
 	<gtk/gtkfilechooser.h>
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfontbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfontbutton.h
 	<gtk/gtkbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfontsel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfontsel.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkgc.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkgc.h
 	<gdk/gdk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhandlebox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhandlebox.h
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhbbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhbbox.h
 	<gtk/gtkbbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhpaned.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhpaned.h
 	<gtk/gtkpaned.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkpaned.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkpaned.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhruler.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhruler.h
 	<gtk/gtkruler.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkruler.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkruler.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhscale.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhscale.h
 	<gtk/gtkscale.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkscale.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkscale.h
 	<gtk/gtkrange.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrange.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrange.h
 	<gtk/gtkadjustment.h>
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhscrollbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhscrollbar.h
 	<gtk/gtkscrollbar.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkscrollbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkscrollbar.h
 	<gtk/gtkrange.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhseparator.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhseparator.h
 	<gtk/gtkseparator.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkseparator.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkseparator.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkhsv.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkhsv.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkiconfactory.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkiconfactory.h
 	<gdk/gdk.h>
 	<gtk/gtkrc.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkicontheme.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkicontheme.h
 	<gdk-pixbuf/gdk-pixbuf.h>
 	<gdk/gdk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkiconview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkiconview.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtkcellrenderer.h>
 	<gtk/gtkselection.h>
 	<gtk/gtktooltip.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktooltip.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktooltip.h
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkimagemenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkimagemenuitem.h
 	<gtk/gtkmenuitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkimcontextsimple.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkimcontextsimple.h
 	<gtk/gtkimcontext.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkimmulticontext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkimmulticontext.h
 	<gtk/gtkimcontext.h>
 	<gtk/gtkmenushell.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkinfobar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkinfobar.h
 	<gtk/gtkhbox.h>
 	<gtk/gtkenums.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkinvisible.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkinvisible.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtklayout.h
+1455293368 /usr/include/gtk-2.0/gtk/gtklayout.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtkadjustment.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtklinkbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtklinkbutton.h
 	<gtk/gtkbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmain.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmain.h
 	<gdk/gdk.h>
 	<gtk/gtkwidget.h>
 	<gtk/gtkbox.h>
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmenubar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmenubar.h
 	<gtk/gtkmenushell.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmenutoolbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmenutoolbutton.h
 	<gtk/gtkmenu.h>
 	<gtk/gtktoolbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolbutton.h
 	<gtk/gtktoolitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolitem.h
 	<gtk/gtkbin.h>
 	<gtk/gtktooltips.h>
 	<gtk/gtkmenuitem.h>
 	<gtk/gtksizegroup.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktooltips.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktooltips.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtksizegroup.h
+1455293368 /usr/include/gtk-2.0/gtk/gtksizegroup.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmessagedialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmessagedialog.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkenums.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmodules.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmodules.h
 	<gtk/gtksettings.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkmountoperation.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkmountoperation.h
 
-1441970685 /usr/include/gtk-2.0/gtk/gtknotebook.h
+1455293368 /usr/include/gtk-2.0/gtk/gtknotebook.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkoffscreenwindow.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkoffscreenwindow.h
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkorientable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkorientable.h
 	<gtk/gtkwidget.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkpagesetup.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkpagesetup.h
 	<gtk/gtkpapersize.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkpapersize.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkpapersize.h
 	<gtk/gtkenums.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkplug.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkplug.h
 	<gtk/gtksocket.h>
 	<gtk/gtkwindow.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtksocket.h
+1455293368 /usr/include/gtk-2.0/gtk/gtksocket.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprintcontext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprintcontext.h
 	<pango/pango.h>
 	<gtk/gtkpagesetup.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprintoperation.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprintoperation.h
 	<cairo.h>
 	<gtk/gtkmain.h>
 	<gtk/gtkwindow.h>
@@ -2200,115 +2200,115 @@
 	<gtk/gtkprintcontext.h>
 	<gtk/gtkprintoperationpreview.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprintsettings.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprintsettings.h
 	<gtk/gtkpapersize.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprintoperationpreview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprintoperationpreview.h
 	<cairo.h>
 	<gtk/gtkprintcontext.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprogressbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprogressbar.h
 	<gtk/gtkprogress.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkprogress.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkprogress.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkadjustment.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkradioaction.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkradioaction.h
 	<gtk/gtktoggleaction.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoggleaction.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoggleaction.h
 	<gtk/gtkaction.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkradiobutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkradiobutton.h
 	<gtk/gtkcheckbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkradiomenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkradiomenuitem.h
 	<gtk/gtkcheckmenuitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkradiotoolbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkradiotoolbutton.h
 	<gtk/gtktoggletoolbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoggletoolbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoggletoolbutton.h
 	<gtk/gtktoolbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentaction.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentaction.h
 	<gtk/gtkaction.h>
 	<gtk/gtkrecentmanager.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentmanager.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentmanager.h
 	<gdk-pixbuf/gdk-pixbuf.h>
 	<gdk/gdk.h>
 	<time.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentchooser.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentchooser.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkrecentmanager.h>
 	<gtk/gtkrecentfilter.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentfilter.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentfilter.h
 	<glib-object.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentchooserdialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentchooserdialog.h
 	<gtk/gtkdialog.h>
 	<gtk/gtkrecentchooser.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentchoosermenu.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentchoosermenu.h
 	<gtk/gtkmenu.h>
 	<gtk/gtkrecentchooser.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkrecentchooserwidget.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkrecentchooserwidget.h
 	<gtk/gtkrecentchooser.h>
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkscalebutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkscalebutton.h
 	<gtk/gtkbutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkscrolledwindow.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkscrolledwindow.h
 	<gtk/gtkhscrollbar.h>
 	<gtk/gtkvscrollbar.h>
 	<gtk/gtkviewport.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvscrollbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvscrollbar.h
 	<gtk/gtkscrollbar.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkviewport.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkviewport.h
 	<gtk/gtkadjustment.h>
 	<gtk/gtkbin.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkseparatormenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkseparatormenuitem.h
 	<gtk/gtkmenuitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkseparatortoolitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkseparatortoolitem.h
 	<gtk/gtktoolitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkshow.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkshow.h
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkspinbutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkspinbutton.h
 	<gtk/gtkentry.h>
 	<gtk/gtkadjustment.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkspinner.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkspinner.h
 	<gtk/gtkdrawingarea.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkstatusbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkstatusbar.h
 	<gtk/gtkhbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkstatusicon.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkstatusicon.h
 	<gtk/gtkimage.h>
 	<gtk/gtkmenu.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkstock.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkstock.h
 	<gdk/gdk.h>
 	<gtk/gtktypeutils.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktable.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktearoffmenuitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktearoffmenuitem.h
 	<gtk/gtkmenuitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextbuffer.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextbuffer.h
 	<gtk/gtkwidget.h>
 	<gtk/gtkclipboard.h>
 	<gtk/gtktexttagtable.h>
@@ -2316,103 +2316,103 @@
 	<gtk/gtktextmark.h>
 	<gtk/gtktextchild.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktexttagtable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktexttagtable.h
 	<gtk/gtktexttag.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextmark.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextmark.h
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextbufferrichtext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextbufferrichtext.h
 	<gtk/gtktextbuffer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktextview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktextview.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtkimcontext.h>
 	<gtk/gtktextbuffer.h>
 	<gtk/gtkmenu.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolbar.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolbar.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtktooltips.h>
 	<gtk/gtktoolitem.h>
 	<gtk/gtkpixmap.h>
 	<gtk/gtksignal.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkpixmap.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkpixmap.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolitemgroup.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolitemgroup.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtktoolitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolpalette.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolpalette.h
 	<gtk/gtkcontainer.h>
 	<gtk/gtkdnd.h>
 	<gtk/gtktoolitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktoolshell.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktoolshell.h
 	<gtk/gtkenums.h>
 	<pango/pango.h>
 	<gtk/gtksizegroup.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktestutils.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktestutils.h
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreednd.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreednd.h
 	<gtk/gtktreemodel.h>
 	<gtk/gtkdnd.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreemodelsort.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreemodelsort.h
 	<gdkconfig.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreesortable.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreeselection.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreeselection.h
 	<gtk/gtktreeview.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreestore.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreestore.h
 	<gdkconfig.h>
 	<gtk/gtktreemodel.h>
 	<gtk/gtktreesortable.h>
 	<stdarg.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkuimanager.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkuimanager.h
 	<gtk/gtkaccelgroup.h>
 	<gtk/gtkwidget.h>
 	<gtk/gtkaction.h>
 	<gtk/gtkactiongroup.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvbbox.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvbbox.h
 	<gtk/gtkbbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkversion.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkversion.h
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvolumebutton.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvolumebutton.h
 	<gtk/gtkscalebutton.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvpaned.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvpaned.h
 	<gtk/gtkpaned.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvruler.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvruler.h
 	<gtk/gtkruler.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvscale.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvscale.h
 	<gtk/gtkscale.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkvseparator.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkvseparator.h
 	<gtk/gtkseparator.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktext.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktext.h
 	<gtk/gtkoldeditable.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkoldeditable.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkoldeditable.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktree.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktree.h
 	<gtk/gtkcontainer.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktreeitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktreeitem.h
 	<gtk/gtkitem.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkclist.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkclist.h
 	<gtk/gtksignal.h>
 	<gtk/gtkalignment.h>
 	<gtk/gtklabel.h>
@@ -2420,40 +2420,40 @@
 	<gtk/gtkhscrollbar.h>
 	<gtk/gtkvscrollbar.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcombo.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcombo.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkctree.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkctree.h
 	<gtk/gtkclist.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkcurve.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkcurve.h
 	<gtk/gtkdrawingarea.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkfilesel.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkfilesel.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkgamma.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkgamma.h
 	<gtk/gtkvbox.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkinputdialog.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkinputdialog.h
 	<gtk/gtkdialog.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkitemfactory.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkitemfactory.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtklist.h
+1455293368 /usr/include/gtk-2.0/gtk/gtklist.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtklistitem.h
+1455293368 /usr/include/gtk-2.0/gtk/gtklistitem.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkoptionmenu.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkoptionmenu.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtkpreview.h
+1455293368 /usr/include/gtk-2.0/gtk/gtkpreview.h
 	<gtk/gtk.h>
 
-1441970685 /usr/include/gtk-2.0/gtk/gtktipsquery.h
+1455293368 /usr/include/gtk-2.0/gtk/gtktipsquery.h
 	<gtk/gtk.h>
 
 1411667511 /usr/include/glib-2.0/glib/gi18n.h
@@ -2461,11 +2461,11 @@
 	<libintl.h>
 	<string.h>
 
-1453981823 source:/home/douglas/Área de Trabalho/TrackMP3/mp3.c
+1456125003 source:/home/douglas/Área de Trabalho/TrackMP3/mp3.c
 	<gst/gst.h>
 	<stdlib.h>
 	<string.h>
-	<gst/interfaces/xoverlay.h>
+	<gst/video/video.h>
 	"play.h"
 
 1387309679 /usr/include/gstreamer-0.10/gst/gst.h
@@ -2908,9 +2908,9 @@
 
 1387309679 /usr/include/gstreamer-0.10/gst/gstcompat.h
 
-1449817716 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
+1456125568 source:/home/douglas/Área de Trabalho/TrackMP3/cam.c
 	<gst/gst.h>
-	<gst/interfaces/xoverlay.h>
+	<gst/video/videooverlay.h>
 	<stdlib.h>
 
 1453418905 source:/home/douglas/Área de Trabalho/TrackMP3/tela.c
@@ -2923,21 +2923,22 @@
 1424190315 /usr/include/gstreamer-0.10/gst/interfaces/xoverlay.h
 	<gst/gst.h>
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkx.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkx.h
 	<gdk/gdkprivate.h>
 	<X11/Xlib.h>
 	<X11/Xutil.h>
 	"gdkprivate-x11.h"
 	"gdkscreen-x11.h"
 
-1441970678 /usr/include/gtk-2.0/gdk/gdkprivate.h
+1455293362 /usr/include/gtk-2.0/gdk/gdkprivate.h
 	<gdk/gdk.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gst.h
+1450215521 /usr/include/gstreamer-1.0/gst/gst.h
 	<glib.h>
 	<gst/glib-compat.h>
 	<gst/gstenumtypes.h>
 	<gst/gstversion.h>
+	<gst/gstatomicqueue.h>
 	<gst/gstbin.h>
 	<gst/gstbuffer.h>
 	<gst/gstbufferlist.h>
@@ -2949,6 +2950,9 @@
 	<gst/gstcontrolsource.h>
 	<gst/gstdatetime.h>
 	<gst/gstdebugutils.h>
+	<gst/gstdevice.h>
+	<gst/gstdevicemonitor.h>
+	<gst/gstdeviceprovider.h>
 	<gst/gstelement.h>
 	<gst/gstelementmetadata.h>
 	<gst/gsterror.h>
@@ -2967,6 +2971,7 @@
 	<gst/gstplugin.h>
 	<gst/gstpoll.h>
 	<gst/gstpreset.h>
+	<gst/gstprotection.h>
 	<gst/gstquery.h>
 	<gst/gstregistry.h>
 	<gst/gstsample.h>
@@ -2987,19 +2992,21 @@
 	<gst/gstparse.h>
 	<gst/gstcompat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/glib-compat.h
+1450215521 /usr/include/gstreamer-1.0/gst/glib-compat.h
+	<glib.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstenumtypes.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstenumtypes.h
 	<glib-object.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstversion.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstversion.h
+	<glib.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstbin.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstbin.h
 	<gst/gstelement.h>
 	<gst/gstiterator.h>
 	<gst/gstbus.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstelement.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstelement.h
 	<gst/gstconfig.h>
 	<gst/gstobject.h>
 	<gst/gstpad.h>
@@ -3015,27 +3022,30 @@
 
 1400007237 /usr/include/gstreamer-1.0/gst/gstconfig.h
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstobject.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstobject.h
 	<gst/gstconfig.h>
 	<glib-object.h>
 	<gst/gstcontrolbinding.h>
 	<gst/gstcontrolsource.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcontrolbinding.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstcontrolbinding.h
 	<gst/gstconfig.h>
 	<glib-object.h>
 	<gst/gstcontrolsource.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcontrolsource.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstcontrolsource.h
 	<gst/gstconfig.h>
 	<glib-object.h>
 	<gst/gstclock.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstclock.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstclock.h
+	<gst/gstconfig.h>
+	<glib.h>
 	<gst/gstobject.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpad.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpad.h
 	<gst/gstconfig.h>
+	<glib.h>
 	<gst/gstobject.h>
 	<gst/gstbuffer.h>
 	<gst/gstbufferlist.h>
@@ -3045,51 +3055,59 @@
 	<gst/gstquery.h>
 	<gst/gsttask.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstbuffer.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstbuffer.h
 	<gst/gstminiobject.h>
 	<gst/gstclock.h>
 	<gst/gstallocator.h>
 	<gst/gstmeta.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstminiobject.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstminiobject.h
 	<gst/gstconfig.h>
 	<glib-object.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstallocator.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstallocator.h
 	<gst/gstmemory.h>
+	<gst/gstobject.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstmemory.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstmemory.h
 	<gst/gstconfig.h>
 	<glib-object.h>
+	<gst/gstminiobject.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstmeta.h
-
-1400007237 /usr/include/gstreamer-1.0/gst/gstbufferlist.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstmeta.h
+	<glib.h>
 	<gst/gstbuffer.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcaps.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstbufferlist.h
+	<gst/gstbuffer.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstcaps.h
 	<gst/gstconfig.h>
 	<gst/gstminiobject.h>
 	<gst/gststructure.h>
 	<gst/gstcapsfeatures.h>
 	<gst/glib-compat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gststructure.h
+1450215521 /usr/include/gstreamer-1.0/gst/gststructure.h
 	<gst/gstconfig.h>
 	<glib-object.h>
 	<gst/gstclock.h>
 	<gst/gstdatetime.h>
 	<gst/glib-compat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstdatetime.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstdatetime.h
+	<gst/gstconfig.h>
 	<time.h>
 	<glib.h>
+	<glib-object.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcapsfeatures.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstcapsfeatures.h
 	<gst/gstconfig.h>
 	<gst/glib-compat.h>
+	<glib-object.h>
+	<glib.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpadtemplate.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpadtemplate.h
 	<gst/gstconfig.h>
 	<gst/gstobject.h>
 	<gst/gstbuffer.h>
@@ -3098,7 +3116,7 @@
 	<gst/gstquery.h>
 	<gst/gsttask.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstevent.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstevent.h
 	<gst/gstminiobject.h>
 	<gst/gstformat.h>
 	<gst/gstobject.h>
@@ -3106,33 +3124,33 @@
 	<gst/gststructure.h>
 	<gst/gsttaglist.h>
 	<gst/gstsegment.h>
-	<gst/gstsegment.h>
 	<gst/gstmessage.h>
 	<gst/gstcontext.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstformat.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstformat.h
 	<glib.h>
 	<gst/gstiterator.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstiterator.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstiterator.h
 	<glib-object.h>
 	<gst/gstconfig.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttaglist.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttaglist.h
 	<gst/gstdatetime.h>
 	<gst/gstsample.h>
 	<gst/gstbuffer.h>
 	<gst/glib-compat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstsample.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstsample.h
 	<gst/gstbuffer.h>
+	<gst/gstbufferlist.h>
 	<gst/gstcaps.h>
 	<gst/gstsegment.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstsegment.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstsegment.h
 	<gst/gstformat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstmessage.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstmessage.h
 	<gst/gstminiobject.h>
 	<gst/gstobject.h>
 	<gst/gstelement.h>
@@ -3140,8 +3158,9 @@
 	<gst/gststructure.h>
 	<gst/gstquery.h>
 	<gst/gsttoc.h>
+	<gst/gstdevice.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstquery.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstquery.h
 	<glib.h>
 	<gst/gstiterator.h>
 	<gst/gstminiobject.h>
@@ -3152,29 +3171,30 @@
 	<gst/gsttoc.h>
 	<gst/gstcontext.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttoc.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttoc.h
 	<gst/gstconfig.h>
 	<gst/gstminiobject.h>
 	<gst/gststructure.h>
 	<gst/gsttaglist.h>
 	<gst/gstformat.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcontext.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstcontext.h
+	<glib.h>
 	<gst/gstminiobject.h>
 	<gst/gststructure.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttask.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttask.h
 	<gst/gstobject.h>
 	<gst/gsttaskpool.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttaskpool.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttaskpool.h
 	<gst/gstobject.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstbus.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstbus.h
 	<gst/gstmessage.h>
 	<gst/gstclock.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstelementfactory.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstelementfactory.h
 	<gst/gstconfig.h>
 	<gst/gstelement.h>
 	<gst/gstpad.h>
@@ -3182,111 +3202,118 @@
 	<gst/gstpluginfeature.h>
 	<gst/gsturi.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstplugin.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstplugin.h
 	<gst/gstconfig.h>
 	<gst/gstobject.h>
 	<gst/gstmacros.h>
 	<gst/gststructure.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstmacros.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstmacros.h
+	<glib.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpluginfeature.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpluginfeature.h
 	<glib-object.h>
 	<gst/gstobject.h>
 	<gst/gstplugin.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsturi.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsturi.h
 	<glib.h>
+	<glib-object.h>
 	<gst/gstelement.h>
+	<gst/gstconfig.h>
+	"gstminiobject.h"
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstbufferpool.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstbufferpool.h
 	<gst/gstminiobject.h>
 	<gst/gstpad.h>
 	<gst/gstbuffer.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstchildproxy.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstchildproxy.h
 	<glib-object.h>
 	<gst/gst.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstdebugutils.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstdebugutils.h
 	<glib.h>
 	<glib-object.h>
 	<gst/gstconfig.h>
 	<gst/gstbin.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstelementmetadata.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstelementmetadata.h
+	<glib.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsterror.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsterror.h
 	<glib.h>
 	<glib-object.h>
 	<errno.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstghostpad.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstghostpad.h
 	<gst/gstpad.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstinfo.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstinfo.h
 	<glib.h>
 	<glib-object.h>
 	<gst/gstconfig.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstparamspecs.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstparamspecs.h
 	<gst/gstvalue.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstvalue.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstvalue.h
 	<gst/gstconfig.h>
 	<gst/gstcaps.h>
 	<gst/gststructure.h>
 	<gst/gstcapsfeatures.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpipeline.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpipeline.h
 	<gst/gstbin.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpoll.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpoll.h
 	<glib.h>
 	<glib-object.h>
 	<gst/gstclock.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstpreset.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstpreset.h
 	<glib-object.h>
 	<gst/gstconfig.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstregistry.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstregistry.h
 	<gst/gstconfig.h>
 	<gst/gstplugin.h>
 	<gst/gstpluginfeature.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstsystemclock.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstsystemclock.h
 	<gst/gstclock.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttagsetter.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttagsetter.h
 	<gst/gst.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttocsetter.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttocsetter.h
 	<gst/gst.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttypefind.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttypefind.h
 	<gst/gstcaps.h>
 	<gst/gstplugin.h>
 	<gst/gstpluginfeature.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gsttypefindfactory.h
+1450215521 /usr/include/gstreamer-1.0/gst/gsttypefindfactory.h
 	<gst/gstcaps.h>
 	<gst/gstplugin.h>
 	<gst/gstpluginfeature.h>
 	<gst/gsttypefind.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstutils.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstutils.h
 	<glib.h>
 	<gst/gstconfig.h>
 	<gst/gstbin.h>
 	<gst/gstparse.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstparse.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstparse.h
 	<gst/gstelement.h>
 
-1400007237 /usr/include/gstreamer-1.0/gst/gstcompat.h
+1450215521 /usr/include/gstreamer-1.0/gst/gstcompat.h
+	<glib.h>
+	<gst/gstpad.h>
 
-1400007940 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
+1444850771 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
 	<gst/gst.h>
 
 1455846101 /home/douglas/Área de Trabalho/TrackMP3/play.h
@@ -3311,13 +3338,13 @@
 1455847467 source:/home/douglas/Área de Trabalho/TrackMP3/ui.c
 	"play.h"
 
-1455819811 source:/home/douglas/Área de Trabalho/TrackMP3/ouvir.c
+1456125023 source:/home/douglas/Área de Trabalho/TrackMP3/ouvir.c
 	<gst/gst.h>
-	<gst/interfaces/xoverlay.h>
+	<gst/video/video.h>
 	<stdlib.h>
 	<string.h>
 
-1455855878 source:/home/douglas/Área de Trabalho/TrackMP3/TX.c
+1456122613 source:/home/douglas/Área de Trabalho/TrackMP3/TX.c
 	<gst/gst.h>
 	<stdlib.h>
 	<string.h>
@@ -3325,11 +3352,149 @@
 	<sys/socket.h>
 	<arpa/inet.h>
 
-1455856025 source:/home/douglas/Área de Trabalho/TrackMP3/server.c
+1455933301 source:/home/douglas/Área de Trabalho/TrackMP3/server.c
 	<stdio.h>
 	<sys/socket.h>
 	<arpa/inet.h>
 	<stdlib.h>
 	<netdb.h>
 	<string.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstatomicqueue.h
+	<glib.h>
+	<glib-object.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstdevice.h
+	<gst/gstelement.h>
+	<gst/gstcaps.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstdevicemonitor.h
+	<gst/gstobject.h>
+	<gst/gstdevice.h>
+	<gst/gstdeviceprovider.h>
+	<gst/gstdeviceproviderfactory.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstdeviceprovider.h
+	<gst/gstelement.h>
+	<gst/gstdeviceproviderfactory.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstdeviceproviderfactory.h
+	<gst/gstconfig.h>
+	<gst/gstplugin.h>
+	<gst/gstpluginfeature.h>
+	<gst/gstdeviceprovider.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/gstprotection.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video.h
+	<gst/gst.h>
+	<gst/video/video-format.h>
+	<gst/video/video-color.h>
+	<gst/video/video-info.h>
+	<gst/video/video-frame.h>
+	<gst/video/video-enumtypes.h>
+	<gst/video/colorbalancechannel.h>
+	<gst/video/colorbalance.h>
+	<gst/video/gstvideodecoder.h>
+	<gst/video/gstvideoencoder.h>
+	<gst/video/gstvideofilter.h>
+	<gst/video/gstvideometa.h>
+	<gst/video/gstvideopool.h>
+	<gst/video/gstvideosink.h>
+	<gst/video/gstvideoutils.h>
+	<gst/video/navigation.h>
+	<gst/video/video-blend.h>
+	<gst/video/video-event.h>
+	<gst/video/videoorientation.h>
+	<gst/video/video-overlay-composition.h>
+	<gst/video/videooverlay.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-format.h
+	<gst/gst.h>
+	<gst/video/video-enumtypes.h>
+	<gst/video/video-chroma.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-enumtypes.h
+	<glib-object.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-chroma.h
+	<gst/gst.h>
+	<gst/video/video-format.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-color.h
+	<gst/gst.h>
+	<gst/video/video-format.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-info.h
+	<gst/gst.h>
+	<gst/video/video-format.h>
+	<gst/video/video-color.h>
+	<gst/video/video-enumtypes.h>
+	<gst/video/video.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-frame.h
+	<gst/video/video-enumtypes.h>
+	<gst/video/video-format.h>
+	<gst/video/video-info.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/colorbalancechannel.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/colorbalance.h
+	<gst/gst.h>
+	<gst/video/colorbalancechannel.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideodecoder.h
+	<gst/base/gstadapter.h>
+	<gst/video/gstvideoutils.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/base/gstadapter.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideoutils.h
+	<gst/video/video.h>
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideoencoder.h
+	<gst/video/gstvideoutils.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideofilter.h
+	<gst/base/gstbasetransform.h>
+	<gst/video/video.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/base/gstbasetransform.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideometa.h
+	<gst/gst.h>
+	<gst/video/video.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideopool.h
+	<gst/gst.h>
+	<gst/video/video.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/gstvideosink.h
+	<gst/gst.h>
+	<gst/base/gstbasesink.h>
+
+1450215521 /usr/include/gstreamer-1.0/gst/base/gstbasesink.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/navigation.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-blend.h
+	<gst/gst.h>
+	<gst/video/video.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-event.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/videoorientation.h
+	<gst/gst.h>
+
+1444850771 /usr/include/gstreamer-1.0/gst/video/video-overlay-composition.h
+	<gst/gst.h>
+	<gst/video/video.h>
 

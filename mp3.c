@@ -1,7 +1,7 @@
 #include <gst/gst.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gst/interfaces/xoverlay.h>
+#include <gst/video/video.h>
 #include "play.h"
 
 GstElement *pipeline_a = NULL;
@@ -25,7 +25,7 @@ void set_pos_track(float newpos)
 
     if (!tudo) return;
 
-    gst_element_query_duration (tudo, &frm, &len);
+    gst_element_query_duration (tudo, frm, &len);
     intpos = len*newpos;
     blockbar = TRUE;
     gst_element_set_state(tudo,GST_STATE_PAUSED);
@@ -49,9 +49,9 @@ static gboolean cb_print_position (GstElement *pipeline)
 
     while (blockbar);
 
-    gst_element_query_position (pipeline, &frm, &pos);
-    gst_element_query_duration (pipeline, &frm, &len);
-    gst_element_query_position (pipeline, &frm2, &tmp);
+    gst_element_query_position (pipeline, frm, &pos);
+    gst_element_query_duration (pipeline, frm, &len);
+    gst_element_query_position (pipeline, frm2, &tmp);
 
     sprintf(strtmp,"%"GST_TIME_FORMAT,GST_TIME_ARGS(tmp));
     setprogresso(pos,len,strtmp);
@@ -61,27 +61,15 @@ static gboolean cb_print_position (GstElement *pipeline)
     return posRet;
 }
 
-static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, gpointer user_data)
+static GstBusSyncReply bus_sync_handler2 (GstBus * bus, GstMessage * message, GstPipeline *pipe)
 {
-// ignore anything but 'prepare-xwindow-id' element messages
-    if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
-        return GST_BUS_PASS;
-    if (!gst_structure_has_name (message->structure, "prepare-xwindow-id"))
+    if (!gst_is_video_overlay_prepare_window_handle_message (message))
         return GST_BUS_PASS;
 
-    if (wave_area_xid != 0)
-    {
-        GstXOverlay *xoverlay;
-        // GST_MESSAGE_SRC (message) will be the video sink element
-        xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
-        gst_x_overlay_set_window_handle (xoverlay, wave_area_xid);
-    }
-    else
-    {
-        g_warning ("Should have obtained video_window_xid by now!");
-    }
+    gst_video_overlay_set_window_handle (GST_VIDEO_OVERLAY (GST_MESSAGE_SRC (message)),wave_area_xid);
 
     gst_message_unref (message);
+
     return GST_BUS_DROP;
 }
 
@@ -135,7 +123,7 @@ int mp3 (char *musica)
     fila[0] = gst_element_factory_make("queue",NULL);
     fila[1] = gst_element_factory_make("queue",NULL);
     scope = gst_element_factory_make("wavescope",NULL);
-    scpfil = gst_element_factory_make("ffmpegcolorspace",NULL);
+    scpfil = gst_element_factory_make("videoconvert",NULL);
     scpsink = gst_element_factory_make("autovideosink",NULL);
     sink_a = gst_element_factory_make("autoaudiosink",NULL);
     /* Create the empty pipeline */
@@ -192,8 +180,8 @@ int mp3 (char *musica)
     g_timeout_add (500, (GSourceFunc) cb_print_position, tudo);
 
     bus = gst_element_get_bus(pipeline_a);
-    gst_bus_set_sync_handler(bus,(GstBusSyncHandler) NULL,NULL);
-    gst_bus_set_sync_handler(bus,(GstBusSyncHandler) bus_sync_handler2,NULL);
+    gst_bus_set_sync_handler(bus,(GstBusSyncHandler) NULL,NULL,NULL);
+    gst_bus_set_sync_handler(bus,(GstBusSyncHandler) bus_sync_handler2,NULL,NULL);
 
     /* Start playing */
     ret = gst_element_set_state(tudo, GST_STATE_PLAYING);

@@ -1,5 +1,5 @@
 #include <gst/gst.h>
-#include <gst/interfaces/xoverlay.h>
+#include <gst/video/videooverlay.h>
 #include <stdlib.h>
 
 GstElement *pipemaster = NULL;
@@ -8,28 +8,15 @@ GstCaps *caps;
 int recfim = 0;
 extern gulong video_area_xid;
 
-static GstBusSyncReply bus_sync_handler (GstBus * bus, GstMessage * message, gpointer user_data)
+static GstBusSyncReply bus_sync_handler (GstBus * bus, GstMessage * message, GstPipeline *pipe)
 {
-// ignore anything but 'prepare-xwindow-id' element messages
-    if (GST_MESSAGE_TYPE (message) != GST_MESSAGE_ELEMENT)
-        return GST_BUS_PASS;
-    if (!gst_structure_has_name (message->structure, "prepare-xwindow-id"))
+    if (!gst_is_video_overlay_prepare_window_handle_message (message))
         return GST_BUS_PASS;
 
-    if (video_area_xid != 0)
-    {
-        GstXOverlay *xoverlay;
-
-        // GST_MESSAGE_SRC (message) will be the video sink element
-        xoverlay = GST_X_OVERLAY (GST_MESSAGE_SRC (message));
-        gst_x_overlay_set_window_handle (xoverlay, video_area_xid);
-    }
-    else
-    {
-        g_warning ("Should have obtained video_window_xid by now!");
-    }
+    gst_video_overlay_set_window_handle (GST_VIDEO_OVERLAY (GST_MESSAGE_SRC (message)),video_area_xid);
 
     gst_message_unref (message);
+
     return GST_BUS_DROP;
 }
 
@@ -183,7 +170,7 @@ int cam ()
     /* Wait until error or EOS */
     bus = gst_element_get_bus(pipemaster);
     msg = gst_bus_timed_pop_filtered(bus, GST_CLOCK_TIME_NONE, (GstMessageType)(GST_MESSAGE_STATE_CHANGED | GST_MESSAGE_ERROR | GST_MESSAGE_EOS));
-    gst_bus_set_sync_handler (bus, (GstBusSyncHandler) bus_sync_handler, NULL);
+    gst_bus_set_sync_handler (bus, (GstBusSyncHandler) bus_sync_handler, NULL, NULL);
 
     g_main_loop_run(app_loop);
 
