@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void make_request_pad_and_link (GstElement *makePad,const gchar *pad_template, GstElement *linkToBefore, GstElement *linkToAfter, GstCaps *befCaps)
+static void make_request_pad_and_link_o (GstElement *makePad,const gchar *pad_template, GstElement *linkToBefore, GstElement *linkToAfter, GstCaps *befCaps)
 {
     GstPad * pad;
     gchar *name;
@@ -41,7 +41,7 @@ static void make_request_pad_and_link (GstElement *makePad,const gchar *pad_temp
     //gst_object_unref (GST_OBJECT (pad));
 }
 
-static void pad_added_handler(GstElement *src, GstPad *new_pad, GstElement *depay)
+static void pad_added_handler2 (GstElement *src, GstPad *new_pad, gpointer *depay)
 {
     GstPad *link = NULL;
     GstPadLinkReturn ret;
@@ -59,14 +59,13 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, GstElement *depa
         new_pad_type = gst_structure_get_name(new_pad_struct);
         name_pad = gst_pad_get_name(new_pad);
     }
-    else return;
 
     /* Attempt the link */
 
     if (g_str_has_prefix(name_pad,"recv_rtp_src"))
     {
         g_print("->->recv_rtp_src detect\n");
-        link = gst_element_get_static_pad (depay,"sink");
+        link = gst_element_get_static_pad (GST_ELEMENT(depay),"sink");
 
         if (gst_pad_is_linked(link))
         {
@@ -108,7 +107,7 @@ void *ouvirf(char *ippeer)
 
     pipelisten = gst_pipeline_new("pipelisten");
 
-    rtpbin = gst_element_factory_make("gstrtpbin","rtpbin");
+    rtpbin = gst_element_factory_make("rtpbin","rtpbin");
     src_a = gst_element_factory_make("udpsrc","src_a");
     src_rtcp = gst_element_factory_make("udpsrc","src_rtcp");
     rtpdepay = gst_element_factory_make("rtpopusdepay","rtpdepay");
@@ -129,7 +128,7 @@ void *ouvirf(char *ippeer)
     if (!pipelisten || !rtpbin || !rtpdepay || !src_a || !dec_a || !sink_a || !conv_a || !sink_rtcp)
     {
         g_print("ouvir.c: Elementos nao puderam ser criados");
-        return -1;
+        return NULL;
     }
 
     gst_bin_add_many(GST_BIN(pipelisten), rtpbin, src_a, rtpdepay, dec_a, conv_a, sink_a, sink_rtcp, NULL);
@@ -137,13 +136,13 @@ void *ouvirf(char *ippeer)
     if (gst_element_link_many(rtpdepay,dec_a,conv_a,sink_a,NULL) == FALSE)
     {
         g_print("ouvir.c: Elementos nao puderam ser linkados 1");
-        return -1;
+        return NULL;
     }
 
-    g_signal_connect(rtpbin, "pad-added", G_CALLBACK(pad_added_handler), rtpdepay);
+    g_signal_connect(rtpbin, "pad-added", G_CALLBACK(pad_added_handler2), rtpdepay);
 
-    make_request_pad_and_link(rtpbin,"recv_rtp_sink_%d",src_a,NULL,udpCaps);
-    make_request_pad_and_link(rtpbin,"send_rtcp_src_%d",NULL,sink_rtcp,NULL);
+    make_request_pad_and_link_o(rtpbin,"recv_rtp_sink_%u",src_a,NULL,udpCaps);
+    make_request_pad_and_link_o(rtpbin,"send_rtcp_src_%u",NULL,sink_rtcp,NULL);
 
     g_main_loop_run(listen_loop);
     g_main_loop_unref(listen_loop);

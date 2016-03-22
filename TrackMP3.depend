@@ -3511,7 +3511,7 @@
 	<netdb.h>
 	<string.h>
 
-1458620418 source:/home/douglas/Área de Trabalho/play/main.c
+1458624522 source:/home/douglas/Área de Trabalho/play/main.c
 	"play.h"
 
 1458620418 /home/douglas/Área de Trabalho/play/play.h
@@ -3532,7 +3532,7 @@
 	<gst/video/video.h>
 	"play.h"
 
-1458623501 source:/home/douglas/Área de Trabalho/play/ouvir.c
+1458628256 source:/home/douglas/Área de Trabalho/play/ouvir.c
 	<gst/gst.h>
 	<gst/video/video.h>
 	<stdlib.h>
