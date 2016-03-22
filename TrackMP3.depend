@@ -3498,3 +3498,69 @@
 	<gst/gst.h>
 	<gst/video/video.h>
 
+1458622767 source:/home/douglas/Área de Trabalho/play/cam.c
+	<gst/gst.h>
+	<gst/video/videooverlay.h>
+	<stdlib.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/http.c
+	<stdio.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+	<stdlib.h>
+	<netdb.h>
+	<string.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/main.c
+	"play.h"
+
+1458620418 /home/douglas/Área de Trabalho/play/play.h
+	<stdlib.h>
+	<stdio.h>
+	<gtk/gtk.h>
+	<gtk/gtkwidget.h>
+	<gtk/gtkprogressbar.h>
+	<gdk/gdkx.h>
+	<gmodule.h>
+	<glib/gi18n.h>
+	<pthread.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/mp3.c
+	<gst/gst.h>
+	<stdlib.h>
+	<string.h>
+	<gst/video/video.h>
+	"play.h"
+
+1458623501 source:/home/douglas/Área de Trabalho/play/ouvir.c
+	<gst/gst.h>
+	<gst/video/video.h>
+	<stdlib.h>
+	<string.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/server.c
+	<stdio.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+	<stdlib.h>
+	<netdb.h>
+	<string.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/tela.c
+	<stdlib.h>
+	<stdio.h>
+	<gtk/gtk.h>
+	<glib/gi18n.h>
+	<pthread.h>
+
+1458623525 source:/home/douglas/Área de Trabalho/play/TX.c
+	<gst/gst.h>
+	<stdlib.h>
+	<string.h>
+	<netdb.h>
+	<sys/socket.h>
+	<arpa/inet.h>
+
+1458620418 source:/home/douglas/Área de Trabalho/play/ui.c
+	"play.h"
+

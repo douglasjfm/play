@@ -64,7 +64,7 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, GstElement **sin
 //	/* Check the new pad's type */
     if (g_str_has_prefix(name_pad,"send_rtp_src") || g_str_has_prefix(name_pad,"send_rtcp_sink"))
     {
-        new_pad_caps = gst_pad_get_caps(new_pad);
+        new_pad_caps = gst_pad_query_caps(new_pad,NULL);
         new_pad_struct = gst_caps_get_structure(new_pad_caps, 0);
         new_pad_type = gst_structure_get_name(new_pad_struct);
         name_pad = gst_pad_get_name(new_pad);
@@ -76,7 +76,7 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, GstElement **sin
     if (g_str_has_prefix(name_pad,"send_rtp_src"))
     {
         g_print("->->send rtp src detect\n");
-        link = gst_element_get_pad(sink[0],"sink");
+        link = gst_element_get_static_pad(sink[0],"sink");
 
         if (gst_pad_is_linked(link))
         {
@@ -88,7 +88,7 @@ static void pad_added_handler(GstElement *src, GstPad *new_pad, GstElement **sin
     else if (g_str_has_prefix(name_pad,"send_rtcp_sink"))
     {
         g_print("->->send rtcp sink detect\n");
-        link = gst_element_get_pad(sink[2],"src");
+        link = gst_element_get_static_pad(sink[2],"src");
 
         if (gst_pad_is_linked(link))
         {

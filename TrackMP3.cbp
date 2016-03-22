@@ -35,7 +35,8 @@
 			<Add directory="/usr/include/libxml2" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config --cflags --libs gstreamer-1.0 gstreamer-interfaces-0.10 gmodule-2.0 gtk+-2.0`" />
+			<Add option="`pkg-config --cflags --libs gstreamer-1.0 gmodule-2.0 gtk+-2.0`" />
+			<Add library="/usr/lib/i386-linux-gnu/libgstvideo-1.0.so" />
 		</Linker>
 		<Unit filename="TX.c">
 			<Option compilerVar="CC" />
