@@ -65,7 +65,8 @@ char* httpget(char *host, char *page)
     //now it is time to receive the page
     memset(buf, 0, sizeof(buf));
     int htmlstart = 0,i;
-    char * htmlcontent, meuip[20];
+    char * htmlcontent;
+    static char meuip[20];
     while((tmpres = recv(sock, buf, BUFSIZ, 0)) > 0)
     {
         if(htmlstart == 0)
@@ -106,14 +107,6 @@ char* httpget(char *host, char *page)
     close(sock);
     return meuip;
 }
-
-void usage()
-{
-    fprintf(stderr, "USAGE: htmlget host [page]\n\
-    \thost: the website hostname. ex: coding.debuntu.org\n\
-    \tpage: the page to retrieve. ex: index.html, default: /\n");
-}
-
 
 int create_tcp_socket()
 {

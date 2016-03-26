@@ -1,5 +1,4 @@
 #include <gst/gst.h>
-#include <stdlib.h>
 #include <string.h>
 #include <gst/video/video.h>
 #include "play.h"
@@ -124,7 +123,7 @@ int mp3 (char *musica)
     fila[1] = gst_element_factory_make("queue",NULL);
     scope = gst_element_factory_make("wavescope",NULL);
     scpfil = gst_element_factory_make("videoconvert",NULL);
-    scpsink = gst_element_factory_make("autovideosink",NULL);
+    scpsink = gst_element_factory_make("xvimagesink",NULL);
     sink_a = gst_element_factory_make("autoaudiosink",NULL);
     /* Create the empty pipeline */
     pipeline_a = gst_pipeline_new("audio-pipeline");

@@ -1,5 +1,6 @@
 #include <gst/gst.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -176,7 +177,7 @@ void* teleTX (char *ip)
     if (!pipeline_a || !source_a || !sink_a || !enc_a || !conv_a || !pipeline_v || !source_v || !sink_v || !enc_v || !conv_v)
     {
         g_printerr("Not all elements could be created.");
-        return -1;
+        return NULL;
     }
 
     /* Build the pipeline */
@@ -201,14 +202,14 @@ void* teleTX (char *ip)
         g_printerr("Elements audio could not be linked.\n");
         gst_object_unref(pipeline_a);
         gst_object_unref(pipeline_v);
-        return -1;
+        return NULL;
     }
     if (gst_element_link_many(source_v, conv_v, enc_v, sink_v, NULL) != TRUE)
     {
         g_printerr("Elements video could not be linked.\n");
         gst_object_unref(pipeline_v);
         gst_object_unref(pipeline_a);
-        return -1;
+        return NULL;
     }
 
     g_signal_connect(rtpbin, "pad-added", G_CALLBACK(pad_added_handler), sinkList);//tratar send_rtp_src tratar send_rtcp_src
@@ -227,7 +228,7 @@ void* teleTX (char *ip)
         gst_object_unref(pipeline_a);
         gst_object_unref(pipeline_v);
 
-        return -1;
+        return NULL;
     }
 
     g_print("playing");

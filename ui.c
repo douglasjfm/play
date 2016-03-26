@@ -212,7 +212,7 @@ G_MODULE_EXPORT void logar_tele()
     strcpy(curlogin,nome->text);
     strcpy(url,"retip.php?login=");
     strcat(url,strnome);
-    extip = httpget("cidadelimpa.bugs3.com",url);
+    httpget("cidadelimpa.bugs3.com",url);
     strcpy(url,"online ");
     gtk_label_set(logstt,url);
     telstt = 'o';
@@ -229,5 +229,5 @@ G_MODULE_EXPORT void call_user()
 //    extip = httpget("cidadelimpa.bugs3.com",url);
 //    printf("usu ip : %s\n",extip);
     if (strlen(ipcall))
-        pthread_create(&tidtx,NULL,&chamar,NULL);
+        pthread_create(&tidtx,NULL,(void*)&chamar,NULL);
 }

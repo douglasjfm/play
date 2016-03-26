@@ -67,20 +67,23 @@ void gravar()
     {
         g_print("Gravando...\n");
         recfim = 0;
-        GstElement *conv2 = gst_element_factory_make("ffmpegcolorspace","conv2");
+        GstElement *conv2 = gst_element_factory_make("videoconvert","conv2");
+        GstElement *vidrate = gst_element_factory_make("videorate","ratev");
         GstElement *qq = gst_element_factory_make("queue","fila_r");
         GstElement *enc = gst_element_factory_make("theoraenc","encvideo");
         GstElement *mux = gst_element_factory_make("oggmux","muxvideo");
         GstElement *fsink = gst_element_factory_make("filesink","filevideo");
         g_object_set(fsink,"location","playMP3_clip.ogg",NULL);
 
-        if (enc && mux && fsink) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,enc,mux,fsink,NULL);
+        if (enc && mux && fsink) gst_bin_add_many(GST_BIN(pipemaster),qq,conv2,vidrate,enc,mux,fsink,NULL);
         else exit(0x123);
-        gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw-yuv",
+        gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw",
                                   "width", G_TYPE_INT, 640,
                                   "height", G_TYPE_INT, 480,
+                                  "framerate", GST_TYPE_FRACTION, 24,1,
+                                  "type", G_TYPE_STRING, "I420",
                                   NULL));
-        gst_element_link_many(conv2,enc,mux,fsink,NULL);
+        gst_element_link_many(conv2,vidrate,enc,mux,fsink,NULL);
         link_rec();
     }
 }
@@ -100,14 +103,15 @@ int cam ()
     /* Initialize GStreamer */
     gst_init(NULL, NULL);
 
-    caps = gst_caps_new_simple ("video/x-raw-yuv",
+    caps = gst_caps_new_simple ("video/x-raw",
                                 "width", G_TYPE_INT, 640,
                                 "height", G_TYPE_INT, 480,
+                                "type", G_TYPE_STRING, "I420",
                                 NULL);
 
     /* Create the elements */
     source_v = gst_element_factory_make("v4l2src","mp3src");
-    conv_v = gst_element_factory_make("ffmpegcolorspace","mp3dec");
+    conv_v = gst_element_factory_make("videoconvert","mp3dec");
     tee_v = gst_element_factory_make("tee","t1");
     qq_v = gst_element_factory_make("queue","fila_v");
     sink_v = gst_element_factory_make ("xvimagesink", "videosink");

@@ -28,7 +28,7 @@ void* initserv()
         printf("listen socket falhou\n");
     printf("esperando chamadas...\n");
     peerlen = sizeof(peer);
-    clisoc = accept(soc, (struct sockaddr *) &peer,&peerlen < 0);
+    clisoc = accept(soc, (struct sockaddr *) &peer,&peerlen);
     printf("chamada recebida ");
     getsockname(clisoc,(struct sockaddr *)&peer,&peerlen);
     sprintf(peerip,"%s",inet_ntoa(peer.sin_addr));
