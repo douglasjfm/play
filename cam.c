@@ -80,7 +80,7 @@ void gravar()
         gst_element_link_filtered(qq,conv2,gst_caps_new_simple ("video/x-raw",
                                   "width", G_TYPE_INT, 640,
                                   "height", G_TYPE_INT, 480,
-                                  "framerate", GST_TYPE_FRACTION, 24,1,
+                                  "framerate", GST_TYPE_FRACTION, 15,1,
                                   "type", G_TYPE_STRING, "I420",
                                   NULL));
         gst_element_link_many(conv2,vidrate,enc,mux,fsink,NULL);
@@ -106,6 +106,7 @@ int cam ()
     caps = gst_caps_new_simple ("video/x-raw",
                                 "width", G_TYPE_INT, 640,
                                 "height", G_TYPE_INT, 480,
+                                "framerate", GST_TYPE_FRACTION, 15,1,
                                 "type", G_TYPE_STRING, "I420",
                                 NULL);
 
