@@ -121,7 +121,7 @@ int mp3 (char *musica)
     tee_a = gst_element_factory_make("tee","t");
     fila[0] = gst_element_factory_make("queue",NULL);
     fila[1] = gst_element_factory_make("queue",NULL);
-    scope = gst_element_factory_make("wavescope",NULL);
+    scope = gst_element_factory_make("goom",NULL);
     scpfil = gst_element_factory_make("videoconvert",NULL);
     scpsink = gst_element_factory_make("xvimagesink",NULL);
     sink_a = gst_element_factory_make("autoaudiosink",NULL);
@@ -131,7 +131,7 @@ int mp3 (char *musica)
     tudo = gst_pipeline_new("tudo");
 
     g_object_set(source_a,"location",musica,NULL);
-    g_object_set(scope,"shader",0,"style",3,NULL);
+    g_object_set(scope,"shader",1,NULL);
 
     if (!pipeline_a || !source_a || !sink_a || !enc_a || !conv_a)
     {

@@ -30,13 +30,16 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="`pkg-config gtk+-2.0 --cflags`" />
+			<Add option="`pkg-config --cflags gstreamer-1.0 gmodule-2.0 glib-2.0 gtk+-2.0`" />
 			<Add directory="/usr/include/gstreamer-1.0" />
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="/usr/lib/x86_64-linux-gnu/gstreamer-1.0/include" />
+			<Add directory="/usr/include/glib-2.0" />
+			<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include" />
+			<Add directory="/usr/include/gtk-2.0" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config --cflags --libs gstreamer-1.0 gmodule-2.0 gtk+-2.0`" />
+			<Add option="`pkg-config --libs gstreamer-1.0 gmodule-2.0 glib-2.0 gtk+-2.0`" />
 			<Add library="/usr/lib/x86_64-linux-gnu/libgstvideo-1.0.so" />
 		</Linker>
 		<Unit filename="TX.c">

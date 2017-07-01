@@ -3341,7 +3341,7 @@
 	<glib.h>
 	<gst/gstpad.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/videooverlay.h
 	<gst/gst.h>
 
 1455846101 /home/douglas/Área de Trabalho/TrackMP3/play.h
@@ -3415,7 +3415,7 @@
 1473167766 /usr/include/gstreamer-1.0/gst/gstprotection.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 	<gst/video/video-color.h>
@@ -3442,92 +3442,92 @@
 	<gst/video/video-overlay-composition.h>
 	<gst/video/videooverlay.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-format.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-format.h
 	<gst/gst.h>
 	<gst/video/video-enumtypes.h>
 	<gst/video/video-tile.h>
 	<gst/video/video-chroma.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-enumtypes.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-enumtypes.h
 	<glib-object.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-chroma.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-chroma.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-color.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-color.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-info.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-info.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 	<gst/video/video-color.h>
 	<gst/video/video-enumtypes.h>
 	<gst/video/video.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-frame.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-frame.h
 	<gst/video/video-enumtypes.h>
 	<gst/video/video-format.h>
 	<gst/video/video-info.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/colorbalancechannel.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/colorbalancechannel.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/colorbalance.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/colorbalance.h
 	<gst/gst.h>
 	<gst/video/colorbalancechannel.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideodecoder.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideodecoder.h
 	<gst/base/gstadapter.h>
 	<gst/video/gstvideoutils.h>
 
 1473167767 /usr/include/gstreamer-1.0/gst/base/gstadapter.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideoutils.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideoutils.h
 	<gst/video/video.h>
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideoencoder.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideoencoder.h
 	<gst/video/gstvideoutils.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideofilter.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideofilter.h
 	<gst/base/gstbasetransform.h>
 	<gst/video/video.h>
 
 1473167767 /usr/include/gstreamer-1.0/gst/base/gstbasetransform.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideometa.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideometa.h
 	<gst/gst.h>
 	<gst/video/video.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideopool.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideopool.h
 	<gst/gst.h>
 	<gst/video/video.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/gstvideosink.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/gstvideosink.h
 	<gst/gst.h>
 	<gst/base/gstbasesink.h>
 
 1473167767 /usr/include/gstreamer-1.0/gst/base/gstbasesink.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/navigation.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/navigation.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-blend.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-blend.h
 	<gst/gst.h>
 	<gst/video/video.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-event.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-event.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/videoorientation.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/videoorientation.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-overlay-composition.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-overlay-composition.h
 	<gst/gst.h>
 	<gst/video/video.h>
 
@@ -3597,10 +3597,10 @@
 1458620418 source:/home/douglas/Área de Trabalho/play/ui.c
 	"play.h"
 
-1487768033 source:/home/douglas/Documentos/play/main.c
+1498551400 source:/home/douglas/Documentos/play/main.c
 	"play.h"
 
-1487718341 /home/douglas/Documentos/play/play.h
+1498791568 /home/douglas/Documentos/play/play.h
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
@@ -3659,7 +3659,7 @@
 1445633774 /usr/include/atk-1.0/atk/atktablecell.h
 	<atk/atkobject.h>
 
-1488195155 source:/home/douglas/Documentos/play/cam.c
+1498551400 source:/home/douglas/Documentos/play/cam.c
 	<gst/gst.h>
 	<gst/video/videooverlay.h>
 	<stdlib.h>
@@ -3679,7 +3679,7 @@
 1473167766 /usr/include/gstreamer-1.0/gst/gsttracerrecord.h
 	<gst/gstobject.h>
 
-1487718341 source:/home/douglas/Documentos/play/http.c
+1498551400 source:/home/douglas/Documentos/play/http.c
 	<stdio.h>
 	<sys/socket.h>
 	<arpa/inet.h>
@@ -3687,18 +3687,18 @@
 	<netdb.h>
 	<string.h>
 
-1488144529 source:/home/douglas/Documentos/play/mp3.c
+1498551400 source:/home/douglas/Documentos/play/mp3.c
 	<gst/gst.h>
 	<string.h>
 	<gst/video/video.h>
 	"play.h"
 
-1487844456 source:/home/douglas/Documentos/play/ouvir.c
+1498551400 source:/home/douglas/Documentos/play/ouvir.c
 	<gst/gst.h>
 	<stdlib.h>
 	<string.h>
 
-1487718341 source:/home/douglas/Documentos/play/server.c
+1498551400 source:/home/douglas/Documentos/play/server.c
 	<stdio.h>
 	<sys/socket.h>
 	<arpa/inet.h>
@@ -3706,14 +3706,14 @@
 	<netdb.h>
 	<string.h>
 
-1487718341 source:/home/douglas/Documentos/play/tela.c
+1498551400 source:/home/douglas/Documentos/play/tela.c
 	<stdlib.h>
 	<stdio.h>
 	<gtk/gtk.h>
 	<glib/gi18n.h>
 	<pthread.h>
 
-1487718341 source:/home/douglas/Documentos/play/TX.c
+1498551400 source:/home/douglas/Documentos/play/TX.c
 	<gst/gst.h>
 	<stdlib.h>
 	<stdio.h>
@@ -3722,28 +3722,28 @@
 	<sys/socket.h>
 	<arpa/inet.h>
 
-1487718341 source:/home/douglas/Documentos/play/ui.c
+1498551400 source:/home/douglas/Documentos/play/ui.c
 	"play.h"
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-tile.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-tile.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-dither.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-dither.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-converter.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-converter.h
 	<gst/video/video.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-scaler.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-scaler.h
 	<gst/gst.h>
 	<gst/video/video-format.h>
 	<gst/video/video-color.h>
 	<gst/video/video-resampler.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-resampler.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-resampler.h
 	<gst/gst.h>
 
-1473167934 /usr/include/gstreamer-1.0/gst/video/video-multiview.h
+1490363553 /usr/include/gstreamer-1.0/gst/video/video-multiview.h
 	<gst/gst.h>
 
