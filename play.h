@@ -14,6 +14,8 @@
 GtkBuilder *builder;
 GtkWidget *win;
 
+typedef GObject GtkObject;
+
 
 int endcam();
 int pausecam();

@@ -28,7 +28,7 @@ void setprogresso(guint pos, guint len, char *tmp)
     gtk_progress_bar_set_fraction(barra,f);
     for (i=0;tmp[i]!='.';i++);
     tmp[i] = '\0';
-    gtk_label_set(GTK_LABEL(tracklabel),tmp);
+    gtk_label_set_text(GTK_LABEL(tracklabel),tmp);
 }
 
 G_MODULE_EXPORT void set_track_pos(GtkWidget *widget, GdkEvent *ev, gpointer user_data)
@@ -163,31 +163,31 @@ G_MODULE_EXPORT void video_area_realize_cb (GtkObject * widget, gpointer data)
 #if GTK_CHECK_VERSION(2,18,0)
   // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
   // it as well in newer Gtk versions
-  if (!gdk_window_ensure_native ((GTK_WIDGET(widget))->window))
+  if (!gdk_window_ensure_native (gtk_widget_get_window(GTK_WIDGET(widget))))
     g_error ("Couldn't create native window needed for GstXOverlay!");
 #endif
 
-#ifdef GDK_WINDOWING_X11
+//#ifdef GDK_WINDOWING_X11
     GtkWidget *win = (GtkWidget *) widget;
     video_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-#endif
+//#endif
 }
 
 G_MODULE_EXPORT void wave_area_realize_cb (GtkObject * widget, gpointer data)
 {
     GtkStyle *sty = gtk_style_new();
-    gtk_draw_flat_box(sty,GDK_WINDOW(widget),GTK_STATE_INSENSITIVE,GTK_SHADOW_ETCHED_IN,0,0,100,100);
+    gtk_paint_flat_box(sty,GDK_WINDOW(widget),GTK_STATE_INSENSITIVE,GTK_SHADOW_ETCHED_IN,GTK_WIDGET(widget),"style detail",0,0,100,100);
 #if GTK_CHECK_VERSION(2,18,0)
   // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
   // it as well in newer Gtk versions
-  if (!gdk_window_ensure_native ((GTK_WIDGET(widget))->window))
+  if (!gdk_window_ensure_native (gtk_widget_get_window(GTK_WIDGET(widget))))
     g_error ("Couldn't create native window needed for GstXOverlay!");
 #endif
 
-#ifdef GDK_WINDOWING_X11
+//#ifdef GDK_WINDOWING_X11
     GtkWidget *win = (GtkWidget *) widget;
     wave_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-#endif
+//#endif
 }
 
 G_MODULE_EXPORT void fim()
@@ -208,13 +208,13 @@ G_MODULE_EXPORT void logar_tele()
     char *extip, strnome[80],url[150];
     GtkEntry *nome = GTK_ENTRY(gtk_builder_get_object(builder,"entry1"));
     GtkLabel *logstt = GTK_LABEL(gtk_builder_get_object(builder,"label2"));
-    strcpy(strnome,nome->text);
-    strcpy(curlogin,nome->text);
+    strcpy(strnome,gtk_entry_get_text(nome));
+    strcpy(curlogin,gtk_entry_get_text(nome));
     strcpy(url,"retip.php?login=");
     strcat(url,strnome);
     httpget("cidadelimpa.bugs3.com",url);
     strcpy(url,"online ");
-    gtk_label_set(logstt,url);
+    gtk_label_set_text(logstt,url);
     telstt = 'o';
     pthread_create(&tidserv,NULL,&initserv,NULL);
 }
@@ -223,7 +223,7 @@ G_MODULE_EXPORT void call_user()
 {
     char *extip, strnome[80],url[150];
     GtkEntry *nome = GTK_ENTRY(gtk_builder_get_object(builder,"entry1"));
-    strcpy(ipcall,nome->text);
+    strcpy(ipcall,gtk_entry_get_text(nome));
 //    strcpy(url,"getip.php?login=");
 //    strcat(url,strnome);
 //    extip = httpget("cidadelimpa.bugs3.com",url);

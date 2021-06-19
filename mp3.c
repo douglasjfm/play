@@ -98,7 +98,7 @@ int playpipe()
 
 int mp3 (char *musica)
 {
-    GstElement *source_a=0, *sink_a=0, *enc_a=0, *conv_a=0;
+    GstElement *source_a=0, *sink_a=0, *enc_a=0, *conv_a=0, *dmx_a = 0;
     GstElement *tee_a=0, *fila[2], *scope=0, *scpfil, *scpsink=0;
     GMainLoop *app_loop=0;
     GstElement *pipescop = NULL;
@@ -117,7 +117,8 @@ int mp3 (char *musica)
     /* Create the elements */
     source_a = gst_element_factory_make("filesrc","mp3src");
     conv_a = gst_element_factory_make("audioconvert",NULL);
-    enc_a = gst_element_factory_make("mad","mp3dec");
+    enc_a = gst_element_factory_make("mpg123audiodec","mp3dec");
+    dmx_a = gst_element_factory_make("mpegaudioparse","mp3dmx");
     tee_a = gst_element_factory_make("tee","t");
     fila[0] = gst_element_factory_make("queue",NULL);
     fila[1] = gst_element_factory_make("queue",NULL);
@@ -133,7 +134,7 @@ int mp3 (char *musica)
     g_object_set(source_a,"location",musica,NULL);
     g_object_set(scope,"shader",1,NULL);
 
-    if (!pipeline_a || !source_a || !sink_a || !enc_a || !conv_a)
+    if (!pipeline_a || !source_a || !sink_a || !dmx_a || !enc_a || !conv_a)
     {
         g_printerr("Not all elements could be created.");
         return -1;
@@ -143,6 +144,7 @@ int mp3 (char *musica)
     gst_bin_add(GST_BIN(pipeline_a), source_a);
     gst_bin_add(GST_BIN(pipeline_a), conv_a);
     gst_bin_add(GST_BIN(pipeline_a), enc_a);
+    gst_bin_add(GST_BIN(pipeline_a), dmx_a);
     gst_bin_add(GST_BIN(pipeline_a), sink_a);
     gst_bin_add(GST_BIN(pipeline_a), fila[0]);
 
@@ -155,16 +157,16 @@ int mp3 (char *musica)
     gst_bin_add(GST_BIN(tudo), tee_a);
     gst_bin_add(GST_BIN(tudo), pipeline_a);
 
-    if (gst_element_link_many(source_a, enc_a, conv_a, tee_a, fila[0], sink_a, NULL) != TRUE)
+    if (gst_element_link_many(source_a, dmx_a, enc_a, conv_a, tee_a, fila[0], sink_a, NULL) != TRUE)
     {
-        g_printerr("Elements audio could not be linked.\n");
+        g_printerr("Elements audio could not be linked 1.\n");
         gst_object_unref(pipeline_a);
         return -1;
     }
 
     if (gst_element_link_many(fila[1],scope,scpfil,scpsink, NULL) != TRUE)
     {
-        g_printerr("Elements audio could not be linked.\n");
+        g_printerr("Elements audio could not be linked 2.\n");
         gst_object_unref(pipeline_a);
         return -1;
     }
