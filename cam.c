@@ -111,8 +111,8 @@ int cam ()
                                 NULL);
 
     /* Create the elements */
-    source_v = gst_element_factory_make("v4l2src","mp3src");
-    conv_v = gst_element_factory_make("videoconvert","mp3dec");
+    source_v = gst_element_factory_make("v4l2src","videosrc");
+    conv_v = gst_element_factory_make("videoconvert","videoconv");
     tee_v = gst_element_factory_make("tee","t1");
     qq_v = gst_element_factory_make("queue","fila_v");
     sink_v = gst_element_factory_make ("xvimagesink", "videosink");
