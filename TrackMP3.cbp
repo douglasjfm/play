@@ -36,10 +36,20 @@
 			<Add directory="/usr/lib/x86_64-linux-gnu/gstreamer-1.0/include" />
 			<Add directory="/usr/include/glib-2.0" />
 			<Add directory="/usr/lib/x86_64-linux-gnu/glib-2.0/include" />
-			<Add directory="/usr/include/gtk-2.0" />
+			<Add directory="/usr/include/gtk-3.0" />
+			<Add directory="/usr/include/cairo" />
+			<Add directory="/usr/include/pixman-1" />
+			<Add directory="/usr/include/uuid" />
+			<Add directory="/usr/include/freetype2" />
+			<Add directory="/usr/include/libpng16" />
+			<Add directory="/usr/include/pango-1.0" />
+			<Add directory="/usr/include/harfbuzz" />
+			<Add directory="/usr/include/gtk-3.0/gdk" />
+			<Add directory="/usr/include/gdk-pixbuf-2.0" />
+			<Add directory="/usr/include/atk-1.0" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config --libs gstreamer-1.0 gmodule-2.0 glib-2.0 gtk+-2.0`" />
+			<Add option="`pkg-config --libs gstreamer-1.0 gmodule-2.0 glib-2.0 gtk+-3.0`" />
 			<Add library="/usr/lib/x86_64-linux-gnu/libgstvideo-1.0.so" />
 		</Linker>
 		<Unit filename="TX.c">
@@ -70,9 +80,6 @@
 		<Unit filename="ui.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Extensions>
-			<code_completion />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

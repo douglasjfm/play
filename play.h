@@ -14,7 +14,7 @@
 GtkBuilder *builder;
 GtkWidget *win;
 
-typedef GObject GtkObject;
+//typedef GObject GtkObject;
 
 
 int endcam();

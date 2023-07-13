@@ -167,16 +167,22 @@ G_MODULE_EXPORT void video_area_realize_cb (GtkObject * widget, gpointer data)
     g_error ("Couldn't create native window needed for GstXOverlay!");
 #endif
 
-//#ifdef GDK_WINDOWING_X11
     GtkWidget *win = (GtkWidget *) widget;
-    video_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-//#endif
+    GdkWindow *win_gdk = gtk_widget_get_window (win);
+    video_area_xid = gdk_x11_window_get_xid(win_gdk);
 }
 
 G_MODULE_EXPORT void wave_area_realize_cb (GtkObject * widget, gpointer data)
 {
     GtkStyle *sty = gtk_style_new();
-    gtk_paint_flat_box(sty,GDK_WINDOW(widget),GTK_STATE_INSENSITIVE,GTK_SHADOW_ETCHED_IN,GTK_WIDGET(widget),"style detail",0,0,100,100);
+    cairo_t *cctx = gdk_cairo_create(widget);
+    gtk_paint_flat_box(sty,cctx,
+                       GTK_STATE_INSENSITIVE,
+                       GTK_SHADOW_ETCHED_IN,
+                       NULL,
+                       GTK_WIDGET(widget),
+                       "style detail",
+                       0,0,100,100);
 #if GTK_CHECK_VERSION(2,18,0)
   // This is here just for pedagogical purposes, GDK_WINDOW_XID will call
   // it as well in newer Gtk versions
@@ -184,10 +190,9 @@ G_MODULE_EXPORT void wave_area_realize_cb (GtkObject * widget, gpointer data)
     g_error ("Couldn't create native window needed for GstXOverlay!");
 #endif
 
-//#ifdef GDK_WINDOWING_X11
     GtkWidget *win = (GtkWidget *) widget;
-    wave_area_xid = GDK_WINDOW_XID (gtk_widget_get_window (win));
-//#endif
+    GdkWindow *win_gdk = gtk_widget_get_window (win);
+    wave_area_xid = gdk_x11_window_get_xid(win_gdk);
 }
 
 G_MODULE_EXPORT void fim()
