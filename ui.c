@@ -234,5 +234,5 @@ G_MODULE_EXPORT void call_user()
 //    extip = httpget("cidadelimpa.bugs3.com",url);
 //    printf("usu ip : %s\n",extip);
     if (strlen(ipcall))
-        pthread_create(&tidtx,NULL,(void*)&chamar,NULL);
+        pthread_create(&tidtx,NULL,(void*)&chamar,ipcall);
 }
