@@ -1,4 +1,5 @@
 #include "play.h"
+#define TRACK_HOST_STR "brisamarnoronha.com.br"
 
 GtkWidget *drawingarea = NULL;
 GtkProgressBar *barra = NULL;
@@ -202,7 +203,7 @@ G_MODULE_EXPORT void fim()
     strcat(url,curlogin);
     if (telstt == 'o')
     {
-        httpget("cidadelimpa.bugs3.com",url);
+        httpget(TRACK_HOST_STR,url);
         telstt = 'f';
     }
     gtk_main_quit();
@@ -210,14 +211,14 @@ G_MODULE_EXPORT void fim()
 
 G_MODULE_EXPORT void logar_tele()
 {
-    char *extip, strnome[80],url[150];
+    char strnome[80],url[150];
     GtkEntry *nome = GTK_ENTRY(gtk_builder_get_object(builder,"entry1"));
     GtkLabel *logstt = GTK_LABEL(gtk_builder_get_object(builder,"label2"));
     strcpy(strnome,gtk_entry_get_text(nome));
     strcpy(curlogin,gtk_entry_get_text(nome));
     strcpy(url,"retip.php?login=");
     strcat(url,strnome);
-    httpget("cidadelimpa.bugs3.com",url);
+    httpget(TRACK_HOST_STR,url);
     strcpy(url,"online ");
     gtk_label_set_text(logstt,url);
     telstt = 'o';
@@ -226,7 +227,6 @@ G_MODULE_EXPORT void logar_tele()
 
 G_MODULE_EXPORT void call_user()
 {
-    char *extip, strnome[80],url[150];
     GtkEntry *nome = GTK_ENTRY(gtk_builder_get_object(builder,"entry1"));
     strcpy(ipcall,gtk_entry_get_text(nome));
 //    strcpy(url,"getip.php?login=");
